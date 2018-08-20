@@ -8,9 +8,6 @@
  * With custom integrations, we don't have a way to find out who installed us, so we can't message them :(
  */
 
-
-var FC = ["jon", "tom", "s hasse", "jesse", "aaron", "david", "wilson", "charlie", "aj", "will", "clyde", "manoj", "john k", "phil", "peter"];
-
 function onInstallation(bot, installer) {
     if (installer) {
         bot.startPrivateConversation({user: installer}, function (err, convo) {
@@ -97,7 +94,6 @@ controller.hears("weekend", 'ambient', function(bot, message) {
     bot.reply(message, "WEEKEND!!!! YEAH!!! :taco: and :beer:");
 });
 
-
 controller.hears("monday", 'ambient', function(bot, message) {
     bot.reply(message, "Mondays are horrible, so have some more :Coffee:!");
 });
@@ -106,9 +102,8 @@ controller.hears("Vacation", 'ambient', function(bot, message) {
     bot.reply(message, "Just make sure you come back.");
 });
 
-
 controller.hears("Flexion", 'ambient', function(bot, message) {
-    bot.reply(message, "Flexion, The choice of a new generation?");
+    bot.reply(message, "Flexion, Value Forward!");
 });
 
 controller.hears(
@@ -118,6 +113,66 @@ controller.hears(
 		        bot.reply(message,'Hello!');
 			    }
 );
+
+controller.hears(
+	    ['tableflip'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "http://tableflipper.com/IRX2.gif'");
+});
+
+controller.hears(
+	    ['wisconsin'], ['ambient'],
+	        function(bot, message) {
+			bot.createConversation(message, function(err, convo) {
+			    // create a path for when a user says YES
+			    convo.addMessage({
+			        text: 'You said yes! How wonderful.',
+				},'yes_thread');
+				
+				// create a path for when a user says NO
+				convo.addMessage({
+				      text: 'You said no, that is too bad.',
+				},'no_thread');
+			
+			        // create a path where neither option was matched
+				// this message has an action field, which directs botkit to go back to the `default` thread after sending this message.
+				    convo.addMessage({
+				          text: 'Sorry I did not understand.',
+				          action: 'default',
+				          },'bad_response');
+
+				// Create a yes/no question in the default thread...
+				convo.addQuestion('Do you like cheese?', [
+				     {
+				       pattern: 'yes',
+				       callback: function(response, convo) {
+				convo.gotoThread('yes_thread');
+				     },
+				     },
+				      {
+				            pattern: 'no',
+				   callback: function(response, convo) {
+				convo.gotoThread('no_thread');
+				     },
+				      },
+				 {
+				         default: true,
+				 callback: function(response, convo) {
+				       convo.gotoThread('bad_response');
+				         },
+				       }
+				 ],{},'default');
+
+                                     convo.activate();
+                             });
+                     });
+
+
+
+
+
+
+
 
 /**
  * AN example of what could be:
@@ -135,3 +190,20 @@ controller.on('direct_message,mention,direct_mention', function (bot, message) {
         bot.reply(message, 'I heard you loud and clear boss.');
     });
 });
+
+controller.middleware.receive.use(function(bot, message, next) {
+     console.log('RECEIVED: ', message);
+     message.logged = true;
+     next();
+});
+controller.middleware.send.use(function(bot, message, next) {
+     console.log('SENT: ', message);
+     message.logged = true;
+     next();
+});
+
+
+
+
+
+
