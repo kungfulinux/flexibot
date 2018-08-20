@@ -25,7 +25,7 @@
     "node": "5.1.1"
   },
   "dependencies": {
-    "botkit": "0.2.2",
+    "botkit": "^0.6.16",
     "botkit-storage-mongo": "^1.0.2",
     "mongodb": "^1.4.39"
   }

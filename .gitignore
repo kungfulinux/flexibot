@@ -5,6 +5,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+db_slack_bot_a
+db_slack_bot_a/*
+
+
 # Runtime data
 pids
 *.pid

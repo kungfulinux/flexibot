@@ -27,7 +27,8 @@ function init(tokens) {
      * @param {function} next - Express callback
      */
     function authenticate(req, res, next) {
-        if (!req.body || !req.body.token || authenticationTokens.indexOf(req.body.token) === TOKEN_NOT_FOUND) {
+        var token = getToken(req.body);
+        if (!token || authenticationTokens.indexOf(token) === TOKEN_NOT_FOUND) {
             res.status(401).send({
                 'code': 401,
                 'message': 'Unauthorized'
@@ -36,10 +37,6 @@ function init(tokens) {
             return;
         }
 
-        slack_botkit.log(
-            '** Requiring token authentication for webhook endpoints for Slash commands ' +
-            'and outgoing webhooks; configured ' + tokens.length + ' tokens'
-        );
         next();
     }
 
@@ -52,12 +49,25 @@ function init(tokens) {
  * @returns {Array} - Every element of the array is an authentication token
  */
 function flatten(args) {
-        var result = [];
+    var result = [];
 
-        // convert a variable argument list to an array
-        args.forEach(function(arg) {
-            result = result.concat(arg);
-        });
-        return result;
-    }
+    // convert a variable argument list to an array
+    args.forEach(function(arg) {
+        result = result.concat(arg);
+    });
+    return result;
+}
 module.exports = init;
+
+function getToken(body) {
+    if (!body) return null;
+    if (body.token) return body.token;
+    if (!body.payload) return null;
+
+    var payload = body.payload;
+    if (typeof payload === 'string') {
+        payload = JSON.parse(payload);
+    }
+
+    return payload.token;
+}
