@@ -22,7 +22,7 @@ jobs:
           command: |
             echo 'export CLIENT_ID="$CLIENT_ID"' >> $BASH_ENV
             echo 'export CLIENT_SECRET="$CLIENT_SECRET"' >> $BASH_ENV
-            echo 'export PORT="7337"' >> $BASH_NEW
+            echo 'export PORT="7337"' >> $BASH_ENV
 
       - run:
           name: Deploy Over SSH
