@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-   docker:
+     docker:
       - image: circleci/node:7.10
      working_directory: ~/repo
      steps:
@@ -11,9 +11,9 @@ jobs:
           - v1-dependencies-{{ checksum "package.json" }}
           - v1-dependencies-
   deploy:
-    machine:
-      enabled: true
-    steps:
+     machine:
+        enabled: true
+     steps:
       - run:
           name: Deploy Over SSH
           command: |
