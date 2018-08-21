@@ -21,8 +21,6 @@ function onInstallation(bot, installer) {
     }
 }
 
-
-
 /**
  * Configure the persistence options
  */
@@ -97,6 +95,11 @@ controller.hears("weekend", 'ambient', function(bot, message) {
 
 controller.hears("monday", 'ambient', function(bot, message) {
     bot.reply(message, "Mondays are horrible, so have some more :Coffee:!");
+});
+
+
+controller.hears("tuesday", 'ambient', function(bot, message) {
+    bot.reply(message, ":taco::taco::taco::taco::taco::taco::taco::taco::taco:");
 });
 
 controller.hears("Vacation", 'ambient', function(bot, message) {
