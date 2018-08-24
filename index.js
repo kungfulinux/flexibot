@@ -134,7 +134,7 @@ controller.hears(
 controller.hears(["standup_list"], ['ambient'], function(bot, message) {
 	list = standup_list();
 	console.log(list);
-	bot.reply(message, "list");
+	bot.reply(message, list);
 });
 
 
