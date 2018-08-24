@@ -109,6 +109,17 @@ controller.hears("monday", 'ambient', function(bot, message) {
     bot.reply(message, "Mondays are horrible, so have some more :Coffee:!");
 });
 
+controller.hears("today in history", 'ambient', function(bot, message) {
+	var request = require("request");
+    var url = "http://history.muffinlabs.com/date";
+       console.log(url);
+       request(url, function(err, res, body) {
+	   console.log(body);
+	   convo.startPrivateConversation(message, body);
+	});
+}
+
+
 
 controller.hears("tuesday", 'ambient', function(bot, message) {
     bot.reply(message, ":taco::taco::taco::taco::taco::taco::taco::taco::taco:");
