@@ -27,7 +27,7 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            ssh $SSH_USER@$SSH_HOST "export CLIENT_ID=\"$CLIENT_ID\" && export CLIENT_SECRET=\"$CLIENT_SECRET\" && env && cd flexibot && forever stopall && git pull && forever start index.js"
+            ssh $SSH_USER@$SSH_HOST "export CLIENT_ID=\"$CLIENT_ID\" && export CLIENT_SECRET=\"$CLIENT_SECRET\" && env && cd flexibot && forever stopall && git pull && forever start index.js CLIENT_ID=$CLIENT_ID and CLIENT_SECRET=$CLIENT_SECRET" 
 
 workflows:
   version: 2
