@@ -23,9 +23,7 @@ function standup_list() {
 function tih() {
 	var request = require("request");
     var url = "http://history.muffinlabs.com/date";
-       console.log(url);
        request(url, function(err, res, body) {
-	   console.log(body);
 	   return(body)
 	});     
 }
