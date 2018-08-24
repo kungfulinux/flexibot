@@ -20,6 +20,20 @@ function standup_list() {
 	        return arr.join(",");
 }
 
+function tih() {
+	var request = require("request");
+    var url = "http://history.muffinlabs.com/date";
+       console.log(url);
+       request(url, function(err, res, body) {
+	   console.log(body);
+	   return(body)
+	});     
+}
+
+
+
+
+
 function onInstallation(bot, installer) {
     if (installer) {
         bot.startPrivateConversation({user: installer}, function (err, convo) {
@@ -110,16 +124,9 @@ controller.hears("monday", 'ambient', function(bot, message) {
 });
 
 controller.hears("today in history", 'ambient', function(bot, message) {
-	var request = require("request");
-    var url = "http://history.muffinlabs.com/date";
-       console.log(url);
-       request(url, function(err, res, body) {
-	   console.log(body);
-	   bot.reply(message, body);
-	});
-}
-
-
+	answer = tih();
+	bot.reply(message, answer);
+});
 
 controller.hears("tuesday", 'ambient', function(bot, message) {
     bot.reply(message, ":taco::taco::taco::taco::taco::taco::taco::taco::taco:");
