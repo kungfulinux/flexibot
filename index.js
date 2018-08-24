@@ -28,10 +28,6 @@ function tih() {
 	});     
 }
 
-
-
-
-
 function onInstallation(bot, installer) {
     if (installer) {
         bot.startPrivateConversation({user: installer}, function (err, convo) {
@@ -123,6 +119,7 @@ controller.hears("monday", 'ambient', function(bot, message) {
 
 controller.hears("today in history", 'ambient', function(bot, message) {
 	answer = tih();
+	console.log(answer);
 	bot.reply(message, answer);
 });
 
