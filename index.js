@@ -153,7 +153,7 @@ controller.hears(["standup_list"], ['ambient'], function(bot, message) {
 controller.hears(
 	    ['tableflip'], ['ambient'], 
 	        function(bot, message) {
-			bot.reply(message, "http://tableflipper.com/IRX2.gif'");
+			bot.reply(message, "http://tableflipper.com/IRX2.gif");
 });
 
 controller.hears(
