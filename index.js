@@ -24,7 +24,7 @@ function tih() {
 	var request = require("request");
     var url = "http://history.muffinlabs.com/date";
        request(url, function(err, res, body) {
-	   return(body)
+	   return(JSON.stringify(body))
 	});     
 }
 
