@@ -1,12 +1,24 @@
-/**
- * A Bot for Slack!
- */
+function shuffle(array) {
+	          var currentIndex = array.length, temporaryValue, randomIndex;
+
+	          while (0 !== currentIndex) {
+			                randomIndex = Math.floor(Math.random() * currentIndex);
+			                currentIndex -= 1;
+			                temporaryValue = array[currentIndex];
+			                array[currentIndex] = array[randomIndex];
+			                array[randomIndex] = temporaryValue;
+			            }
+
+	          return array;
+}
 
 
-/**
- * Define a function for initiating a conversation on installation
- * With custom integrations, we don't have a way to find out who installed us, so we can't message them :(
- */
+function standup_list() {
+	        var arr = ['phil', 's hasse', 'charlie', 'jon', 'aaron', 'tom', 'wilson', 'aj', 'john k', 'jesse', 'manoj', 'clyde', 'will', 'david', 'peter'];
+	        arr = shuffle(arr);
+	        console.log(arr.join(","));
+	        return arr.join(",");
+}
 
 function onInstallation(bot, installer) {
     if (installer) {
@@ -117,6 +129,15 @@ controller.hears(
 		        bot.reply(message,'Hello!');
 			    }
 );
+
+
+controller.hears(["standup_list"], ['ambient'], function(bot, message) {
+	list = standup_list;
+	bot.reply(message, list);
+});
+
+
+
 
 controller.hears(
 	    ['tableflip'], ['ambient'], 
