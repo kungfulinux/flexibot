@@ -115,7 +115,7 @@ controller.hears("today in history", 'ambient', function(bot, message) {
        console.log(url);
        request(url, function(err, res, body) {
 	   console.log(body);
-	   convo.startPrivateConversation(message, body);
+	   bot.reply(message, body);
 	});
 }
 
