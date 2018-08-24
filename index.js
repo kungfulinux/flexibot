@@ -137,14 +137,25 @@ controller.hears(["standup_list"], ['ambient'], function(bot, message) {
 	bot.reply(message, list);
 });
 
-
-
-
 controller.hears(
 	    ['tableflip'], ['ambient'], 
 	        function(bot, message) {
 			bot.reply(message, "http://tableflipper.com/IRX2.gif'");
 });
+
+controller.hears(
+	    ['awesome'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "Team Awesome Sauce, brought to you by :coffee: and :beer:");
+});
+
+
+controller.hears(
+	    ['free bird', "freebird"], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "AND THIS :bird: YOU CANNOT CHANGE!!!! ");
+});
+
 
 controller.hears(
 	    ['wisconsin'], ['ambient'],
