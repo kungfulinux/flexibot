@@ -120,10 +120,10 @@ controller.hears("today in history", 'ambient', function(bot, message) {
 	var request = require("request");
         var url = "https://www.history.com/this-day-in-history/rss";
         request(url, function(err, res, body) {
-		var xml2Json = require("xml2json");
-		var xml = xml2Json(body);
-		console.log(xml);
-		var result  = JSON.stringify(xml);
+		var parser = require('xml2json');
+		var json = parser.toJson(body);
+		console.log(json);
+		var result  = JSON.stringify(json);
 	        bot.reply(message, result); 
 	});
 });
