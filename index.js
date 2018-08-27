@@ -122,8 +122,12 @@ controller.hears("today in history", 'ambient', function(bot, message) {
         request(url, function(err, res, body) {
 		var parser = require('xml2json');
 		var json = parser.toJson(body);
-		var title = json["rss"]["title"]
-		var result = title;
+		var stuff = JSON.parse(json);
+		var rss = stuff.rss;
+		var channel = rss.channel;
+		var title = channel.item.title;
+		var description = channel.item.description;
+		var result = title + description;
 	        bot.reply(message, result); 
 	});
 });
