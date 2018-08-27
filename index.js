@@ -118,6 +118,7 @@ controller.hears("monday", 'ambient', function(bot, message) {
 
 controller.hears("today in history", 'ambient', function(bot, message) {
 	var request = require("request");
+	var striptags - require("striptags");
         var url = "https://www.history.com/this-day-in-history/rss";
         request(url, function(err, res, body) {
 		var parser = require('xml2json');
@@ -127,8 +128,8 @@ controller.hears("today in history", 'ambient', function(bot, message) {
 		var channel = rss.channel;
 		var title = channel.item.title;
 		var description = channel.item.description;
-		var result = title + description;
-	        bot.reply(message, result); 
+	        bot.reply(message, title); 
+	        bot.reply(message, striptags(description)); 
 	});
 });
 
