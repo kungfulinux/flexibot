@@ -117,18 +117,20 @@ controller.hears("monday", 'ambient', function(bot, message) {
 });
 
 controller.hears("today in history", 'ambient', function(bot, message) {
-	var request = require("request");
-	var striptags = require("striptags");
-        var url = "https://www.history.com/this-day-in-history/rss";
-        request(url, function(err, res, body) {
-		var parser = require('xml2json');
-		var json = parser.toJson(body);
-		var stuff = JSON.parse(json);
-		var rss = stuff.rss;
-		var channel = rss.channel;
-		var title = channel.item.title + "\n";
-		var description = channel.item.description;
-	        bot.reply(message, title + striptags(description)); 
+	bot.startConversation(message, function(err, convo) {
+		var request = require("request");
+		var striptags = require("striptags");
+        	var url = "https://www.history.com/this-day-in-history/rss";
+        	request(url, function(err, res, body) {
+			var parser = require('xml2json');
+			var json = parser.toJson(body);
+			var parsedJson = JSON.parse(json);
+			var rss = parsedJson.rss;
+			var channel = rss.channel;
+			var title = channel.item.title + "\n";
+			var description = channel.item.description;
+	        	convo.say.(message, title + striptags(description)); 
+		});
 	});
 });
 
