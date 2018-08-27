@@ -130,7 +130,7 @@ controller.hears("today in history", 'ambient', function(bot, message) {
 		var description = channel.item.description;
 		if (description.length > 140) {
 			var resultarray = description.split("</p>");
-		        var button = '{ "name": "link", "text": "I Want to know more", "type": "button", "value": "https://www.history.com/this-day-in-history" }'
+		        var button = '"attachments": { "name": "link", "text": "I Want to know more", "type": "button", "value": "https://www.history.com/this-day-in-history" }'
 			var result = resultarray[0] + "/n" + button; 
 			bot.reply(message, title + striptags("```" + result + "```"));
 		} else {
