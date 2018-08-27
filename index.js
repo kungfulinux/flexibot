@@ -22,7 +22,7 @@ function standup_list() {
 
 function tih() {
 	var request = require("request");
-    var url = "http://history.muffinlabs.com/date";
+    var url = "https://www.history.com/this-day-in-history/rss";
        request(url, function(err, res, body) {
 	   return(JSON.parse(body))
 	});     
@@ -118,7 +118,7 @@ controller.hears("monday", 'ambient', function(bot, message) {
 });
 
 controller.hears("today in history", 'ambient', function(bot, message) {
-	answer = tih();
+	var answer = tih();
 	console.log(answer);
 	bot.reply(message, answer);
 });
