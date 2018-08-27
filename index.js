@@ -128,7 +128,7 @@ controller.hears("today in history", 'ambient', function(bot, message) {
 		var channel = rss.channel;
 		var title = channel.item.title;
 		var description = channel.item.description;
-	        bot.reply(message, title); 
+	        bot.reply(message, title + "\n"); 
 	        bot.reply(message, striptags(description)); 
 	});
 });
