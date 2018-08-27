@@ -123,7 +123,7 @@ controller.hears("today in history", 'ambient', function(bot, message) {
 		var xml = xml2Json(body);
 		console.log(xml);
 		var result  = JSON.stringify(xml);
-	        bot.reply(message, result)); 
+	        bot.reply(message, result); 
 	});
 });
 
