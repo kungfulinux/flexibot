@@ -117,9 +117,12 @@ controller.hears("monday", 'ambient', function(bot, message) {
 });
 
 controller.hears("today in history", 'ambient', function(bot, message) {
-	var answer = tih();
-	console.log(answer);
-	bot.reply(message, answer);
+	var request = require("request");
+        var url = "https://www.history.com/this-day-in-history/rss";
+        request(url, function(err, res, body) {
+		console.log(body);
+	bot.reply(message, body);
+        });
 });
 
 controller.hears("tuesday", 'ambient', function(bot, message) {
