@@ -117,12 +117,16 @@ controller.hears("monday", 'ambient', function(bot, message) {
 });
 
 controller.hears("today in history", 'ambient', function(bot, message) {
+	var parseString = require('xml2js').parsesString;
 	var request = require("request");
         var url = "https://www.history.com/this-day-in-history/rss";
         request(url, function(err, res, body) {
-		console.log(body);
-	bot.reply(message, body);
-        });
+		var xml = body;
+		parseString(xml, function (err, result) {
+			console.log(JSON.stringify(result);
+	                bot.reply(message, JSON.stringify(result)); 
+		});
+	});
 });
 
 controller.hears("tuesday", 'ambient', function(bot, message) {

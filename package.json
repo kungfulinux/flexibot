@@ -29,6 +29,7 @@
     "botkit-storage-mongo": "^1.0.2",
     "forever": "^0.15.3",
     "mongodb": "^1.4.39",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "xml2js": "^0.4.19"
   }
 }
