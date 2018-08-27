@@ -118,7 +118,7 @@ controller.hears("monday", 'ambient', function(bot, message) {
 
 controller.hears("today in history", 'ambient', function(bot, message) {
 	var request = require("request");
-	var striptags - require("striptags");
+	var striptags = require("striptags");
         var url = "https://www.history.com/this-day-in-history/rss";
         request(url, function(err, res, body) {
 		var parser = require('xml2json');
