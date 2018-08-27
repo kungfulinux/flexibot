@@ -126,7 +126,7 @@ controller.hears("today in history", 'ambient', function(bot, message) {
 		var stuff = JSON.parse(json);
 		var rss = stuff.rss;
 		var channel = rss.channel;
-		var title = channel.item.title + "------>";
+		var title = channel.item.title + "\n";
 		var description = channel.item.description;
 	        bot.reply(message, title + striptags(description)); 
 	});
