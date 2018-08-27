@@ -131,7 +131,7 @@ controller.hears("today in history", 'ambient', function(bot, message) {
 		if (description.length > 140) {
 			var resultarray = description.split("</p>");
 		        var link = "Want to know more? https://www.history.com/this-day-in-history";
-			var result = resultarray[0] + "/n " + link; 
+			var result = resultarray[0] + "\n " + link; 
 			bot.reply(message, title + striptags(result));
 		} else {
 	       		bot.reply(message, title + striptags(description)); 
