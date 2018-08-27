@@ -122,9 +122,9 @@ controller.hears("today in history", 'ambient', function(bot, message) {
         request(url, function(err, res, body) {
 		var parser = require('xml2json');
 		var json = parser.toJson(body);
-		console.log("****************************";
+		console.log("****************************");
 		console.log(json);
-		console.log("****************************";
+		console.log("****************************");
 		var result  = JSON.stringify(json);
 	        bot.reply(message, result); 
 	});
