@@ -24,7 +24,7 @@ function tih() {
 	var request = require("request");
     var url = "https://www.history.com/this-day-in-history/rss";
        request(url, function(err, res, body) {
-	   return(JSON.parse(body))
+	   return(body)
 	});     
 }
 
@@ -46,8 +46,7 @@ function onInstallation(bot, installer) {
  */
 
 var config = {};
-if (process.env.MONGOLAB_URI) {
-    var BotkitStorage = require('botkit-storage-mongo');
+if (process.env.MONGOLAB_URI) { var BotkitStorage = require('botkit-storage-mongo');
     config = {
         storage: BotkitStorage({mongoUri: process.env.MONGOLAB_URI}),
     };
