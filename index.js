@@ -173,6 +173,13 @@ controller.hears(
 });
 
 controller.hears(
+	    ['cowbell'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "http://gph.is/1a6B565");
+});
+
+
+controller.hears(
 	    ['awesome'], ['ambient'], 
 	        function(bot, message) {
 			bot.reply(message, "Team Awesome Sauce, brought to you by :coffee: and :beer:");
