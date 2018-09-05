@@ -14,7 +14,7 @@ function shuffle(array) {
 
 
 function standup_list() {
-	        var arr = ['phil', 's hasse', 'charlie', 'jon', 'aaron', 'tom', 'wilson', 'aj', 'john k', 'jesse', 'manoj', 'clyde', 'will', 'david', 'peter'];
+	        var arr = ['phil', 'scott h', 'charlie', 'jon', 'aaron', 'tom', 'wilson', 'aj', 'john k', 'jesse', 'manoj', 'clyde', 'will', 'david', 'peter'];
 	        arr = shuffle(arr);
 	        console.log(arr.join(","));
 	        return arr.join(",");
