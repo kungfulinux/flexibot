@@ -162,6 +162,7 @@ controller.hears(
 
 controller.hears(["standup_list"], ['ambient'], function(bot, message) {
 	list = standup_list();
+	list = [' {0} '.format(elem) for elem in list]
 	console.log(list);
 	bot.reply(message, list);
 });
