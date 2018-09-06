@@ -17,7 +17,7 @@ function standup_list() {
 	        var arr = ['phil', 'scott h', 'charlie', 'jon', 'aaron', 'tom', 'wilson', 'aj', 'john k', 'jesse', 'manoj', 'clyde', 'will', 'david', 'peter'];
 	        arr = shuffle(arr);
 	        console.log(arr.join(","));
-	        return arr.join(",");
+	        return arr.join(", ");
 }
 
 function tih() {
@@ -162,7 +162,6 @@ controller.hears(
 
 controller.hears(["standup_list"], ['ambient'], function(bot, message) {
 	list = standup_list();
-	list = [' {0} '.format(elem) for elem in list]
 	console.log(list);
 	bot.reply(message, list);
 });
