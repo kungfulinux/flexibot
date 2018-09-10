@@ -173,6 +173,12 @@ controller.hears(
 });
 
 controller.hears(
+	    ['taco'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "http://gph.is/2961YfG");
+});
+
+controller.hears(
 	    ['cowbell'], ['ambient'], 
 	        function(bot, message) {
 			bot.reply(message, "http://gph.is/1a6B565");
