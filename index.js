@@ -184,6 +184,12 @@ controller.hears(
 			bot.reply(message, "http://gph.is/1a6B565");
 });
 
+controller.hears(
+	    ['beer'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "http://gph.is/2cEZCSo");
+});
+
 
 controller.hears(
 	    ['awesome'], ['ambient'], 
