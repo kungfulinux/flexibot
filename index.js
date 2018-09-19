@@ -203,7 +203,7 @@ controller.hears(
 controller.hears(
 	    ['beer'], ['ambient'], 
 	        function(bot, message) {
-			bot.reply(message, "http://gph.is/2cEZCSo");
+			bot.reply(message, "https://gph.is/XKR6Yn");
 });
 
 
