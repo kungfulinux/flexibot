@@ -180,6 +180,12 @@ controller.hears(
 });
 
 
+controller.hears(
+	    ['love coffee'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "https://gph.is/19womaE");
+});
+
 
 
 controller.hears(
