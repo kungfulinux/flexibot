@@ -172,6 +172,16 @@ controller.hears(
 			bot.reply(message, "http://tableflipper.com/IRX2.gif");
 });
 
+
+controller.hears(
+	    ['fistbump'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "https://gph.is/2aYNzSb");
+});
+
+
+
+
 controller.hears(
 	    ['taco'], ['ambient'], 
 	        function(bot, message) {
