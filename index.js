@@ -12,6 +12,24 @@ function shuffle(array) {
 	          return array;
 }
 
+function store_reminder(text) {
+	// store reminder
+	// type of reminder
+	var ta = text.split(" ")
+	var type = ta[2]
+	var name = ta[3]
+	var item = ta[4]
+        console.log("logging info type:" + type + ", item:" + item + ", name: " + name);
+	json_to_store="{\"" + type + "\": { \"item\": \"" + item + "\" , \"name\": \"" + name + "\"}}" 
+	return(json_to_store)
+}
+
+function recall_reminder(text) {
+	// pull reminder from storage
+	//clas of reminder
+
+}
+
 
 function standup_list() {
 	        var arr = ['phil', 'scott h', 'charlie', 'jon', 'aaron', 'tom', 'wilson', 'aj', 'john k', 'jesse', 'manoj', 'clyde', 'will', 'david', 'peter'];
@@ -186,8 +204,6 @@ controller.hears(
 			bot.reply(message, "https://gph.is/19womaE");
 });
 
-
-
 controller.hears(
 	    ['taco'], ['ambient'], 
 	        function(bot, message) {
@@ -219,6 +235,21 @@ controller.hears(
 	        function(bot, message) {
 			bot.reply(message, "AND THIS :bird: YOU CANNOT CHANGE!!!! ");
 });
+
+controller.hears(
+	    ['flexibot save'], ['ambient'],
+		function(bot, message) {
+	        	results = store_reminder(message.text);
+			bot.reply(message, "json being stored - " + results);
+});
+
+controller.hears(
+	    ['flexibot remind me'], ['ambient'],
+                function(bot, message) {
+			results = recall_reminder(message.text);
+			bot.reply(message, "result");
+});
+
 
 
 controller.hears(
@@ -267,11 +298,6 @@ controller.hears(
                                      convo.activate();
                              });
                      });
-
-
-
-
-
 
 
 

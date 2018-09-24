@@ -28,6 +28,7 @@
     "botkit": "^0.6.16",
     "botkit-storage-mongo": "^1.0.2",
     "forever": "^0.15.3",
+    "jsonfile": "^5.0.0",
     "mongodb": "^1.4.39",
     "request": "^2.88.0",
     "striptags": "^3.1.1",
