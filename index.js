@@ -12,25 +12,6 @@ function shuffle(array) {
 	          return array;
 }
 
-function store_reminder(text) {
-	// store reminder
-	// type of reminder
-	var ta = text.split(" ")
-	var type = ta[2]
-	var name = ta[3]
-	var item = ta[4]
-        console.log("logging info type:" + type + ", item:" + item + ", name: " + name);
-	json_to_store="{\"" + type + "\": { \"item\": \"" + item + "\" , \"name\": \"" + name + "\"}}" 
-	return(json_to_store)
-}
-
-function recall_reminder(text) {
-	// pull reminder from storage
-	//clas of reminder
-
-}
-
-
 function standup_list() {
 	        var arr = ['phil', 'scott h', 'charlie', 'jon', 'aaron', 'tom', 'wilson', 'aj', 'john k', 'jesse', 'manoj', 'clyde', 'will', 'david', 'peter'];
 	        arr = shuffle(arr);
@@ -239,18 +220,69 @@ controller.hears(
 controller.hears(
 	    ['flexibot save'], ['ambient'],
 		function(bot, message) {
-	        	results = store_reminder(message.text);
-			bot.reply(message, "json being stored - " + results);
+			var ta = message.text.split(" ");
+			var type = ta[2];
+			var name = ta[3];
+			var item = ta[4];
+			console.log("logging info type:" + type + ", item:" + item + ", name: " + name);
+			var json_to_store="{ \"item\": \"" + item + "\" , \"name\": \"" + name + "\"}";
+			var MongoClient = require('mongodb').MongoClient;
+			var url = "mongodb://localhost:27017/";
+			MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+				  console.log("Connected correctly to server");
+				  if (err) throw err;
+				  var dbo = db.db("flexibot");
+				  dbo.collection(type).insertOne(JSON.parse(json_to_store), function(err, res) {
+					      if (err) throw err;
+					      	console.log("1 document inserted");
+					      db.close();
+				    });
+			});
+			console.log("JSON: " + json_to_store);
+			bot.reply(message, "Flexibot has stored item of type: " + type);
+});
+
+controller.hears(
+	    ['flexibot list'], ['ambient'],
+	        function(bot, message) {
+			var ta = message.text.split(" ");
+			var type = ta[2];
+			console.log("type is " + type);
+			var MongoClient = require('mongodb').MongoClient;
+			assert = require('assert');
+			var url = "mongodb://localhost:27017/";
+			MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+				console.log("Connected correctly to server");
+				if (err) throw err;
+				var dbo = db.db("flexibot");
+				dbo.collection(type).find().toArray(function( err, results) {
+					assert.equal(err, null);
+					assert.notEqual(results.length, 0);
+					results.forEach(function(result) {
+						console.log( result.name + "," + result.item ); 
+						bot.reply(message, "url: " + result.item + ", name: " + result.name)
+					});
+				});
+			});
+});
+
+
+controller.hears(
+	    ['flexibot dbtest'], ['ambient'],
+                function(bot, message) {
+			var MongoClient = require('mongodb').MongoClient;
+			var url = "mongodb://localhost:27017/";
+			MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+			      console.log("Connected correctly to server");
+			      bot.reply(message, "Connected to DB");
+			});
 });
 
 controller.hears(
 	    ['flexibot remind me'], ['ambient'],
                 function(bot, message) {
-			results = recall_reminder(message.text);
-			bot.reply(message, "result");
+			bot.reply(message, "this is not working yet");
 });
-
-
 
 controller.hears(
 	    ['wisconsin'], ['ambient'],
