@@ -218,6 +218,13 @@ controller.hears(
 });
 
 controller.hears(
+	    ['flexibot help'], ['ambient'],
+		function(bot, message) {
+			bot.reply(message, "to save type 'flexibot save urls name url', to list urls type 'flexibot list urls'  "); 
+});
+
+
+controller.hears(
 	    ['flexibot save'], ['ambient'],
 		function(bot, message) {
 			var ta = message.text.split(" ");
@@ -282,7 +289,28 @@ controller.hears(
 controller.hears(
 	    ['flexibot remind me'], ['ambient'],
                 function(bot, message) {
-			bot.reply(message, "this is not working yet");
+			var ta = message.text.split(" ");
+			var type = ta[3];
+			var name = ta[4];
+		        var MongoClient = require('mongodb').MongoClient;
+			assert = require('assert');
+			var url = "mongodb://localhost:27017/";
+			MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+			           console.log("Connected correctly to server");
+			           if (err) throw err;
+			           var dbo = db.db("flexibot");
+				   var query = " { \"name\": \"" + name + "\"} "
+				   var fields = "{ \"name\": true }";
+				   console.log(query);
+				   dbo.collection(type).find(JSON.parse(query) , [fields]).toArray( function (err, results) {
+					   assert.equal(err, null);
+					   assert.notEqual(results.length, 0);
+					   results.forEach(function(result) {
+						   console.log (result.name + "," + result.item );
+					   	   bot.reply(message, result.item)
+					   });
+				   });
+			});
 });
 
 controller.hears(
