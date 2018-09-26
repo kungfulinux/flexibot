@@ -223,6 +223,18 @@ controller.hears(
 			bot.reply(message, "to save type 'flexibot save urls name url', to list urls type 'flexibot list urls'  "); 
 });
 
+controller.hears(
+	    ['roll'], ['ambient'],
+	        function(bot, message) {
+			var roll_var = message.text.split(" ");
+			var dice = roll_var[1];
+			var Roll = require('roll'),
+			roll = new Roll();
+			var Die = roll.roll(dice);
+			console.log(Die.result);
+});
+
+
 
 controller.hears(
 	    ['flexibot save'], ['ambient'],
