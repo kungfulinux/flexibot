@@ -231,7 +231,7 @@ controller.hears(
 			var Roll = require('roll'),
 			roll = new Roll();
 			var Die = roll.roll(dice);
-			bot.reply(message, Die.result);
+			bot.reply(message, Die);
 });
 
 
