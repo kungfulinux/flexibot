@@ -218,6 +218,12 @@ controller.hears(
 });
 
 controller.hears(
+	    ['Friday', "friday"], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "TGIF!!! :rockon:  ");
+});
+
+controller.hears(
 	    ['flexibot help'], ['ambient'],
 		function(bot, message) {
 			bot.reply(message, "to save type 'flexibot save urls name url', to list urls type 'flexibot list urls'  "); 
