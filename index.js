@@ -212,6 +212,13 @@ controller.hears(
 
 
 controller.hears(
+	    ['thundercats ho'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "https://gph.is/180SLfX");
+});
+
+
+controller.hears(
 	    ['awesome'], ['ambient'], 
 	        function(bot, message) {
 			bot.reply(message, "Team Awesome Sauce, brought to you by :coffee: and :beer:");
