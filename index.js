@@ -219,6 +219,13 @@ controller.hears(
 
 
 controller.hears(
+	    ['rimshot'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "https://gph.is/1pWYb6M");
+});
+
+
+controller.hears(
 	    ['awesome'], ['ambient'], 
 	        function(bot, message) {
 			bot.reply(message, "Team Awesome Sauce, brought to you by :coffee: and :beer:");
