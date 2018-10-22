@@ -27,7 +27,7 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            ssh $SSH_USER@$SSH_HOST "export CLIENT_ID=\"$CLIENT_ID\" && export CLIENT_SECRET=\"$CLIENT_SECRET\" && export PORT=\"$PORT\" && env && cd flexibot && forever stopall && git pull && forever start index.js" 
+            ssh $SSH_USER@$SSH_HOST "export CLIENT_ID=\"$CLIENT_ID\" && export CLIENT_SECRET=\"$CLIENT_SECRET\" && export PORT=\"$PORT\" && env && cd flexibot && forever stopall && git pull && forever -o logs/output.log -e logs/error.log start index.js" 
 
 workflows:
   version: 2
