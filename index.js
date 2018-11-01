@@ -180,7 +180,7 @@ controller.hears(
 controller.hears(
 	    ['timesheets'], ['ambient'], 
 	        function(bot, message) {
-			bot.reply(message, "http://gph.is/1LvJ9jq");
+			bot.reply(message, "https://media.giphy.com/media/3ornjXizVZDbngmjRK/giphy.gif");
 });
 
 controller.hears(
