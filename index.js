@@ -177,7 +177,11 @@ controller.hears(
 			bot.reply(message, "https://gph.is/1UwGeco");
 });
 
-
+controller.hears(
+	    ['timesheets'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "http://gph.is/1LvJ9jq");
+});
 
 controller.hears(
 	    ['fistbump'], ['ambient'], 
