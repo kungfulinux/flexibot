@@ -184,6 +184,12 @@ controller.hears(
 });
 
 controller.hears(
+	    ['facepalm'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "http://gph.is/227xwU4");
+});
+
+controller.hears(
 	    ['fistbump'], ['ambient'], 
 	        function(bot, message) {
 			bot.reply(message, "https://gph.is/2aYNzSb");
