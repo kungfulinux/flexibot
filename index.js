@@ -186,7 +186,7 @@ controller.hears(
 controller.hears(
 	    ['facepalm'], ['ambient'], 
 	        function(bot, message) {
-			bot.reply(message, "http://gph.is/28LGu7O");
+			bot.reply(message, "https://gph.is/2B5NZmD");
 });
 
 controller.hears(
