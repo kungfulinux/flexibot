@@ -222,6 +222,11 @@ controller.hears(
 			bot.reply(message, "https://gph.is/XKR6Yn");
 });
 
+controller.hears(
+           ['makeitso', "make it so"], ['ambient'],
+		       function(bot, message) {
+			           bot.reply(message, "http://gph.is/2b6YjxW");
+});
 
 controller.hears(
 	    ['awesome'], ['ambient'], 
