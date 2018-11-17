@@ -19,14 +19,6 @@ function standup_list() {
 	        return arr.join(", ");
 }
 
-function tih() {
-	var request = require("request");
-    var url = "https://www.history.com/this-day-in-history/rss";
-       request(url, function(err, res, body) {
-	   return(body)
-	});     
-}
-
 function onInstallation(bot, installer) {
     if (installer) {
         bot.startPrivateConversation({user: installer}, function (err, convo) {
@@ -113,29 +105,6 @@ controller.hears("weekend", 'ambient', function(bot, message) {
 
 controller.hears("monday", 'ambient', function(bot, message) {
     bot.reply(message, "Mondays are horrible, so have some more :Coffee:!");
-});
-
-controller.hears("today in history", 'ambient', function(bot, message) {
-	var request = require("request");
-	var striptags = require("striptags");
-        var url = "https://www.history.com/this-day-in-history/rss";
-        request(url, function(err, res, body) {
-		var parser = require('xml2json');
-		var json = parser.toJson(body);
-		var parsedJson = JSON.parse(json);
-		var rss = parsedJson.rss;
-		var channel = rss.channel;
-		var title = channel.item.title + "\n";
-		var description = channel.item.description;
-		if (description.length > 140) {
-			var resultarray = description.split("</p>");
-		        var link = "Want to know more? https://www.history.com/this-day-in-history";
-			var result = resultarray[0] + "\n " + link; 
-			bot.reply(message, title + striptags(result));
-		} else {
-	       		bot.reply(message, title + striptags(description)); 
-		}
-	});
 });
 
 controller.hears("tuesday", 'ambient', function(bot, message) {
@@ -374,12 +343,12 @@ controller.hears(
 			bot.createConversation(message, function(err, convo) {
 			    // create a path for when a user says YES
 			    convo.addMessage({
-			        text: 'You said yes! How wonderful.',
+			        text: 'You said yes! <@' + message.user + '> How wonderful.',
 				},'yes_thread');
 				
 				// create a path for when a user says NO
 				convo.addMessage({
-				      text: 'You said no, that is too bad.',
+				      text: 'You said no, <@'+ message.user + '> that is too bad.',
 				},'no_thread');
 			
 			        // create a path where neither option was matched
@@ -390,6 +359,7 @@ controller.hears(
 				          },'bad_response');
 
 				// Create a yes/no question in the default thread...
+
 				convo.addQuestion('Do you like cheese?', [
 				     {
 				       pattern: 'yes',
@@ -412,7 +382,7 @@ controller.hears(
 				 ],{},'default');
 
                                      convo.activate();
-                             });
+			});
                      });
 
 
