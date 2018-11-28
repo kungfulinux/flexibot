@@ -16,7 +16,7 @@ jobs:
      steps:
       - add_ssh_keys:
           fingerprints:
-            - "46:dc:5a:2d:60:93:90:71:a6:e3:f8:05:73:e8:80:20"
+            - "fa:6f:18:25:ec:75:a2:27:45:18:fd:d2:bc:01:01:ea"
       - run:
           name: Setup Environment Variables
           command: |
