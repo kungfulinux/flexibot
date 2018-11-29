@@ -366,7 +366,7 @@ controller.hears(
 
 				// Create a yes/no question in the default thread...
 
-				convo.addQuestion('Do you like cheese?', [
+				convo.addQuestion('Do you like cheese? I heard from someone at Turf Valley, that <U0CKQ5DL4> loves cheese!', [
 				     {
 				       pattern: 'yes',
 				       callback: function(response, convo) {
