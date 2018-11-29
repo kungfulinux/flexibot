@@ -347,14 +347,20 @@ controller.hears(
 				},'yes_thread');
 				
 				// create a path for when a user says NO
-				convo.addMessage({
+			    convo.addMessage({
 				      text: 'You said no, <@'+ message.user + '> that is too bad.',
 				},'no_thread');
-			
+				// path when user says maybe
+                            convo.addMessage({
+                                      text: 'You said maybe, <@' + message.user + '> ... dont mess with me,
+				},'maybe_thread');    
+                            convo.addMessage({
+                                      text: 'I don't think I trust you, <@' + message.user + '>.  How does one "love" cheese, anyway? That is disgusting.,
+				},'love_it_thread');    
 			        // create a path where neither option was matched
 				// this message has an action field, which directs botkit to go back to the `default` thread after sending this message.
 				    convo.addMessage({
-				          text: 'Sorry I did not understand.',
+				          text: 'Sorry,  <' + message.user + '> I did not understand.',
 				          action: 'default',
 				          },'bad_response');
 
@@ -371,6 +377,18 @@ controller.hears(
 				            pattern: 'no',
 				   callback: function(response, convo) {
 				convo.gotoThread('no_thread');
+				     },
+				      },
+				      {
+				            pattern: 'maybe',
+				   callback: function(response, convo) {
+				convo.gotoThread('maybe_thread');
+				     },
+				      },
+				      {
+				            pattern: 'love it',
+				   callback: function(response, convo) {
+				convo.gotoThread('love_it_thread');
 				     },
 				      },
 				 {
