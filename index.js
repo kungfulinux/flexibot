@@ -360,13 +360,13 @@ controller.hears(
 			        // create a path where neither option was matched
 				// this message has an action field, which directs botkit to go back to the `default` thread after sending this message.
 				    convo.addMessage({
-				          text: 'Sorry,  <' + message.user + '> I did not understand.',
+				          text: 'Sorry,  <@' + message.user + '> I did not understand.',
 				          action: 'default',
 				          },'bad_response');
 
 				// Create a yes/no question in the default thread...
 
-				convo.addQuestion('Do you like cheese? I heard from someone at Turf Valley, that <U0CKQ5DL4> loves cheese!', [
+				convo.addQuestion('Do you like cheese? I heard from someone at Turf Valley, that <@U0CKQ5DL4> loves cheese!', [
 				     {
 				       pattern: 'yes',
 				       callback: function(response, convo) {
