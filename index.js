@@ -352,10 +352,10 @@ controller.hears(
 				},'no_thread');
 				// path when user says maybe
                             convo.addMessage({
-                                      text: 'You said maybe, <@' + message.user + '> ... dont mess with me,
+                                      text: 'You said maybe, <@' + message.user + '> ... dont mess with me',
 				},'maybe_thread');    
                             convo.addMessage({
-                                      text: 'I don't think I trust you, <@' + message.user + '>.  How does one "love" cheese, anyway? That is disgusting.,
+                                      text: 'I don't think I trust you, <@' + message.user + '>.  How does one "love" cheese, anyway? That is disgusting.',
 				},'love_it_thread');    
 			        // create a path where neither option was matched
 				// this message has an action field, which directs botkit to go back to the `default` thread after sending this message.
