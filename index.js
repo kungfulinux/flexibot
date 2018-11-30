@@ -368,19 +368,19 @@ controller.hears(
 
 				convo.addQuestion('Do you like cheese? I heard from someone at Turf Valley, that <@U0CKQ5DL4> loves cheese!', [
 				     {
-				       pattern: ' yes ',
+				       pattern: 'yes ',
 				       callback: function(response, convo) {
 				convo.gotoThread('yes_thread');
 				     },
 				     },
 				      {
-				            pattern: ' no ',
+				            pattern: 'no ',
 				   callback: function(response, convo) {
 				convo.gotoThread('no_thread');
 				     },
 				      },
 				      {
-				            pattern: ' maybe ',
+				            pattern: 'maybe',
 				   callback: function(response, convo) {
 				convo.gotoThread('maybe_thread');
 				     },
