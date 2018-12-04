@@ -66,7 +66,6 @@ if (process.env.TOKEN || process.env.SLACK_TOKEN) {
     process.exit(1);
 }
 
-
 /**
  * A demonstration for how to handle websocket events. In this case, just log when we have and have not
  * been disconnected from the websocket. In the future, it would be super awesome to be able to specify
@@ -84,7 +83,6 @@ controller.on('rtm_close', function (bot) {
     console.log('** The RTM api just closed');
     // you may want to attempt to re-open
 });
-
 
 /**
  * Core bot logic goes here!
@@ -120,13 +118,19 @@ controller.hears("Flexion", 'ambient', function(bot, message) {
 });
 
 controller.hears(
+		["Merry Christmas"], 
+		['direct_mention', 'mention', 'direct_message'],
+		   function(bot, message) {
+			bot.reply(message, 'https://ic.pics.livejournal.com/aedit/60452602/124812/124812_original.gif');
+});
+
+controller.hears(
 	    ['hello', 'hi', 'greetings'],
 	    ['direct_mention', 'mention', 'direct_message'],
 	        function(bot,message) {
 		        bot.reply(message,'Hello!');
 			    }
 );
-
 
 controller.hears(["standup_list"], ['ambient'], function(bot, message) {
 	list = standup_list();
@@ -164,7 +168,6 @@ controller.hears(
 			bot.reply(message, "https://gph.is/2aYNzSb");
 });
 
-
 controller.hears(
 	    ['love coffee'], ['ambient'], 
 	        function(bot, message) {
@@ -201,20 +204,17 @@ controller.hears(
 			bot.reply(message, "https://gph.is/180SLfX");
 });
 
-
 controller.hears(
 	    ['rimshot'], ['ambient'], 
 	        function(bot, message) {
 			bot.reply(message, "https://gph.is/1pWYb6M");
 });
 
-
 controller.hears(
 	    ['awesome'], ['ambient'], 
 	        function(bot, message) {
 			bot.reply(message, "Team Awesome Sauce, brought to you by :coffee: and :beer:");
 });
-
 
 controller.hears(
 	    ['free bird', "freebird"], ['ambient'], 
@@ -246,8 +246,6 @@ controller.hears(
 			bot.reply(message, "Result: " + res);
 });
 
-
-
 controller.hears(
 	    ['flexibot save'], ['ambient'],
 		function(bot, message) {
@@ -273,7 +271,6 @@ controller.hears(
 			bot.reply(message, "Flexibot has stored item of type: " + type);
 });
 
-
 controller.hears(
 	    ['flexibot list'], ['ambient'],
 	        function(bot, message) {
@@ -297,7 +294,6 @@ controller.hears(
 				});
 			});
 });
-
 
 controller.hears(
 	    ['flexibot dbtest'], ['ambient'],
@@ -402,8 +398,6 @@ controller.hears(
                                      convo.activate();
 			});
                      });
-
-
 
 /**
  * AN example of what could be:
