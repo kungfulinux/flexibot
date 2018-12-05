@@ -229,6 +229,13 @@ controller.hears(
 });
 
 controller.hears(
+	    ['cheese'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "Let's ask <@U0CKQ5DL4> about cheese...");
+});
+
+
+controller.hears(
 	    ['flexibot help'], ['ambient'],
 		function(bot, message) {
 			bot.reply(message, "to save type 'flexibot save urls name url', to list urls type 'flexibot list urls'  "); 
