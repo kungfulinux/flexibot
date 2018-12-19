@@ -317,7 +317,7 @@ controller.hears(
                                 var dbo = db.db("flexibot");
                                 var query = " { \"first_name\": \"" + first_name + "\"} "
                                 var fields = "{ \"first_name\": true }";
-				dbo.collection(type).find(JSON.parse(query) , [fields]).toArray( function (err, results) {
+				dbo.collection("qppiers").find(JSON.parse(query) , [fields]).toArray( function (err, results) {
                                            assert.equal(err, null);
                                            assert.notEqual(results.length, 0);
                                            results.forEach(function(result) {
