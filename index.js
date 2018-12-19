@@ -306,18 +306,19 @@ controller.hears(
 	    ['flexibot whois'], ['ambient'],
             	function(bot, message) {
 		        var ta = message.text.split(" ");
-			var first_name = ta[2];
- 			console.log("name to look up is " + first_name);
-			var MongoClient = require('mongodb').MongoClient;
-                        assert = require('assert');
-                        var url = "mongodb://localhost:27017/";
-                        MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
-                                console.log("Connected correctly to server");
-                                if (err) throw err;
-                                var dbo = db.db("flexibot");
-                                var query = " { \"first_name\": \"" + first_name + "\"} "
-                                var fields = "{ \"first_name\": true }";
-				dbo.collection("qppiers").find(JSON.parse(query) , [fields]).toArray( function (err, results) {
+                        if (ta[2]){
+				var first_name = ta[2];
+ 				console.log("name to look up is " + first_name);
+				var MongoClient = require('mongodb').MongoClient;
+               			assert = require('assert');
+               	         	var url = "mongodb://localhost:27017/";
+               	         	MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+               	                	 console.log("Connected correctly to server");
+                                	if (err) throw err;
+                                	var dbo = db.db("flexibot");
+                                	var query = " { \"first_name\": \"" + first_name + "\"} "
+                                	var fields = "{ \"first_name\": true }";
+					dbo.collection("qppiers").find(JSON.parse(query) , [fields]).toArray( function (err, results) {
                                            assert.equal(err, null);
                                            assert.notEqual(results.length, 0);
                                            results.forEach(function(result) {
@@ -330,6 +331,8 @@ controller.hears(
                                            });
                                    });
                                 });
+			} else {
+				bot.reply(message, "usage: flexibot whois <first_name>"
                         });
 
 controller.hears(
