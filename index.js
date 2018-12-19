@@ -333,6 +333,7 @@ controller.hears(
                                 });
 			} else {
 				bot.reply(message, "usage: flexibot whois <first_name>")
+			}
                         });
 
 controller.hears(
