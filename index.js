@@ -308,29 +308,16 @@ controller.hears(
 		        var ta = message.text.split(" ");
                         if (ta[2]){
 				var first_name = ta[2];
- 				console.log("name to look up is " + first_name);
-				var MongoClient = require('mongodb').MongoClient;
-               			assert = require('assert');
-               	         	var url = "mongodb://localhost:27017/";
-               	         	MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
-               	                	 console.log("Connected correctly to server");
-                                	if (err) throw err;
-                                	var dbo = db.db("flexibot");
-                                	var query = " { \"first_name\": \"" + first_name + "\"} "
-                                	var fields = "{ \"first_name\": true }";
-					dbo.collection("qppiers").find(JSON.parse(query) , [fields]).toArray( function (err, results) {
-                                           assert.equal(err, null);
-                                           assert.notEqual(results.length, 0);
-                                           results.forEach(function(result) {
-                                                   console.log (result.first_name + "," + result.item );
-  						   if (result.item){
-                                                   	bot.reply(message, result.item)
-						   } else {
-							bot.reply(message, "Nothing found")
-						   }	
-                                           });
-                                   });
-                                });
+                                var last_name = ta[3];
+  				var url = "";
+                                var confl_url = "https://confluence.cms.gov/dosearchsite.action?cql=siteSearch+~+"
+				if (ta[3]) {
+ 					console.log("name to look up is " + first_name + last_name);
+					url = confl_url + "%22" + first_name + "+" + "last_name" + "%22&queryString=" + first_name + "+" last_name
+				} else {
+ 					console.log("name to look up is " + first_name);
+					url = confl_url + "%22" + first_name + "%22&queryString=" + first_name 
+                                }
 			} else {
 				bot.reply(message, "usage: flexibot whois <first_name>")
 			}
