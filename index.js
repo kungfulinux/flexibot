@@ -319,7 +319,7 @@ controller.hears(
 					url = confl_url + "%22" + first_name + "%22&queryString=" + first_name 
                                 }
 			} else {
-				bot.reply(message, "usage: flexibot whois <first_name>")
+				bot.reply(message, url)
 			}
                         });
 
