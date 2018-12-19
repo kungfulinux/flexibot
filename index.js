@@ -313,7 +313,7 @@ controller.hears(
                                 var confl_url = "https://confluence.cms.gov/dosearchsite.action?cql=siteSearch+~+"
 				if (ta[3]) {
  					console.log("name to look up is " + first_name + last_name);
-					url = confl_url + "%22" + first_name + "+" + "last_name" + "%22&queryString=" + first_name + "+" last_name
+					url = confl_url + "%22" + first_name + "+" + last_name + "%22&queryString=" + first_name + "+" last_name
 				} else {
  					console.log("name to look up is " + first_name);
 					url = confl_url + "%22" + first_name + "%22&queryString=" + first_name 
