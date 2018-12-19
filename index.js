@@ -311,17 +311,19 @@ controller.hears(
                                 var last_name = ta[3];
   				var url = "";
                                 var confl_url = "https://confluence.cms.gov/dosearchsite.action?cql=siteSearch+~+"
-				if (ta[3]) {
- 					console.log("name to look up is " + first_name + last_name);
-					url = confl_url + "%22" + first_name + "+" + last_name + "%22&queryString=" + first_name + "+" + last_name
-				} else {
- 					console.log("name to look up is " + first_name);
-					url = confl_url + "%22" + first_name + "%22&queryString=" + first_name 
-                                }
+			if (ta[3]) {
+ 				console.log("name to look up is " + first_name + last_name);
+				url = confl_url + "%22" + first_name + "+" + last_name + "%22&queryString=" + first_name + "+" + last_name
 			} else {
-				bot.reply(message, url)
-			}
-                        });
+ 				console.log("name to look up is " + first_name);
+				url = confl_url + "%22" + first_name + "%22&queryString=" + first_name 
+                       }
+			bot.reply(message, url)
+		} else {
+			bot.reply(message, "usage: flexibot whois <first_name> {optional: <last_name>}")
+		}
+	}
+});
 
 controller.hears(
 	    ['flexibot dbtest'], ['ambient'],
