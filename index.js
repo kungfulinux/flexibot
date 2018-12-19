@@ -303,6 +303,32 @@ controller.hears(
 });
 
 controller.hears(
+	    ['flexibot whois'], ['ambient'],
+            	function(bot, message) {
+		        var ta = message.text.split(" ");
+			var first_name = ta[2];
+ 			console.log("name to look up is " + name);
+			var MongoClient = require('mongodb').MongoClient;
+                        assert = require('assert');
+                        var url = "mongodb://localhost:27017/";
+                        MongoClient.connect(url, { useNewUrlParser: true }, function(err, db) {
+                                console.log("Connected correctly to server");
+                                if (err) throw err;
+                                var dbo = db.db("flexibot");
+                                var query = " { \"first_name\": \"" + first_name + "\"} "
+                                var fields = "{ \"first_name\": true }";
+				dbo.collection(type).find(JSON.parse(query) , [fields]).toArray( function (err, results) {
+                                           assert.equal(err, null);
+                                           assert.notEqual(results.length, 0);
+                                           results.forEach(function(result) {
+                                                   console.log (result.name + "," + result.item );
+                                                   bot.reply(message, result.item)
+                                           });
+                                   });
+                                });
+                        });
+
+controller.hears(
 	    ['flexibot dbtest'], ['ambient'],
                 function(bot, message) {
 			var MongoClient = require('mongodb').MongoClient;
