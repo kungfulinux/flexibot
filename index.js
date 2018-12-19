@@ -307,7 +307,7 @@ controller.hears(
             	function(bot, message) {
 		        var ta = message.text.split(" ");
 			var first_name = ta[2];
- 			console.log("name to look up is " + name);
+ 			console.log("name to look up is " + first_name);
 			var MongoClient = require('mongodb').MongoClient;
                         assert = require('assert');
                         var url = "mongodb://localhost:27017/";
@@ -321,7 +321,7 @@ controller.hears(
                                            assert.equal(err, null);
                                            assert.notEqual(results.length, 0);
                                            results.forEach(function(result) {
-                                                   console.log (result.name + "," + result.item );
+                                                   console.log (result.first_name + "," + result.item );
                                                    bot.reply(message, result.item)
                                            });
                                    });
