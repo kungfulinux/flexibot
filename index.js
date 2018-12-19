@@ -322,7 +322,11 @@ controller.hears(
                                            assert.notEqual(results.length, 0);
                                            results.forEach(function(result) {
                                                    console.log (result.first_name + "," + result.item );
-                                                   bot.reply(message, result.item)
+  						   if (result.item){
+                                                   	bot.reply(message, result.item)
+						   } else {
+							bot.reply(message, "Nothing found")
+						   }	
                                            });
                                    });
                                 });
