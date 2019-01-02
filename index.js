@@ -223,9 +223,26 @@ controller.hears(
 });
 
 controller.hears(
-	    ['Friday', "friday"], ['ambient'], 
-	        function(bot, message) {
-			bot.reply(message, "TGIF!!! :rockon:  ");
+		['Friday', "friday"], ['ambient'],
+		function (bot, message) {
+			day_of_week = new Date().getDay();
+			switch (day_of_week) {
+				case 6:
+				case 0:
+				case 1:
+					bot.reply(message, "Friday was too far away...");
+					break;
+				case 2:
+				case 3:
+					bot.reply(message, `Only ${5 - day_of_week} days until Friday! :rockon:  `);
+					break;
+				case 4:
+					bot.reply(message, "Only 1 day until Friday! :rockon:  ");
+					break;
+				case 5:
+					bot.reply(message, "TGIF!!! :rockon:  ");
+					break;
+			}
 });
 
 controller.hears(
