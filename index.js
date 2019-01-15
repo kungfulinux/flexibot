@@ -253,6 +253,14 @@ controller.hears(
 
 
 controller.hears(
+	    ['oh no!'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "https://imgur.com/9wEZi6o");
+});
+
+
+
+controller.hears(
 	    ['flexibot help'], ['ambient'],
 		function(bot, message) {
 			bot.reply(message, "to save type 'flexibot save urls name url', to list urls type 'flexibot list urls'  "); 
