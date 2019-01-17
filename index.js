@@ -251,15 +251,6 @@ controller.hears(
 			bot.reply(message, "Let's ask <@U0CKQ5DL4> about cheese...");
 });
 
-
-controller.hears(
-	    ['oh no!'], ['ambient'], 
-	        function(bot, message) {
-			bot.reply(message, "https://imgur.com/9wEZi6o");
-});
-
-
-
 controller.hears(
 	    ['flexibot help'], ['ambient'],
 		function(bot, message) {
