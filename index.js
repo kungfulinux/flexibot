@@ -144,6 +144,13 @@ controller.hears(
 			bot.reply(message, "http://tableflipper.com/IRX2.gif");
 });
 
+
+controller.hears(
+	    ['oh no'], ['ambient'], 
+	        function(bot, message) {
+			bot.reply(message, "https://i.redd.it/y45cjik5n2b21.jpg");
+});
+
 controller.hears(
 	    ['captain'], ['ambient'], 
 	        function(bot, message) {
