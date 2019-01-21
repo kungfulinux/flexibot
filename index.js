@@ -134,7 +134,7 @@ controller.hears(
 
 controller.hears(
 	    ["flexibot weather"],
-	    ['direct_mention', 'mention', 'direct_message'],
+	    ['direct_mention', 'ambient', 'direct_message'],
 	       function(bot, message){
 			var ta = message.text.split(" ");
 			if (ta[2]){                        
