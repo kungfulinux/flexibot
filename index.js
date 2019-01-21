@@ -141,9 +141,10 @@ controller.hears(
 				var location = ta[2]
    				console.log("Weather location is " + location)
                         	var weather = require('weather-js'); 
-                        	var my_weather = weather.find({search: location, degreeType: 'F'}, function(err, result) {
+                        	weather.find({search: location, degreeType: 'F'}, function(err, result) {
   					if(err) console.log(err);
   					console.log(JSON.stringify(result, null, 2));
+					bot.reply(message, JSON.stringify(result));
 				});
 			} else {
 				my_weather = "Please provide a zipcode of a town,state with no spaces"
