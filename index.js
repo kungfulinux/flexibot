@@ -146,7 +146,7 @@ controller.hears(
   					console.log(JSON.stringify(result, null, 2));
 				});
 			} else {
-			my_weather = "Please provide a zipcode of a town,state with no spaces")
+			my_weather = "Please provide a zipcode of a town,state with no spaces"
 			bot.reply(message, my_weather)
 		}
 );
