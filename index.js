@@ -139,7 +139,7 @@ controller.hears(
 	       function(bot, message){
 			var zipcode = ta[2]	
 			weather_com_result = pywapi.get_weather_from_weather_com(zipcode)
-			bot.reply(message, "Weather.com says: It is " + string.lower(weather_com_result['current_conditions']['text']) + " and " + weather_com_result['current_conditions']['temperature'] + "C now."
+			bot.reply(message, "Weather.com says: It is " + string.lower(weather_com_result['current_conditions']['text']) + " and " + weather_com_result['current_conditions']['temperature'] + "C now.")
 		}
 );
 
