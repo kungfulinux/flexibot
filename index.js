@@ -146,10 +146,10 @@ controller.hears(
   					console.log(JSON.stringify(result, null, 2));
 				});
 			} else {
-			my_weather = "Please provide a zipcode of a town,state with no spaces"
-			bot.reply(message, my_weather)
-		}
-);
+				my_weather = "Please provide a zipcode of a town,state with no spaces"
+				bot.reply(message, my_weather)
+			}
+});
 
 controller.hears(["standup_list"], ['ambient'], function(bot, message) {
 	list = standup_list();
