@@ -135,9 +135,10 @@ controller.hears(
 
 controller.hears(
 	    ["flexibot weather"],
-	    ["mention"],
+	    ['direct_mention', 'mention', 'direct_message'],
 	       function(bot, message){
 			var zipcode = ta[2]	
+                         import pywapi
 			weather_com_result = pywapi.get_weather_from_weather_com(zipcode)
 			bot.reply(message, "Weather.com says: It is " + string.lower(weather_com_result['current_conditions']['text']) + " and " + weather_com_result['current_conditions']['temperature'] + "C now.")
 		}
