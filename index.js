@@ -273,12 +273,6 @@ controller.hears(
 });
 
 controller.hears(
-	    ['cheese'], ['ambient'], 
-	        function(bot, message) {
-			bot.reply(message, "Let's ask <@U0CKQ5DL4> about cheese...");
-});
-
-controller.hears(
 	    ['flexibot help'], ['ambient'],
 		function(bot, message) {
 			bot.reply(message, "to save type 'flexibot save urls name url', to list urls type 'flexibot list urls'  "); 
@@ -434,7 +428,7 @@ controller.hears(
 
 				// Create a yes/no question in the default thread...
 
-				convo.addQuestion('Do you like cheese? I heard from someone at Turf Valley, that <@U0CKQ5DL4> loves cheese!', [
+				convo.addQuestion('Do you like cheese?', [
 				     {
 				       pattern: 'yes',
 				       callback: function(response, convo) {
