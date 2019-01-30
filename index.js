@@ -1,4 +1,4 @@
-var acronymicon = require("./acronymicon/acronymicon").default;
+var acronymicon = require("./acronymicon").default;
 
 function shuffle(array) {
   var currentIndex = array.length,
