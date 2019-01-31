@@ -2,12 +2,12 @@
 var fetch = require("node-fetch");
 
 var options = {
-  sheet: process.env.ARC_SHEET,
-  key: process.env.ARC_KEY
+  sheet: process.env.ARC_SHEET || "ARC_SHEET",
+  key: process.env.ARC_KEY || "ARC_KEY"
 };
 
 // TEST
-// node -e 'require("./acronymicon").summon({ sheet: [ARC_SHEET], key: [ARC_KEY] }).then(data => console.log(data));'
+// node -e 'require("./acronymicon").summon({ sheet: ARC_SHEET, key: ARC_KEY }).then(data => console.log(data));'
 
 var summonAcronymicon = function(opt) {
   var url =
@@ -15,16 +15,17 @@ var summonAcronymicon = function(opt) {
     opt.sheet +
     "/values/acronymicon!B2:D999?key=" +
     opt.key;
+  console.log(url);
   return fetch(url)
     .then(response => response.json())
-    .then(json => {
-      var data = json.values ? json.values.slice(1) : [];
-      const normalize = data.reduce((acc, cur) => {
-        acc[cur[0]] = { title: cur[1], definition: cur[2] };
-        return acc;
-      }, {});
-      return normalize;
-    });
+    .then(json =>
+      json.values
+        ? json.values.reduce((acc, cur) => {
+            acc[cur[0]] = { title: cur[1], definition: cur[2] };
+            return acc;
+          }, {})
+        : []
+    );
 };
 
 // TEST
