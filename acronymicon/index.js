@@ -13,7 +13,7 @@ var summonAcronymicon = function(opt) {
   var url =
     "https://sheets.googleapis.com/v4/spreadsheets/" +
     opt.sheet +
-    "/values/Sheet1!A1:C999?key=" +
+    "/values/acronymicon!B2:D999?key=" +
     opt.key;
   return fetch(url)
     .then(response => response.json())
