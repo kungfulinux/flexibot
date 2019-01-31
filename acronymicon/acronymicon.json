@@ -1,4 +1,763 @@
-{ 
-  "ABC": "Easy as 1-2-3!"
+{
+  "TIN": {
+    "key": "TIN",
+    "title": "Taxpayer Identification Number",
+    "definition": "A TIN is an SSN-format 9 digit number (in some cases it is an actual SSN, in some cases an Employer Identification Number - EIN) that identifies a specific individual or group practice. It should be considered PII, with special handling as described at https://confluence.cms.gov/x/Ds4cB.\nWithin QPP, Groups are primarily identified by their TIN, and you will often see \"TIN\" used as a synonym for Group."
+  },
+  "NPI": {
+    "key": "NPI",
+    "title": "National Provider Identifier",
+    "definition": "A National Provider Identifier or NPI is a unique 10-digit identification number issued to health care providers in the United States by the Centers for Medicare and Medicaid Services (CMS). The NPI has replaced the unique physician identification number (UPIN) as the required identifier for Medicare services, and is used by other payers, including commercial healthcare insurers. The transition to the NPI was mandated as part of the Administrative Simplifications portion of the Health Insurance Portability and Accountability Act of 1996 (HIPAA), and CMS began issuing NPIs in October 2006. Individuals have an NPI, and providers also have an NPI. https://en.wikipedia.org/wiki/National_Provider_Identifier\nNote that the last digit of this number is a 'check digit', meaning not all 10 digit numbers will be valid NPIs. The NPI check digit can be checked/calculated by prefixing '80840' to the number and using the Luhn algorithm.\nNPIs can be looked up via https://npiregistry.cms.hhs.gov/\nAn NPI can be for an Individual or an Organization. Type 1 NPIs are healthcare providers, such as physicians and dentists. Type 2 NPIs are organizations such as facilities, hospitals, home health agencies, labs, and DME suppliers.\nAs described at https://confluence.cms.gov/x/Ds4cB, NPI is not considered sensitive information.\nWithin QPP, Eligible Clinicians are primarily identified by their NPI. You may see NPI used as a synonym for Clinician."
+  },
+  "TIN-NPI": {
+    "key": "TIN-NPI",
+    "title": "",
+    "definition": "Individual Clinicians identified by NPI can have relationships to multiple groups identified by TIN. The \"TIN NPI\" concept represents an established relationship between one specific group and one specific clinician."
+  },
+  "EHR-DSV": {
+    "key": "EHR-DSV",
+    "title": "Electronic Health Records Data Submission Vendor",
+    "definition": "A third-party Electronic Health Records vendor that provides QPP Data Submissions services on behalf of their customers. Other types of third party submitters re Registries and QCDR (Qualified Clinical Data Registry)."
+  },
+  "QR": {
+    "key": "QR",
+    "title": "Qualified Registry",
+    "definition": "A qualified registry is a CMS-approved entity that collects clinical data from MIPS eligible clinicians (both individual and groups) and submits it to CMS on their behalf for purposes of MIPS."
+  },
+  "QCDR": {
+    "key": "QCDR",
+    "title": "Qualified Clinical Data Registry",
+    "definition": "A QCDR is an entity CMS approves that collects clinicians’ clinical data for submission, such as regional collaboratives and specialty societies for example. QCDR data submission is different from a qualified registry because it’s not limited to MIPS measures. A QCDR may submit at most 30 “QCDR” measures (previously referred to as non-MIPS measures) for CMS review and approval.\nhttps://www.cms.gov/Medicare/Quality-Initiatives-Patient-Assessment-Instruments/Value-Based-Programs/MACRA-MIPS-and-APMs/2018-QCDR-fact-sheet-.pdf\nhttps://www.cms.gov/Medicare/Quality-Payment-Program/Resource-Library/2017-QCDR-List.pdf\nAn example is \"American Academy of Dermatology DataDerm\", https://www.aad.org/practicecenter/quality/dataderm"
+  },
+  "APM": {
+    "key": "APM",
+    "title": "Alternative Payment Model",
+    "definition": "Under QPP, the primary purpose of APMs is to move clinicians away from fee-for-service to value-based payment mechanisms. An APM can be thought of as the rules and structure (the “model”) defining how CMS will pay a provider organization based on quality and cost metrics. An example of an APM (the “model”) is the Medicare Shared Savings Program (MSSP), in which individual APM Entities such as accountable care organizations (ACOs) contract with CMS to share in cost savings achieved relative to benchmarks. In turn, one or more provider organizations and their clinicians may be part of the same APM entity. For instance, multiple medical groups or hospitals may band together to form an ACO (APM entity). The term ACO\nThe relationship hierarchy from top down is as follows: APM -> APM entities -> provider organizations -> clinicians.\nAPMs can further qualify as Advanced APMs and/or MIPS APMs as described below.\nA comprehensive list of APMs for 2018 can be found at:\nhttps://www.cms.gov/Medicare/Quality-Payment-Program/Resource-Library/Comprehensive-List-of-APMs.pdf\n\nThe following simplified table represents the basic scenarios for APM scoring within QPP, in order of precedence:\nParticipation QP status ResultAdvanced APM participant QP Automatic APM incentive payment, exempt from MIPS participation Advanced APM participant partial QP, elect to participate in MIPS APM scoring standard applies Advanced APM participant partial QP, elect to not participate in MIPS Not considered a MIPS clinician and are exempt from MIPS participation Advanced APM participant neither QP or partial QP APM scoring standard applies MIPS APM participant, and none of the above apply N/A APM scoring standard applies \"Regular APM\" participant, and none of the above apply N/A MIPS scoring standard applies, with IA performance category credit for APM participation.\nScenarios around eligibility as it relates to APM participation and QP status can be found in the Eligibility Rules Grid (https://confluence.cms.gov/x/HMp1Bg).These scenarios become more complicated as you consider factors like LVT.\nAdditional information on APMs can be found at:\nhttps://qpp.cms.gov/apms/overview"
+  },
+  "AAPM": {
+    "key": "AAPM",
+    "title": "Advanced APM",
+    "definition": "Advanced APMs are a CMS-approved subset of APMs that let practices earn increased rewards in exchange for taking on risk related to patient outcomes.\nIf you are a QP in an Advanced APM, you earn a 5 percent incentive payment and do not submit to MIPS, although Advanced APM participants typically submit quality data as required by their APM.\nMost Advanced APMs are also MIPS APMs. but there are some MIPS APMs that are not Advanced APMs, and it is possible to be an Advanced APM but not a MIPS APM."
+  },
+  "QP": {
+    "key": "QP",
+    "title": "Qualifying APM Participant",
+    "definition": "QP is a property of a clinician relative to a specific Advanced APM Entity. There is a QP status flag available via the CMMI AMS API and by extension the QPP Eligibility API that specifies the QP status of a clinician.\nQualifying Advanced APM Participants (QPs) are not considered MIPS clinicians and are exempt from MIPS participation. If you’re in an Advanced APM and become a Qualifying APM Participant (QP) for the year, you’re excluded from the MIPS reporting requirements and payment adjustment for the year. The methodology for determining QP status, which includes evaluation during various performance periods, is described at:\nhttps://www.cms.gov/Medicare/Quality-Initiatives-Patient-Assessment-Instruments/Value-Based-Programs/MACRA-MIPS-and-APMs/QP-Methodology-Fact-Sheet.pdf\nQP status must be earned every year."
+  },
+  "CEHRT": {
+    "key": "CEHRT",
+    "title": "Certified Electronic Health Records Technology",
+    "definition": "CMS ONC CHPL maintains a list of certified electronic health records technology.\nCEHRT gives assurance to purchasers and other users that an EHR system or module offers the necessary technological capability, functionality, and security to help them meet the meaningful use criteria. Certification also helps health care providers and patients be confident that the electronic health IT products and systems they use are secure, can maintain data confidentially, and can work with other systems to share information.\nhttps://www.cms.gov/Regulations-and-Guidance/Legislation/EHRIncentivePrograms/Certification.html\nhttps://chpl.healthit.gov/#/search"
+  },
+  "ACO": {
+    "key": "ACO",
+    "title": "Accountable Care Organization",
+    "definition": "ACOs are groups of doctors, hospitals, and other health care providers, who come together voluntarily to give coordinated high-quality care to their Medicare patients: https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/ACO/. ACOs are a specific type of APM Entity. The APM Entity for SSP and NextGen APMs are called ACOs, whereas APM Entities for other MIPS APMs are simply known as APM Entities."
+  },
+  "PTAN": {
+    "key": "PTAN",
+    "title": "Provider Transaction Access Number",
+    "definition": "A PTAN is a Medicare-only number issued to providers by MACs upon enrollment to Medicare. When a MAC approves enrollment and issues an approval letter, the letter will contain the PTAN assigned to the provider.\nWhile only the National Provider Identifier (NPI) is submitted on claims, the PTAN is a critical number directly linked to a provider or supplier's NPI. A PTAN's use should generally be limited to a provider's communication with their MAC.\nWithin QPP, PTAN is used to verify the first person in as the SO. The PTAN is a \"secret\" key that is paired with the TIN. If the user has both of those, they are considered to be trusted/verified enough to be a SO. It is only for Practices and CPC+ APMs. This data is stored in the eligibility service and referenced from the auth service.\nhttps://www.cms.gov/Outreach-and-Education/Medicare-Learning-Network-MLN/MLNMattersArticles/downloads/SE1216.pdf"
+  },
+  "QPP Performance Categories": {
+    "key": "QPP Performance Categories",
+    "title": "",
+    "definition": ""
+  },
+  "PI ": {
+    "key": "PI ",
+    "title": "Promoting Interoperability (formerly Advancing Care Information)",
+    "definition": "PI, formerly ACI,  is one of the four QPP performance categories.\nCMS is re-naming the Advancing Care Information performance category to Promoting Interoperability (PI) to focus on patient engagement and the electronic exchange of health information using certified electronic health record technology (CEHRT). This performance category replaced the Medicare EHR Incentive Program for EPs, commonly known as Meaningful Use. This is done by proactively sharing information with other clinicians or the patient in a comprehensive manner. This may include: sharing test results, visit summaries, and therapeutic plans with the patient and other facilities to coordinate care."
+  },
+  "IA": {
+    "key": "IA",
+    "title": "Improvement Activity",
+    "definition": "This is a new performance category that includes an inventory of activities that assess how you improve your care processes, enhance patient engagement in care, and increase access to care. The inventory allows you choose the activities appropriate to your practice from categories such as, enhancing care coordination, patient and clinician shared decision-making, and expansion of practice access."
+  },
+  "CP Bonus": {
+    "key": "CP Bonus",
+    "title": "Complex Patient Bonus",
+    "definition": "https://www.cms.gov/Medicare/Quality-Payment-Program/Resource-Library/2018-MIPS-bonus-overview-fact-sheet.pdf"
+  },
+  "E&U": {
+    "key": "E&U",
+    "title": "Extreme and Uncontrollable Circumstances",
+    "definition": ""
+  },
+  "ACR": {
+    "key": "ACR",
+    "title": "All Cause Readmissions",
+    "definition": "The 30-day All-Cause Hospital Readmission measure is a risk-standardizedreadmission rate for beneficiaries age 65 or older who were hospitalized at a short-stay acute-care hospital and experienced an unplanned readmission for any cause to an acute care hospital within 30 days of discharge."
+  },
+  "MSPB": {
+    "key": "MSPB",
+    "title": "Medicare Spending per Beneficiary",
+    "definition": "MSPB is a cost category measure calculated by the Cost Scoring Engine. This measure includes Medicare Part A and Part B claims submitted for services from three days prior to 30 days after an inpatient hospitalization and attributes all of these costs to the physician with the most (plurality of) Part B charges during the period from the patient’s inpatient admission to discharge date."
+  },
+  "TPCC": {
+    "key": "TPCC",
+    "title": "Total per Capita Cost",
+    "definition": "TPCC is a cost category measure calculated by the Cost Scoring Engine. The TPCC measure is a measure of all Medicare Part A and Part B costs for patients attributed to the individual clinician with the most allowed charges for E&M services other than inpatient hospital, emergency department, and skilled nursing visits during the 2018 performance period."
+  },
+  "RLE-CCLI": {
+    "key": "RLE-CCLI",
+    "title": "Revascularization\nfor Lower Extremity Chronic Critical Limb Ischemia",
+    "definition": "RLE-CCLI is an episode grouper cost category measure calculated by the Cost Scoring Engine. It is considered the most complex of the initial 8 episode groupers and so was chosen as the first measure to implement."
+  },
+  "CCN": {
+    "key": "CCN",
+    "title": "CMS Certification Number",
+    "definition": "The NPI is the National Provider Identifier, and is a unique identification number provided to facilities and other medical entities. The Medicare Provider Number is also known as the CCN (CMS Certification Number). This is the six-digit Medicare certification number for a facility.  CCN is the newer term of what used to be a Provider ID. They are the same. An even older term that you may encounter in IDR is OSCAR ID (which means the same thing)"
+  },
+  "ISSO": {
+    "key": "ISSO",
+    "title": "Information System Security Officer",
+    "definition": "This is currently Chris Morici for the QPP program. He oversees the SCA and SIA process among other things."
+  },
+  "DME": {
+    "key": "DME",
+    "title": "Durable Medical Equipment",
+    "definition": ""
+  },
+  "ED": {
+    "key": "ED",
+    "title": "Emergency Department",
+    "definition": ""
+  },
+  "MAC": {
+    "key": "MAC",
+    "title": "Medicare Administrative Contractor",
+    "definition": "https://www.cms.gov/Medicare/Medicare-Contracting/Medicare-Administrative-Contractors/What-is-a-MAC.html"
+  },
+  "SIA": {
+    "key": "SIA",
+    "title": "Security Impact Analysis",
+    "definition": "1.15.1 Security Impact Analysis (SIA)"
+  },
+  "SCA": {
+    "key": "SCA",
+    "title": "Security Control Assessment",
+    "definition": "A yearly assessment of security controls for the entirety of QPP. This is a large audit which ensures that QPP maintains it's Authority To Operate (ATO)."
+  },
+  "ACT": {
+    "key": "ACT",
+    "title": "Adaptive Controls Testing",
+    "definition": ""
+  },
+  "ATO": {
+    "key": "ATO",
+    "title": "Authorization to Operate",
+    "definition": "The product of a successful Security Control Assessment. Without an ATO approved by the ISSO of an organization, you cannot officially deploy an information system (in this example the production environment QPP as a whole) without this and its timely renewal. More info below.\n\nhttps://www.cms.gov/Research-Statistics-Data-and-Systems/CMS-Information-Technology/InformationSecurity/Info-Security-Library-Items/RMH-Vol-I-Chapter-01-Risk-Management-in-the-XLC.html?DLPage=1&DLEntries=10&DLFilter=XLC&DLSort=0&DLSortDir=ascending"
+  },
+  "BDC": {
+    "key": "BDC",
+    "title": "Baltimore Data Center",
+    "definition": ""
+  },
+  "ISPG": {
+    "key": "ISPG",
+    "title": "Information Security and Privacy Group",
+    "definition": ""
+  },
+  "RTI": {
+    "key": "RTI",
+    "title": "Research Triangle Institute",
+    "definition": "Stakeholders"
+  },
+  "IDR": {
+    "key": "IDR",
+    "title": "Integrated Data Repository",
+    "definition": ""
+  },
+  "BENE-SK": {
+    "key": "BENE-SK",
+    "title": "Beneficiary SurrogateKey",
+    "definition": "IDR Specific Column Name\nPRIMARY KEY for table BENE_ID_TRKNG\nA warehouse assigned surrogate key used to uniquely identify a beneficiary."
+  },
+  "MACRA": {
+    "key": "MACRA",
+    "title": "Medicare Access and CHIP Reauthorization Act of 2015 (Public Law 114-10)",
+    "definition": ""
+  },
+  "MIPS": {
+    "key": "MIPS",
+    "title": "Merit-based Incentive Payment System",
+    "definition": ""
+  },
+  "VBC": {
+    "key": "VBC",
+    "title": "Value-Based Care",
+    "definition": ""
+  },
+  "EHR": {
+    "key": "EHR",
+    "title": "Electronic Health Record",
+    "definition": "An electronic version of a patient chart. Also used to refer to vendors of EHR systems, such as Epic. Also used to describe a precursor program to QPP that measured the dimension of quality related to the utilization of electronic health records. Finally, also used to describe an implemented instance of an EHR that can provide submissions to QPP."
+  },
+  "COTR": {
+    "key": "COTR",
+    "title": "Contracting Officer Tech Rep",
+    "definition": ""
+  },
+  "COR": {
+    "key": "COR",
+    "title": "Contracting Officer Representative",
+    "definition": ""
+  },
+  "QIP": {
+    "key": "QIP",
+    "title": "Quality Improvement Projects",
+    "definition": "A standard for exchanging healthcare information electronically. https://www.hl7.org/fhir/overview.html"
+  },
+  "PQRS": {
+    "key": "PQRS",
+    "title": "Physician Quality Reporting System",
+    "definition": ""
+  },
+  "VM": {
+    "key": "VM",
+    "title": "Virtual machine or virtual memory",
+    "definition": ""
+  },
+  "QRDA-3": {
+    "key": "QRDA-3",
+    "title": "QRDA Category III (QRDA III)",
+    "definition": "An aggregate quality report. It has been expanded to support the exchange of Promoting Interoperability measures and improvement activities for the CMS Quality Payment Program. A QRDA III report contains quality data for a set of patients for one or more eCQMs, Promoting Interoperability measures, and/or improvement activities."
+  },
+  "FHIR": {
+    "key": "FHIR",
+    "title": "Fast Healthcare Interoperability Resources",
+    "definition": ""
+  },
+  "PECOS": {
+    "key": "PECOS",
+    "title": "Medicare Provider Enrollment, Chain, and Ownership System",
+    "definition": "PECOS supports the Medicare Provider and Supplier enrollment process by allowing registered users to securely and electronically submit and manage Medicare enrollment information. The Eligibility API process ingests data from PECOS to determine eligibility status."
+  },
+  "BSR": {
+    "key": "BSR",
+    "title": "Beneficiary Sampling Reporting",
+    "definition": "A method of reporting information that involves sampling versus comprehensive reporting."
+  },
+  "WI": {
+    "key": "WI",
+    "title": "CMS Web Interface",
+    "definition": "Due to policy reasons, the \"Web Interface\" term refers to the Beneficiary Sampling Reporting portion of the QPP web UI, and associated BSR processing."
+  },
+  "TRB": {
+    "key": "TRB",
+    "title": "CMS Technical Review Board",
+    "definition": "The governing body that reviews CMS system architecture. QPP follows the Expedited Lifecycle (XLC), documented here: https://www.cms.gov/Research-Statistics-Data-and-Systems/CMS-Information-Technology/XLC/index.html"
+  },
+  "I&A": {
+    "key": "I&A",
+    "title": "Identity & Access",
+    "definition": ""
+  },
+  "WAKA": {
+    "key": "WAKA",
+    "title": "WNMG Akamai Project",
+    "definition": "Akamai contract owned by WNMG"
+  },
+  "WNMG": {
+    "key": "WNMG",
+    "title": "Web and New Media Group",
+    "definition": "Group within CMS / OC"
+  },
+  "LOA3": {
+    "key": "LOA3",
+    "title": "Level of Assurance 3",
+    "definition": "A Level of Assurance, as defined by the by ISO/IEC 29115 Standard, describes the degree of confidence in the processes leading up to and including an authentication. It provides assurance that the entity claiming a particular identity, is the entity to which that identity was assigned.\nhttps://developer.mobileconnect.io/level-of-assurance\nhttps://arch.idmanagement.gov/usecases/13_proofidentityloa3/ or https://arch.idmanagement.gov/usecases/14_proofidentityloa4/"
+  },
+  "LOA4": {
+    "key": "LOA4",
+    "title": "Level of Assurance 4",
+    "definition": "A Level of Assurance, as defined by the by ISO/IEC 29115 Standard, describes the degree of confidence in the processes leading up to and including an authentication. It provides assurance that the entity claiming a particular identity, is the entity to which that identity was assigned.\nhttps://developer.mobileconnect.io/level-of-assurance\nhttps://arch.idmanagement.gov/usecases/13_proofidentityloa3/ or https://arch.idmanagement.gov/usecases/14_proofidentityloa4/"
+  },
+  "CCSQ": {
+    "key": "CCSQ",
+    "title": "Center for Clinical Standards and Quality",
+    "definition": "The CMS Center that QPP is a software program within. CCSQ provides several other software programs, such as iQIES, HQR, ESS, and EQRS."
+  },
+  "AMS": {
+    "key": "AMS",
+    "title": "APM Management System",
+    "definition": "The system that manages eligibility information for Alternative Payment Models. This system exists under the CMMI CMS group, and provides an API to access APM eligibility information. APM Management System (AMS) Home, a secure and reliable source of information for Alternate Payment Models."
+  },
+  "HQR": {
+    "key": "HQR",
+    "title": "Hospital Quality Reporting",
+    "definition": "A sister software program of QPP under CCSQ."
+  },
+  "iQIES": {
+    "key": "iQIES",
+    "title": "Internet Quality Improvement and Evaluation System",
+    "definition": "A sister software program of QPP under CCSQ."
+  },
+  "ESS": {
+    "key": "ESS",
+    "title": "",
+    "definition": "A sister software program of QPP under CCSQ."
+  },
+  "EQRS": {
+    "key": "EQRS",
+    "title": "End Stage Renal Disease Quality Reporting System",
+    "definition": "A sister software program of QPP under CCSQ."
+  },
+  "QIO": {
+    "key": "QIO",
+    "title": "Quality Improvement Organization",
+    "definition": "A Quality Improvement Organization (QIO) is a group of health quality experts, clinicians, and consumers organized to improve the quality of care delivered to people with Medicare."
+  },
+  "ACA": {
+    "key": "ACA",
+    "title": "Affordable Care Act",
+    "definition": ""
+  },
+  "AMMR": {
+    "key": "AMMR",
+    "title": "Adjusted Monthly Membership Report",
+    "definition": ""
+  },
+  "BI": {
+    "key": "BI",
+    "title": "Business Intelligence",
+    "definition": ""
+  },
+  "BPCI": {
+    "key": "BPCI",
+    "title": "Bundled Payments for Care Improvement",
+    "definition": ""
+  },
+  "CME": {
+    "key": "CME",
+    "title": "Common Medicare Environment",
+    "definition": ""
+  },
+  "CMMI": {
+    "key": "CMMI",
+    "title": "Centers for Medicare and Medicaid Innovation",
+    "definition": ""
+  },
+  "COPR": {
+    "key": "COPR",
+    "title": "Clinical and Operational Provider Reports",
+    "definition": ""
+  },
+  "CPC": {
+    "key": "CPC",
+    "title": "Comprehensive Primary Care",
+    "definition": ""
+  },
+  "CPC+": {
+    "key": "CPC+",
+    "title": "Comprehensive Primary Care Plus",
+    "definition": "Comprehensive Primary Care Plus (CPC+) is a national advanced primary care medical home model that aims to strengthen primary care through regionally-based multi-payer payment reform and care delivery transformation."
+  },
+  "CPI": {
+    "key": "CPI",
+    "title": "Centers for Program Integrity",
+    "definition": ""
+  },
+  "CSI": {
+    "key": "CSI",
+    "title": "Claims Summary Information",
+    "definition": ""
+  },
+  "DCEP": {
+    "key": "DCEP",
+    "title": "Division of Clinical & Economic Performance",
+    "definition": ""
+  },
+  "DDPS": {
+    "key": "DDPS",
+    "title": "Drug Data Processing System",
+    "definition": ""
+  },
+  "DEMME": {
+    "key": "DEMME",
+    "title": "Dual Eligibility Measurement Monitoring and Evaluation Project",
+    "definition": ""
+  },
+  "DEP": {
+    "key": "DEP",
+    "title": "Data Extract Process",
+    "definition": ""
+  },
+  "DESY": {
+    "key": "DESY",
+    "title": "Data Extract System",
+    "definition": ""
+  },
+  "DST": {
+    "key": "DST",
+    "title": "Delivery System Tracking",
+    "definition": ""
+  },
+  "EDB": {
+    "key": "EDB",
+    "title": "Enrollment Database",
+    "definition": ""
+  },
+  "FDB": {
+    "key": "FDB",
+    "title": "First Databank",
+    "definition": ""
+  },
+  "FISS": {
+    "key": "FISS",
+    "title": "Fiscal Intermediary Standard System",
+    "definition": "https://www.cgsmedicare.com/hhh/education/materials/pdf/chapter_1-fiss_overview.pdf#page=3"
+  },
+  "FMR": {
+    "key": "FMR",
+    "title": "Focused Medical Review",
+    "definition": ""
+  },
+  "GEF": {
+    "key": "GEF",
+    "title": "Global Extract File",
+    "definition": ""
+  },
+  "HCIdea": {
+    "key": "HCIdea",
+    "title": "Prescriber and Provider Database",
+    "definition": ""
+  },
+  "HCIS": {
+    "key": "HCIS",
+    "title": "Health Care Information Systems",
+    "definition": ""
+  },
+  "HCPCS": {
+    "key": "HCPCS",
+    "title": "Healthcare Common Procedure Coding System",
+    "definition": ""
+  },
+  "HITECH": {
+    "key": "HITECH",
+    "title": "Health Information Technology for Economic and Clinical Health Act",
+    "definition": ""
+  },
+  "HPMS": {
+    "key": "HPMS",
+    "title": "Health Plan Management System",
+    "definition": ""
+  },
+  "IBUG": {
+    "key": "IBUG",
+    "title": "Integrated Data Repository Business Intelligence User Group",
+    "definition": ""
+  },
+  "ICD-10": {
+    "key": "ICD-10",
+    "title": "International Statistical Classification of Diseases and Related Health Problems - 10th Revision",
+    "definition": ""
+  },
+  "MAQI": {
+    "key": "MAQI",
+    "title": "Medicare Advantage Qualifying Payment Incentive",
+    "definition": "The Medicare Advantage Qualifying Payment Arrangement Incentive (MAQI) Demonstration is designed to test whether exempting Merit Based Incentive Payment System (MIPS)-eligible clinicians who participate to a sufficient degree in certain payment arrangements with Medicare Advantage Organizations (MAOs) from the MIPS reporting requirements and payment adjustment will increase or maintain participation in payment arrangements similar to Advanced Alternative Payment Models (APMs) with MAOs and change the manner in which clinicians deliver care.\nAs of August 2018, feature requirements will lead to a change how QPP Eligibility handles MIPS processing."
+  },
+  "MARx": {
+    "key": "MARx",
+    "title": "Medicare Advantage Prescription Drug Development and Enhancements",
+    "definition": ""
+  },
+  "MCS": {
+    "key": "MCS",
+    "title": "Multi-Carrier System",
+    "definition": ""
+  },
+  "MDCR": {
+    "key": "MDCR",
+    "title": "Medicare",
+    "definition": ""
+  },
+  "MMA": {
+    "key": "MMA",
+    "title": "Medicare Prescription Drug, Improvement, and Modernization Act",
+    "definition": ""
+  },
+  "MMR": {
+    "key": "MMR",
+    "title": "Monthly Membership Reports",
+    "definition": ""
+  },
+  "MOF": {
+    "key": "MOF",
+    "title": "Model Output File",
+    "definition": ""
+  },
+  "NCH": {
+    "key": "NCH",
+    "title": "National Claims History",
+    "definition": ""
+  },
+  "NCPDP": {
+    "key": "NCPDP",
+    "title": "National Council on Prescription Drug Programs",
+    "definition": ""
+  },
+  "NDC": {
+    "key": "NDC",
+    "title": "National Drug Code",
+    "definition": ""
+  },
+  "NHPAH": {
+    "key": "NHPAH",
+    "title": "Evaluation of the Initiatives to Reduce Avoidable Hospitalizations among Nursing Home Residents",
+    "definition": ""
+  },
+  "NPICS": {
+    "key": "NPICS",
+    "title": "National Provider Identifier Crosswalk System",
+    "definition": ""
+  },
+  "NPPES": {
+    "key": "NPPES",
+    "title": "National Plan and Provider Enumeration System",
+    "definition": ""
+  },
+  "NSC": {
+    "key": "NSC",
+    "title": "National Supplier Clearinghouse",
+    "definition": ""
+  },
+  "OACT": {
+    "key": "OACT",
+    "title": "",
+    "definition": ""
+  },
+  "OIG": {
+    "key": "OIG",
+    "title": "Office of the Inspector General",
+    "definition": ""
+  },
+  "OnePI": {
+    "key": "OnePI",
+    "title": "One Program Integrity",
+    "definition": ""
+  },
+  "PAYGAR": {
+    "key": "PAYGAR",
+    "title": "Payment by Geographic Area",
+    "definition": ""
+  },
+  "PBAR": {
+    "key": "PBAR",
+    "title": "Part B Analytical Reports",
+    "definition": ""
+  },
+  "PDR": {
+    "key": "PDR",
+    "title": "Prescription Drug Events",
+    "definition": ""
+  },
+  "PEAR": {
+    "key": "PEAR",
+    "title": "Provider Enrollment Entitlement & Economic Attributes Reports",
+    "definition": ""
+  },
+  "POCAR": {
+    "key": "POCAR",
+    "title": "Patterns of Care Analytic Reporting",
+    "definition": ""
+  },
+  "POS": {
+    "key": "POS",
+    "title": "Provider of Service",
+    "definition": ""
+  },
+  "PSF": {
+    "key": "PSF",
+    "title": "Provider Specific File",
+    "definition": ""
+  },
+  "PTB": {
+    "key": "PTB",
+    "title": "Part B",
+    "definition": ""
+  },
+  "QIES": {
+    "key": "QIES",
+    "title": "Quality Improvement and Evaluation System",
+    "definition": ""
+  },
+  "QPP": {
+    "key": "QPP",
+    "title": "Quality Payment Program",
+    "definition": ""
+  },
+  "RAF": {
+    "key": "RAF",
+    "title": "Risk-Adjusted File",
+    "definition": ""
+  },
+  "RAS": {
+    "key": "RAS",
+    "title": "Risk Adjustment System",
+    "definition": ""
+  },
+  "RASART": {
+    "key": "RASART",
+    "title": "Risk Adjustment System Analysis and Reporting Tool",
+    "definition": ""
+  },
+  "ReMAS": {
+    "key": "ReMAS",
+    "title": "Recovery Managementt and Accounting System Project",
+    "definition": ""
+  },
+  "RRB": {
+    "key": "RRB",
+    "title": "Rail Road Board",
+    "definition": ""
+  },
+  "SSP": {
+    "key": "SSP",
+    "title": "Shared Savings Program",
+    "definition": ""
+  },
+  "STARS": {
+    "key": "STARS",
+    "title": "Services Tracking, Analysis & Reporting System",
+    "definition": ""
+  },
+  "STATS": {
+    "key": "STATS",
+    "title": "Short Term Alternatives for Therapy Services",
+    "definition": ""
+  },
+  "TMSIS": {
+    "key": "TMSIS",
+    "title": "Transformed Medicaid Statistical Information System",
+    "definition": ""
+  },
+  "VDM": {
+    "key": "VDM",
+    "title": "Virtual Data Mart",
+    "definition": ""
+  },
+  "VIPS": {
+    "key": "VIPS",
+    "title": "Viable Information Processing Systems",
+    "definition": ""
+  },
+  "VMS": {
+    "key": "VMS",
+    "title": "Viable Information Processing Systems (VIPS) Medicare Shared System",
+    "definition": ""
+  },
+  "SPOC": {
+    "key": "SPOC",
+    "title": "Security Points of Contact",
+    "definition": "A role for a product team member that handles interaction with the ISSO."
+  },
+  "ADO": {
+    "key": "ADO",
+    "title": "Application Development Organization",
+    "definition": ""
+  },
+  "QCC": {
+    "key": "QCC",
+    "title": "QPP Communications Center",
+    "definition": "The QPP Service Desk/Help Desk"
+  },
+  "MA": {
+    "key": "MA",
+    "title": "Medicare Advantage",
+    "definition": ""
+  },
+  "SO": {
+    "key": "SO",
+    "title": "Security Officer",
+    "definition": "SO is a role that can be gained in QPP"
+  },
+  "ONC CHPL": {
+    "key": "ONC CHPL",
+    "title": "ONC Certified Health IT Product List",
+    "definition": "The Certified Health IT Product List (CHPL) is a comprehensive and authoritative listing of all certified Health Information Technology which has been successfully tested and certified by the ONC Health IT Certification program."
+  },
+  "ONC": {
+    "key": "ONC",
+    "title": "Office of the National Coordinator for Health Information Technology",
+    "definition": "The Office of the National Coordinator for Health Information Technology (ONC) is a staff division of the Office of the Secretary, within the U.S. Department of Health and Human Services."
+  },
+  "CAHPS": {
+    "key": "CAHPS",
+    "title": "Consumer Assessment of Healthcare Providers and Systems",
+    "definition": "CAHPS surveys ask consumers and patients to report on and evaluate their health care experiences."
+  },
+  "LVT": {
+    "key": "LVT",
+    "title": "Low Volume Threshold",
+    "definition": "The low-volume threshold exclusion is determined at the individual (TIN/NPI) level for individual participation and at the group (TIN) level for group participation."
+  },
+  "EMA": {
+    "key": "EMA",
+    "title": "Eligible Measure Applicability",
+    "definition": ""
+  },
+  "TDL": {
+    "key": "TDL",
+    "title": "Technical Decision Log",
+    "definition": "A mechanism based on the QPPGUID JIRA board for getting technical decisions made and recorded for QPP"
+  },
+  "TPS": {
+    "key": "TPS",
+    "title": "Total Performance Score",
+    "definition": "A component of the HVBP data."
+  },
+  "CMS IMT": {
+    "key": "CMS IMT",
+    "title": "CMS Incident Management Team",
+    "definition": ""
+  },
+  "CSIRT": {
+    "key": "CSIRT",
+    "title": "Computer Security Incident Report",
+    "definition": ""
+  },
+  "QRUR": {
+    "key": "QRUR",
+    "title": "Quality and Resource Use Report (QRUR)",
+    "definition": "From the CMS website:\n\"CMS made available the 2016 Annual Quality and Resource Use Reports (QRURs) to every group practice and solo practitioner nationwide. The 2016 Annual QRURs show how physician, physician assistants (PAs), nurse practitioners (NPs), clinical nurse specialists (CNSs), and certified registered nurse anesthetists (CRNAs) in groups and solo practitioners performed in 2016 on the quality and cost measures used to calculate the 2018 Value Modifier and payment adjustment.\""
+  },
+  "UDS": {
+    "key": "UDS",
+    "title": "Universal Data Set",
+    "definition": "The QPP A&R data warehouse. The UDS is the \"one-stop shop\" for querying QPP data and provides the building blocks necessary to do effective analysis with this data. We have implemented the UDS as a data warehouse that integrates data gathered by QPP component systems and presents a unified view of these diverse data sets. The UDS represents a validated data set that is periodically published for consumption by downstream stakeholders."
+  },
+  "MPR": {
+    "key": "MPR",
+    "title": "Mathematic Policy Research",
+    "definition": "Mathematica Policy Research is a nonpartisan research organization dedicated to improving public well-being."
+  },
+  "CMFT": {
+    "key": "CMFT",
+    "title": "Cost Measure Field Testing",
+    "definition": "A program where potential cost measures are field tested, with clinician and group-specific reports provided to groups and clinicians who then provide feedback based on the information in the report."
+  },
+  "EBCM": {
+    "key": "EBCM",
+    "title": "Episode-based cost measures",
+    "definition": ""
+  },
+  "GTL": {
+    "key": "GTL",
+    "title": "Government Task Lead",
+    "definition": ""
+  },
+  "OC": {
+    "key": "OC",
+    "title": "Office of Communications",
+    "definition": ""
+  },
+  "QTA": {
+    "key": "QTA",
+    "title": "QPP shared Tool Access",
+    "definition": "https://tinyurl.com/QppSharedToolsAccess"
+  }
 }
 
