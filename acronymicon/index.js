@@ -1,15 +1,20 @@
 //var acronymicon = require("./acronymicon.json");
 var fetch = require("node-fetch");
-var summonAcronymicon = function() {
-  var options = {
-    sheet: "1le17uVrLisQeylN7fsA2QvvP-FjBI63MPgULOaSRqxU",
-    key: "AIzaSyAN7P6J6xhT80OWrvSvFk1e1hZC8O_gzVM"
-  };
+
+var options = {
+  sheet: process.env.ARC_SHEET,
+  key: process.env.ARC_KEY
+};
+
+// TEST
+// node -e 'require("./acronymicon").summon({ sheet: [ARC_SHEET], key: [ARC_KEY] }).then(data => console.log(data));'
+
+var summonAcronymicon = function(opt) {
   var url =
     "https://sheets.googleapis.com/v4/spreadsheets/" +
-    options.sheet +
+    opt.sheet +
     "/values/Sheet1!A1:C999?key=" +
-    options.key;
+    opt.key;
   return fetch(url)
     .then(response => response.json())
     .then(json => {
@@ -22,15 +27,19 @@ var summonAcronymicon = function() {
     });
 };
 
+// TEST
+// node -e 'var d = require("./acronymicon").default({reply: (a,b) => {console.log(b)}}, { text: "wtf is TIN"})'
+
 var runAcronymicon = function(bot, message) {
-  summonAcronymicon().then(acronymicon => {
+  summonAcronymicon(options).then(acronymicon => {
     var acr = message.text.split(" ").pop();
     var term = acronymicon[acr];
     var msg = term
       ? term.title + ": " + term.definition
       : "https://media.giphy.com/media/KOc9VDl9U06s0/giphy.gif";
-    console.log(msg);
-    //  bot.reply(message, msg);
+    // test by running the following command:
+    // node -e 'var d = require("./acronymicon").default({reply: (a,b) => {console.log(b)}}, { text: "wtf is TIN"})'
+    bot.reply(message, msg);
   });
 };
 
