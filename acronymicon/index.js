@@ -17,14 +17,14 @@ var summonAcronymicon = function(opt) {
     opt.key;
   return fetch(url)
     .then(response => response.json())
-    .then(json => {
-      var data = json.values ? json.values.slice(1) : [];
-      const normalize = data.reduce((acc, cur) => {
-        acc[cur[0]] = { title: cur[1], definition: cur[2] };
-        return acc;
-      }, {});
-      return normalize;
-    });
+    .then(json =>
+      json.values
+        ? json.values.reduce((acc, cur) => {
+            acc[cur[0]] = { title: cur[1], definition: cur[2] };
+            return acc;
+          }, {})
+        : []
+    );
 };
 
 // TEST
