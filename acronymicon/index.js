@@ -1,15 +1,18 @@
 //var acronymicon = require("./acronymicon.json");
 var fetch = require("node-fetch");
-
+console.log("ARC_SHEET", process.env.ARC_SHEET);
+console.log("ARC_KEY", process.env.ARC_KEY);
 var options = {
   sheet: process.env.ARC_SHEET || "ARC_SHEET",
   key: process.env.ARC_KEY || "ARC_KEY"
 };
+console.log("options", options);
 
 // TEST
 // node -e 'require("./acronymicon").summon({ sheet: ARC_SHEET, key: ARC_KEY }).then(data => console.log(data));'
 
 var summonAcronymicon = function(opt) {
+  console.log("summonAcronymicon", opt);
   var url =
     "https://sheets.googleapis.com/v4/spreadsheets/" +
     opt.sheet +
@@ -32,6 +35,7 @@ var summonAcronymicon = function(opt) {
 // node -e 'var d = require("./acronymicon").default({reply: (a,b) => {console.log(b)}}, { text: "wtf is TIN"})'
 
 var runAcronymicon = function(bot, message) {
+  console.log("runAcronymicon", options);
   summonAcronymicon(options).then(acronymicon => {
     var acr = message.text.split(" ").pop();
     var term = acronymicon[acr];
