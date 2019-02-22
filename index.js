@@ -205,7 +205,7 @@ controller.hears(["standup_list"], ["ambient"], function(bot, message) {
 });
 
 controller.hears(["tableflip"], ["ambient"], function(bot, message) {
-  bot.reply(message, "https://gph.is/1bQMCor");
+  bot.reply(message, "http://gph.is/1a5Y3KD");
 });
 
 controller.hears(["oh no"], ["ambient"], function(bot, message) {
