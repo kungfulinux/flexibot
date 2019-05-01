@@ -24,7 +24,6 @@ function standup_list() {
     "scott h",
     "charlie",
     "jon",
-    "john d",
     "wilson",
     "aj",
     "john k",
