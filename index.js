@@ -20,7 +20,6 @@ function standup_list() {
   var arr = [
     "tim",
     "wes",
-    "phil",
     "scott h",
     "charlie",
     "jon",
