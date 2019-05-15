@@ -209,6 +209,10 @@ controller.hears(["oh no"], ["ambient"], function(bot, message) {
   bot.reply(message, "https://i.redd.it/y45cjik5n2b21.jpg");
 });
 
+controller.hears(["great scott"], ["ambient"], function(bot, message) {
+  bot.reply(message, ""https://imgur.com/HHEBL5Y);
+});
+
 controller.hears(["captain"], ["ambient"], function(bot, message) {
   bot.reply(message, "https://gph.is/1UwGeco");
 });
