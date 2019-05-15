@@ -210,7 +210,7 @@ controller.hears(["oh no"], ["ambient"], function(bot, message) {
 });
 
 controller.hears(["great scott"], ["ambient"], function(bot, message) {
-  bot.reply(message, "https://imgur.com/HHEBL5Y)";
+  bot.reply(message, "https://imgur.com/HHEBL5Y";
 });
 
 controller.hears(["captain"], ["ambient"], function(bot, message) {
