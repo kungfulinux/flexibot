@@ -21,6 +21,7 @@ function standup_list() {
     "tim",
     "wes",
     "ruth",
+	  "nic",
     "scott h",
     "charlie",
     "jon",
