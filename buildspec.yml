@@ -12,10 +12,10 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...          
-      - docker build -t fc-bot:latest .
-      - docker tag fc-bot:latest 941681414890.dkr.ecr.us-east-1.amazonaws.com/fc-bot:latest      
+      - docker build -t dev-fcbot:latest .
+      - docker tag dev-fcbot:latest 941681414890.dkr.ecr.us-east-1.amazonaws.com/dev-fcbot:latest      
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push 941681414890.dkr.ecr.us-east-1.amazonaws.com/fc-bot:latest
+      - docker push 941681414890.dkr.ecr.us-east-1.amazonaws.com/dev-fcbot:latest
