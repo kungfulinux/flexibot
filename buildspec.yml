@@ -1,0 +1,11 @@
+version: 0.1
+
+phases:
+  install:
+    commands:
+      - npm install
+  build:
+      - echo "Build time?"
+  post_build:
+    commands:
+      - echo "Post Build time?"
