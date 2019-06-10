@@ -18,4 +18,4 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push 941681414890.dkr.ecr.us-east-1.amazonaws.com/$IMAGE_REPO_NAME:latest
+      - docker push 941681414890.dkr.ecr.us-east-1.amazonaws.com/fc-bot:latest
