@@ -41,6 +41,15 @@ function onInstallation(bot, installer) {
 }
 
 
+/// @function is_dst()
+/// @brief returns True if the date is in DST
+/// @details
+/// checking is based off of check_holiday()
+/// from https://www.softcomplex.com/forum/viewthread_2814/
+/// logic is based on the NIST rules at:
+/// https://www.nist.gov/pml/time-and-frequency-division/popular-links/daylight-saving-time-dst
+/// @param {Date} dt_date the date to examine (defaults to today)
+/// @returns {Boolean} True if DST; False, otherwise
 function is_dst(dt_date) {
   if (typeof (dt_date) === 'undefined') {
     dt_date = new Date.UTC();
