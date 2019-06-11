@@ -618,7 +618,9 @@ controller.hears (
   [
     ["direct_mention", "mention", "direct_message"],
   ],
-  pagerduty_message
+  function(bot, message) {
+    bot.reply(message, pagerduty_message());
+  }
 );
 
 
@@ -631,7 +633,9 @@ controller.hears (
   [
     "ambient",
   ],
-  pagerduty_offhours
+  function(bot, message) {
+    bot.reply(message, pagerduty_offhours());
+  }
 );
 
 
