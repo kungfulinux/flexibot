@@ -41,6 +41,30 @@ function onInstallation(bot, installer) {
 }
 
 
+/// @function is_offhours
+/// @brief returns true if off-hours; false, otherwise
+/// @param {Date} current_date the date (defaults to the current Date)
+/// @returns {Boolean} True if off-hours; False, otherwise
+function is_offhours (current_date) {
+
+  if (typeof (current_date) === 'undefined') {
+    current_date = new Date();
+  }
+
+  current_hour = current_date.getHours();
+  current_day = current_date.getDay();
+
+  if ((current_day == 0) # Sunday
+  ||  (current_day == 6) # Saturday
+  ||  (current_hour < 9) # before 9am
+  ||  (current_hour >= 17) # after 5pm
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 /// @function pagerduty_message
 /// @brief returns the PagerDuty response as a string
 /// @param {String} line_separator the character used to separate lines
@@ -64,23 +88,12 @@ function pagerduty_message(line_separator) {
 
 /// @function pagerduty_offline
 /// @brief returns the PagerDuty response if called off-hours
-/// @param {String} line_separator the character used to separate lines
 /// @returns {String} Flexibot's response
-function pagerduty_offhours(line_separator) {
+function pagerduty_offhours() {
 
-  if (typeof (line_separator) === 'undefined') {
-    line_separator = "\n";
-  }
+  var line_separator = "\n";
 
-  current_date = new Date();
-  current_hour = current_date.getHours();
-  current_day = current_date.getDay();
-
-  if ((current_day == 0) # Sunday
-  ||  (current_day == 6) # Saturday
-  ||  (current_hour < 9) # before 9am
-  ||  (current_hour >= 17) # after 5pm
-  ) {
+  if (is_offhours) {
     return pagerduty_message ();
   }
 
