@@ -41,6 +41,27 @@ function onInstallation(bot, installer) {
 }
 
 
+function is_dst(dt_date) {
+  if (typeof (dt_date) === 'undefined') {
+    dt_date = new Date.UTC();
+  }
+
+  // weekday from beginning of the month (month/num/day)
+	var n_wday = dt_date.getDay(),
+		n_wnum = Math.floor((n_date - 1) / 7) + 1;
+
+	var s_date2 = n_month + '/' + n_wnum + '/' + n_wday;
+
+	if ((s_date2 >= '3/2/0')  // DST starts 2nd Sunday of March...
+  &&  (d_date2 <  '11/1/1') // and ends 1st Sunday of November.
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
 /// @function is_holiday()
 /// @brief returns True if the date is a US Federal Holiday
 /// @details
@@ -61,7 +82,7 @@ function is_holiday (dt_date) {
 	var s_date1 = n_month + '/' + n_date;
 
 
-	if (   s_date1 == '1/1'   // New Year's Day
+	if (s_date1 == '1/1'   // New Year's Day
 		|| s_date1 == '6/14'  // Flag Day
 		|| s_date1 == '7/4'   // Independence Day
 		|| s_date1 == '11/11' // Veterans Day
@@ -75,7 +96,7 @@ function is_holiday (dt_date) {
 
 	var s_date2 = n_month + '/' + n_wnum + '/' + n_wday;
 
-	if ( s_date2 == '1/3/1'  // Birthday of Martin Luther King, third Monday in January
+	if (s_date2 == '1/3/1'  // Birthday of Martin Luther King, third Monday in January
 		|| s_date2 == '2/3/1'  // Washington's Birthday, third Monday in February
 		|| s_date2 == '9/1/1'  // Labor Day, first Monday in September
 		|| s_date2 == '10/2/1' // Columbus Day, second Monday in October
@@ -108,16 +129,6 @@ function is_holiday (dt_date) {
 /// if it's currently off-hours (defined as weekends plus weekdays
 /// before 9am and after 5pm Eastern), then return True.  Otherwise
 /// (defined as weekdays between 9am and 5pm Eastern), return False.
-///  This is complicated by timezones and Daylight Savings Time.
-/// We don't know where Flexibot thinks the "local" timezone is so we
-/// don't know if it's Daylight Savings Time "locally" or not.  So,
-/// to catch the majority of cases, we're using UTC and subtracting
-/// 4 hours (so, effectively making it Eastern Daylight Time) and
-/// using that for a comparison.  We're using EDT because more of the
-/// year is in DST than not, so we'll be accurate more often than if
-/// we used EST; moreover, as CMS is located on the East Coast along
-/// the the servers where Flexibot runs, this is the simplest, best
-/// guess that works... a good amount of time.
 ///
 /// @param {Date} the_date the date (defaults to the current Date)
 /// @param {Integer} tzoffset the timezone offset in hours (default = 0)
@@ -128,7 +139,11 @@ function is_offhours (the_date, tzoffset) {
     the_date = new Date.UTC();
 
     if (typeof (tzoffset) === 'undefined') {
-      tzoffset = -4;
+      if (is_dst (the_date)) {
+        tzoffset = -4;
+      } else {
+        tzoffset = -5;
+      }
     }
 
   } else {
