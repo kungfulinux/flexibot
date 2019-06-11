@@ -52,6 +52,7 @@ function is_holiday (dt_date) {
 
   if (typeof (dt_date) === 'undefined') {
     dt_date = new Date.UTC();
+  }
 
 	// check simple dates (month/date - no leading zeroes)
 	var n_date = dt_date.getDate(),
