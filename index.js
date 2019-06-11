@@ -266,6 +266,10 @@ controller.hears(["captain"], ["ambient"], function(bot, message) {
   bot.reply(message, "https://gph.is/1UwGeco");
 });
 
+controller.hears(["goodnews"., "good news"], ["ambient"], function(bot, message) {
+  bot.reply(message, "https://media.giphy.com/media/3zFcbgHoIXzykQc7vU/giphy.gif");
+});
+
 controller.hears(["timesheets"], ["ambient"], function(bot, message) {
   bot.reply(
     message,
