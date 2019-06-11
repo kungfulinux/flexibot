@@ -41,23 +41,109 @@ function onInstallation(bot, installer) {
 }
 
 
+/// @function is_holiday()
+/// @brief returns True if the date is a US Federal Holiday
+/// @details
+/// based off of check_holiday()
+/// from https://www.softcomplex.com/forum/viewthread_2814/
+/// @param {Date} dt_date the date to examine (defaults to today)
+/// @returns {Boolean} True if a holiday; False, otherwise
+function is_holiday (dt_date) {
+
+  if (typeof (dt_date) === 'undefined') {
+    dt_date = new Date.UTC();
+
+	// check simple dates (month/date - no leading zeroes)
+	var n_date = dt_date.getDate(),
+		n_month = dt_date.getMonth() + 1;
+
+	var s_date1 = n_month + '/' + n_date;
+
+
+	if (   s_date1 == '1/1'   // New Year's Day
+		|| s_date1 == '6/14'  // Flag Day
+		|| s_date1 == '7/4'   // Independence Day
+		|| s_date1 == '11/11' // Veterans Day
+		|| s_date1 == '12/25' // Christmas Day
+	) return true;
+
+
+	// weekday from beginning of the month (month/num/day)
+	var n_wday = dt_date.getDay(),
+		n_wnum = Math.floor((n_date - 1) / 7) + 1;
+
+	var s_date2 = n_month + '/' + n_wnum + '/' + n_wday;
+
+	if ( s_date2 == '1/3/1'  // Birthday of Martin Luther King, third Monday in January
+		|| s_date2 == '2/3/1'  // Washington's Birthday, third Monday in February
+		|| s_date2 == '9/1/1'  // Labor Day, first Monday in September
+		|| s_date2 == '10/2/1' // Columbus Day, second Monday in October
+		|| s_date2 == '11/4/4' // Thanksgiving Day, fourth Thursday in November
+	) return true;
+
+	// weekday number from end of the month (month/num/day)
+	var dt_temp = new Date (dt_date);
+
+	dt_temp.setDate(1);
+	dt_temp.setMonth(dt_temp.getMonth() + 1);
+	dt_temp.setDate(dt_temp.getDate() - 1);
+
+	n_wnum = Math.floor((dt_temp.getDate() - n_date - 1) / 7) + 1;
+
+	var s_date3 = n_month + '/' + n_wnum + '/' + n_wday;
+
+
+	if (   s_date3 == '5/1/1'  // Memorial Day, last Monday in May
+	) return true;
+
+	return false;
+
+}
+
+
 /// @function is_offhours
 /// @brief returns true if off-hours; false, otherwise
-/// @param {Date} current_date the date (defaults to the current Date)
+/// @details
+/// if it's currently off-hours (defined as weekends plus weekdays
+/// before 9am and after 5pm Eastern), then return True.  Otherwise
+/// (defined as weekdays between 9am and 5pm Eastern), return False.
+///  This is complicated by timezones and Daylight Savings Time.
+/// We don't know where Flexibot thinks the "local" timezone is so we
+/// don't know if it's Daylight Savings Time "locally" or not.  So,
+/// to catch the majority of cases, we're using UTC and subtracting
+/// 4 hours (so, effectively making it Eastern Daylight Time) and
+/// using that for a comparison.  We're using EDT because more of the
+/// year is in DST than not, so we'll be accurate more often than if
+/// we used EST; moreover, as CMS is located on the East Coast along
+/// the the servers where Flexibot runs, this is the simplest, best
+/// guess that works... a good amount of time.
+///
+/// @param {Date} the_date the date (defaults to the current Date)
+/// @param {Integer} tzoffset the timezone offset in hours (default = 0)
 /// @returns {Boolean} True if off-hours; False, otherwise
-function is_offhours (current_date) {
+function is_offhours (the_date, tzoffset) {
 
-  if (typeof (current_date) === 'undefined') {
-    current_date = new Date();
+  if (typeof (the_date) === 'undefined') {
+    the_date = new Date.UTC();
+
+    if (typeof (tzoffset) === 'undefined') {
+      tzoffset = -4;
+    }
+
+  } else {
+    if (typeof (tzoffset) === 'undefined') {
+      tzoffset = 0;
+    }
   }
 
-  current_hour = current_date.getHours();
-  current_day = current_date.getDay();
+  the_hour = the_date.getHours();
+  the_day = the_date.getDay();
 
-  if ((current_day == 0) // Sunday
-  ||  (current_day == 6) // Saturday
-  ||  (current_hour < 9) //before 9am
-  ||  (current_hour >= 17) //after 5pm
+  if ((the_day == 0) // Sunday
+  ||  (the_day == 6) // Saturday
+  ||  (the_hour < (9 + tzoffset)) // before 9am EDT
+  ||  (the_hour >= (17 + tzoffset) // after 5pm EDT
+  ||  (is_holiday())
   ) {
     return true;
   } else {
@@ -77,6 +163,7 @@ function pagerduty_message(line_separator) {
 
   var response_lines = [
     "https://media.giphy.com/media/p9bj7nrUPAypq/giphy.gif",
+    "DON'T PANIC!!",
     "Managing Response to Incidents: https://confluence.cms.gov/display/QPPGUIDE/Managing+Response+to+Incidents",
     "Incident Response Teams: https://confluence.cms.gov/display/QPPGUIDE/Incident+Response+Teams",
     "PagerDuty - Escalation Policies: https://confluence.cms.gov/display/QPPGUIDE/PagerDuty+-+Escalation+Policies"
@@ -93,7 +180,7 @@ function pagerduty_offhours() {
 
   var line_separator = "\n";
 
-  if (is_offhours) {
+  if (is_offhours ()) {
     return pagerduty_message ();
   }
 
