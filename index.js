@@ -54,10 +54,10 @@ function is_offhours (current_date) {
   current_hour = current_date.getHours();
   current_day = current_date.getDay();
 
-  if ((current_day == 0) # Sunday
-  ||  (current_day == 6) # Saturday
-  ||  (current_hour < 9) # before 9am
-  ||  (current_hour >= 17) # after 5pm
+  if ((current_day == 0) // Sunday
+  ||  (current_day == 6) // Saturday
+  ||  (current_hour < 9) //before 9am
+  ||  (current_hour >= 17) //after 5pm
   ) {
     return true;
   } else {
@@ -618,7 +618,9 @@ controller.hears (
   [
     ["direct_mention", "mention", "direct_message"],
   ],
-  pagerduty_message
+  function(bot, message) {
+    bot.reply(message, pagerduty_message());
+  }
 );
 
 
@@ -631,7 +633,9 @@ controller.hears (
   [
     "ambient",
   ],
-  pagerduty_offhours
+  function(bot, message) {
+    bot.reply(message, pagerduty_offhours());
+  }
 );
 
 
