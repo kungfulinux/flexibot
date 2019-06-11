@@ -40,6 +40,54 @@ function onInstallation(bot, installer) {
   }
 }
 
+
+/// @function pagerduty_message
+/// @brief returns the PagerDuty response as a string
+/// @param {String} line_separator the character used to separate lines
+/// @returns {String} Flexibot's response
+function pagerduty_message(line_separator) {
+
+  if (typeof (line_separator) === 'undefined') {
+    line_separator = "\n";
+  }
+
+  var response_lines = [
+    "https://media.giphy.com/media/p9bj7nrUPAypq/giphy.gif",
+    "Managing Response to Incidents: https://confluence.cms.gov/display/QPPGUIDE/Managing+Response+to+Incidents",
+    "Incident Response Teams: https://confluence.cms.gov/display/QPPGUIDE/Incident+Response+Teams",
+    "PagerDuty - Escalation Policies: https://confluence.cms.gov/display/QPPGUIDE/PagerDuty+-+Escalation+Policies"
+  ];
+
+  return response_lines.join (line_separator);
+}
+
+
+/// @function pagerduty_offline
+/// @brief returns the PagerDuty response if called off-hours
+/// @param {String} line_separator the character used to separate lines
+/// @returns {String} Flexibot's response
+function pagerduty_offhours(line_separator) {
+
+  if (typeof (line_separator) === 'undefined') {
+    line_separator = "\n";
+  }
+
+  current_date = new Date();
+  current_hour = current_date.getHours();
+  current_day = current_date.getDay();
+
+  if ((current_day == 0) # Sunday
+  ||  (current_day == 6) # Saturday
+  ||  (current_hour < 9) # before 9am
+  ||  (current_hour >= 17) # after 5pm
+  ) {
+    return pagerduty_message ();
+  }
+
+  return false;
+
+}
+
 /**
  * Configure the persistence options
  */
@@ -547,6 +595,32 @@ controller.hears(
   ["ambient"],
   acronymicon
 );
+
+
+controller.hears (
+  [
+  "pagerduty",
+  "pager duty"
+  ],
+  [
+    ["direct_mention", "mention", "direct_message"],
+  ],
+  pagerduty_message
+);
+
+
+
+controller.hears (
+  [
+  "pagerduty",
+  "pager duty"
+  ],
+  [
+    "ambient",
+  ],
+  pagerduty_offhours
+);
+
 
 /**
  * AN example of what could be:
