@@ -142,7 +142,7 @@ function is_offhours (the_date, tzoffset) {
   if ((the_day == 0) // Sunday
   ||  (the_day == 6) // Saturday
   ||  (the_hour < (9 + tzoffset)) // before 9am EDT
-  ||  (the_hour >= (17 + tzoffset) // after 5pm EDT
+  ||  (the_hour >= (17 + tzoffset)) // after 5pm EDT
   ||  (is_holiday())
   ) {
     return true;
