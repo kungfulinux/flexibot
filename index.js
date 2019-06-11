@@ -418,13 +418,12 @@ controller.hears(["flexibot list"], ["ambient"], function(bot, message) {
         .toArray(function(err, results) {
           assert.equal(err, null);
           assert.notEqual(results.length, 0);
+          var response = "";
           results.forEach(function(result) {
             console.log(result.name + "," + result.item);
-            bot.reply(
-              message,
-              "url: " + result.item + ", name: " + result.name
-            );
+            response += "url: " + result.item + ", name: " + result.name + "\n";
           });
+          bot.reply(message, response);
         });
     }
   );
