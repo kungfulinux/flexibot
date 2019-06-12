@@ -651,8 +651,8 @@ controller.hears (
 
 
 controller.hears (
-  new RegExp(/\W([A-Z]{3,8}-[0-9]{1,5})\W/, "gi"), ["ambient"], function(bot, message) {
-  pattern = new RegExp(/\W([A-Z]{3,8}-[0-9]{1,5})\W/, "gi");
+  new RegExp(/\W*([A-Z]{3,8}-[0-9]{1,5})\W*/, "gi"), ["ambient"], function(bot, message) {
+  pattern = new RegExp(/\W*([A-Z]{3,8}-[0-9]{1,5})\W*/, "gi");
 
   var response_string = "";
 
