@@ -382,6 +382,12 @@ controller.hears(["goodnews", "good news"], ["ambient"], function(bot, message) 
   bot.reply(message, "https://media.giphy.com/media/3zFcbgHoIXzykQc7vU/giphy.gif");
 });
 
+controller.hears(["shame"], ["ambient"], function(bot, message) {
+  bot.reply(message, "https://media.giphy.com/media/vX9WcCiWwUF7G/200w_d.gif");
+});
+
+
+
 controller.hears(["timesheets"], ["ambient"], function(bot, message) {
   bot.reply(
     message,
@@ -739,7 +745,6 @@ controller.hears (
 );
 
 
-
 controller.hears (
   [
   "pagerduty",
@@ -752,6 +757,18 @@ controller.hears (
     bot.reply(message, pagerduty_offhours());
   }
 );
+
+
+
+
+controller.hears (
+  new RegExp("\b([A-Z]{3,8}-[0-9]{1,5})\b", "gi"), ["ambient"], function(bot, message) {
+  pattern = new RegExp("\b([A-Z]{3,8}-[0-9]{1,5})\b", "gi");
+  while (match = pattern.exec(message.text)) {
+    ticket_number = match[1].toUpperCase();
+    bot.reply(message, "https://jira.cms.gov/browse/" + ticket_number);
+  }
+});
 
 
 /**
