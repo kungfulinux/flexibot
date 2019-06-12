@@ -139,30 +139,19 @@ function is_holiday (dt_date) {
 /// before 9am and after 5pm Eastern), then return True.  Otherwise
 /// (defined as weekdays between 9am and 5pm Eastern), return False.
 ///
-/// @param {Date} the_date the date (defaults to the current Date)
-/// @param {Integer} tzoffset the timezone offset in hours (default = 0)
 /// @returns {Boolean} True if off-hours; False, otherwise
-function is_offhours (the_date, tzoffset) {
+function is_offhours () {
 
-  if (typeof (the_date) === 'undefined') {
-    the_date = new Date.UTC();
+  the_date = new Date();
 
-    if (typeof (tzoffset) === 'undefined') {
-      if (is_dst (the_date)) {
-        tzoffset = -4;
-      } else {
-        tzoffset = -5;
-      }
-    }
-
+  if (is_dst (the_date)) {
+    tzoffset = -4;
   } else {
-    if (typeof (tzoffset) === 'undefined') {
-      tzoffset = 0;
-    }
+    tzoffset = -5;
   }
 
-  the_hour = the_date.getHours();
-  the_day = the_date.getDay();
+  the_hour = the_date.getUTCHours();
+  the_day = the_date.getUTCDay();
 
   if ((the_day == 0) // Sunday
   ||  (the_day == 6) // Saturday
