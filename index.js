@@ -651,8 +651,8 @@ controller.hears (
 
 
 controller.hears (
-  new RegExp("\b([A-Z]{3,8}-[0-9]{1,5})\b", "gi"), ["ambient"], function(bot, message) {
-  pattern = new RegExp("\b([A-Z]{3,8}-[0-9]{1,5})\b", "gi");
+  new RegExp("\W([A-Z]{3,8}-[0-9]{1,5})\W", "gi"), ["ambient"], function(bot, message) {
+  pattern = new RegExp("\W([A-Z]{3,8}-[0-9]{1,5})\W", "gi");
   while (match = pattern.exec(message.text)) {
     ticket_number = match[1].toUpperCase();
     bot.reply(message, "https://jira.cms.gov/browse/" + ticket_number);
