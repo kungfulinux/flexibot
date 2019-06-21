@@ -758,14 +758,20 @@ controller.hears (
 
   while (match = pattern.exec(message.text)) {
     ticket_number = match[1].toUpperCase();
-    response_string =
-      response_string
-      + "*"
-      + ticket_number
-      + "*"
-      + ": https://jira.cms.gov/browse/"
-      + ticket_number
-      + "\n";
+    prefix = "*" + ticket_number + "*: ";
+    suffix = "\n";
+    url = "https://jira.cms.gov/browse/" + ticket_number;
+
+    // only add URL if the message (from the user) or the response (from Flexibot)
+    // does not include the URL to that ticket
+    if ((message.indexOf (url) == -1)
+    && (response_string.indexOf (url) == -1)) {
+      response_string =
+        response_string
+        + prefix
+        + url
+        + suffix;
+    }
   }
 
   bot.reply(message, response_string);
