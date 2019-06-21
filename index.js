@@ -762,19 +762,22 @@ controller.hears (
     suffix = "\n";
     url = "https://jira.cms.gov/browse/" + ticket_number;
 
-    // only add URL if the message (from the user) or the response (from Flexibot)
+    // only add URL if the message (from the user) and the response (from Flexibot)
     // does not include the URL to that ticket
-    if ((message.indexOf (url) == -1)
+    if ((message.test.indexOf (url) == -1)
     && (response_string.indexOf (url) == -1)) {
-      response_string =
-        response_string
+      response_string +=
         + prefix
         + url
         + suffix;
     }
   }
+  
+  // only say something if there's something that needs to be said
+  if (response_string != "") {
+    bot.reply(message, response_string);
+  }
 
-  bot.reply(message, response_string);
 });
 
 
