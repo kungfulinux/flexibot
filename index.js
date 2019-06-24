@@ -41,130 +41,6 @@ function onInstallation(bot, installer) {
 }
 
 
-/// @function is_dst()
-/// @brief returns True if the date is in DST
-/// @details
-/// checking is based off of check_holiday()
-/// from https://www.softcomplex.com/forum/viewthread_2814/
-/// logic is based on the NIST rules at:
-/// https://www.nist.gov/pml/time-and-frequency-division/popular-links/daylight-saving-time-dst
-/// @param {Date} dt_date the date to examine (defaults to today)
-/// @returns {Boolean} True if DST; False, otherwise
-function is_dst(dt_date) {
-  if (typeof (dt_date) === 'undefined') {
-    dt_date = new Date.UTC();
-  }
-
-  // weekday from beginning of the month (month/num/day)
-	var n_wday = dt_date.getDay(),
-		n_wnum = Math.floor((n_date - 1) / 7) + 1;
-
-	var s_date2 = n_month + '/' + n_wnum + '/' + n_wday;
-
-	if ((s_date2 >= '3/2/0')  // DST starts 2nd Sunday of March...
-  &&  (d_date2 <  '11/1/1') // and ends 1st Sunday of November.
-  ) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-
-/// @function is_holiday()
-/// @brief returns True if the date is a US Federal Holiday
-/// @details
-/// based off of check_holiday()
-/// from https://www.softcomplex.com/forum/viewthread_2814/
-/// @param {Date} dt_date the date to examine (defaults to today)
-/// @returns {Boolean} True if a holiday; False, otherwise
-function is_holiday (dt_date) {
-
-  if (typeof (dt_date) === 'undefined') {
-    dt_date = new Date.UTC();
-  }
-
-	// check simple dates (month/date - no leading zeroes)
-	var n_date = dt_date.getDate(),
-		n_month = dt_date.getMonth() + 1;
-
-	var s_date1 = n_month + '/' + n_date;
-
-
-	if (s_date1 == '1/1'   // New Year's Day
-		|| s_date1 == '6/14'  // Flag Day
-		|| s_date1 == '7/4'   // Independence Day
-		|| s_date1 == '11/11' // Veterans Day
-		|| s_date1 == '12/25' // Christmas Day
-	) return true;
-
-
-	// weekday from beginning of the month (month/num/day)
-	var n_wday = dt_date.getDay(),
-		n_wnum = Math.floor((n_date - 1) / 7) + 1;
-
-	var s_date2 = n_month + '/' + n_wnum + '/' + n_wday;
-
-	if (s_date2 == '1/3/1'  // Birthday of Martin Luther King, third Monday in January
-		|| s_date2 == '2/3/1'  // Washington's Birthday, third Monday in February
-		|| s_date2 == '9/1/1'  // Labor Day, first Monday in September
-		|| s_date2 == '10/2/1' // Columbus Day, second Monday in October
-		|| s_date2 == '11/4/4' // Thanksgiving Day, fourth Thursday in November
-	) return true;
-
-	// weekday number from end of the month (month/num/day)
-	var dt_temp = new Date (dt_date);
-
-	dt_temp.setDate(1);
-	dt_temp.setMonth(dt_temp.getMonth() + 1);
-	dt_temp.setDate(dt_temp.getDate() - 1);
-
-	n_wnum = Math.floor((dt_temp.getDate() - n_date - 1) / 7) + 1;
-
-	var s_date3 = n_month + '/' + n_wnum + '/' + n_wday;
-
-
-	if (   s_date3 == '5/1/1'  // Memorial Day, last Monday in May
-	) return true;
-
-	return false;
-
-}
-
-
-/// @function is_offhours
-/// @brief returns true if off-hours; false, otherwise
-/// @details
-/// if it's currently off-hours (defined as weekends plus weekdays
-/// before 9am and after 5pm Eastern), then return True.  Otherwise
-/// (defined as weekdays between 9am and 5pm Eastern), return False.
-///
-/// @returns {Boolean} True if off-hours; False, otherwise
-function is_offhours () {
-
-  the_date = new Date();
-
-  if (is_dst (the_date)) {
-    tzoffset = -4;
-  } else {
-    tzoffset = -5;
-  }
-
-  the_hour = the_date.getUTCHours();
-  the_day = the_date.getUTCDay();
-
-  if ((the_day == 0) // Sunday
-  ||  (the_day == 6) // Saturday
-  ||  (the_hour < (9 + tzoffset)) // before 9am EDT
-  ||  (the_hour >= (17 + tzoffset)) // after 5pm EDT
-  ||  (is_holiday())
-  ) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 /// @function pagerduty_message
 /// @brief returns the PagerDuty response as a string
 /// @param {String} line_separator the character used to separate lines
@@ -190,12 +66,16 @@ function pagerduty_message(line_separator) {
 /// @function pagerduty_offline
 /// @brief returns the PagerDuty response if called off-hours
 /// @returns {String} Flexibot's response
-function pagerduty_offhours() {
+function pagerduty_offhours(line_separator) {
 
-  var line_separator = "\n";
+  if (typeof (line_separator) === 'undefined') {
+    line_separator = "\n";
+  }
 
-  if (is_offhours ()) {
-    return pagerduty_message ();
+  var offhours = require ('offhours/offhours.js');
+  
+  if (offhours.is_offhours (new Date())) {
+    return pagerduty_message (line_separator);
   }
 
   return false;
