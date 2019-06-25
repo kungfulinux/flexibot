@@ -609,7 +609,7 @@ controller.hears (
   function (bot, message) {
     right_now = new Date();
     now_string = right_now.toString();
-    bot.reply (message, now_string ());
+    bot.reply (message, now_string);
   }
 );
 
