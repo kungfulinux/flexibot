@@ -645,7 +645,9 @@ controller.hears (
 
 
 controller.hears (
-  jira_matcher.jira_regex (), function (bot, message) {
+  jira_matcher.jira_regex (), 
+  [ "ambient" ],
+  function (bot, message) {
   
   response_string = jira_matcher.add_ticket_urls (message);
 
