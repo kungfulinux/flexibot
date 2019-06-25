@@ -599,6 +599,20 @@ controller.hears(
   acronymicon
 );
 
+controller.hears (
+  [
+    "time"
+  ],
+  [
+    "direct_metion", "mention", "direct_message"
+  ],
+  function (bot, message) {
+    right_now = new Date();
+    now_string = right_now.toString();
+    bot.reply (message, now_string ());
+  }
+);
+
 
 controller.hears (
   [

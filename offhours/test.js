@@ -84,7 +84,7 @@ function test_date (offhours, the_date, before, after, weekend, holiday, result)
 }
 
 
-var offhours = require ('./offhours/offhours.js');
+var offhours = require ('./offhours.js');
 
 // noon UTC on Monday, June 24, 2019 (during work hours)
 date1 = new Date ('June 24, 2019 12:00:00');
