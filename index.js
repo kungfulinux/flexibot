@@ -651,7 +651,7 @@ controller.hears (
   var response_string = "";
 
   while (match = pattern.exec(message.text)) {
-    ticket_number = match[1].toUpperCase();
+    ticket_number = match[0].toUpperCase();
     prefix = "*" + ticket_number + "*: ";
     suffix = "\n";
     url = "https://jira.cms.gov/browse/" + ticket_number;
