@@ -658,7 +658,7 @@ controller.hears (
 
     // only add URL if the message (from the user) and the response (from Flexibot)
     // does not include the URL to that ticket
-    if ((message.test.indexOf (url) == -1)
+    if ((message.text.indexOf (url) == -1)
     && (response_string.indexOf (url) == -1)) {
       response_string +=
         + prefix
