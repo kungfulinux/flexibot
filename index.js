@@ -1,6 +1,7 @@
 var acronymicon = require("./acronymicon").default;
 var jira_matcher = require("./jira_matcher/jira_matcher.js");
 var offhours = require("./offhours/offhours.js");
+var jira_regex = jira_matcher.jira_regex ().toString ();
 
 function shuffle(array) {
   var currentIndex = array.length,
@@ -645,7 +646,7 @@ controller.hears (
 
 
 controller.hears (
-  jira_matcher.jira_regex (), 
+  jira_regex, 
   [ "ambient" ],
   function (bot, message) {
   
