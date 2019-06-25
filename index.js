@@ -661,7 +661,7 @@ controller.hears (
     if ((message.text.indexOf (url) == -1)
     && (response_string.indexOf (url) == -1)) {
       response_string +=
-        + prefix
+        prefix
         + url
         + suffix;
     }
