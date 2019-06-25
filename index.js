@@ -72,7 +72,7 @@ function pagerduty_offhours(line_separator) {
     line_separator = "\n";
   }
 
-  var offhours = require ('offhours/offhours.js');
+  var offhours = require ('./offhours/offhours.js');
   
   if (offhours.is_offhours (new Date())) {
     return pagerduty_message (line_separator);
