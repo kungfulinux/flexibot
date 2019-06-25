@@ -1,4 +1,6 @@
 var acronymicon = require("./acronymicon").default;
+var jira_matcher = require("./jira_matcher/jira_matcher.js");
+var offhours = requre("./offhours/offhours.js");
 
 function shuffle(array) {
   var currentIndex = array.length,
@@ -71,8 +73,6 @@ function pagerduty_offhours(line_separator) {
   if (typeof (line_separator) === 'undefined') {
     line_separator = "\n";
   }
-
-  var offhours = require ('./offhours/offhours');
   
   if (offhours.is_offhours (new Date())) {
     return pagerduty_message (line_separator);
@@ -645,28 +645,10 @@ controller.hears (
 
 
 controller.hears (
-  new RegExp(/\W*((qpp|qta|waka|cmsawsops|tools|whsd)[a-z]*-[0-9]{1,5})\W*/, "gi"), ["ambient"], function(bot, message) {
-  pattern = new RegExp(/\W*((qpp|qta|waka|cmsawsops|tools|whsd)[a-z]*-[0-9]{1,5})\W*/, "gi");
-
-  var response_string = "";
-
-  while (match = pattern.exec(message.text)) {
-    ticket_number = match[0].toUpperCase();
-    prefix = "*" + ticket_number + "*: ";
-    suffix = "\n";
-    url = "https://jira.cms.gov/browse/" + ticket_number;
-
-    // only add URL if the message (from the user) and the response (from Flexibot)
-    // does not include the URL to that ticket
-    if ((message.text.indexOf (url) == -1)
-    && (response_string.indexOf (url) == -1)) {
-      response_string +=
-        prefix
-        + url
-        + suffix;
-    }
-  }
+  jira_matcher.jira_regex (), function (bot, message) {
   
+  response_string = jira_matcher.add_ticket_urls (message);
+
   // only say something if there's something that needs to be said
   if (response_string != "") {
     bot.reply(message, response_string);
