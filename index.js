@@ -1,6 +1,6 @@
 var acronymicon = require("./acronymicon").default;
 var jira_matcher = require("./jira_matcher/jira_matcher.js");
-var offhours = requre("./offhours/offhours.js");
+var offhours = require("./offhours/offhours.js");
 
 function shuffle(array) {
   var currentIndex = array.length,
