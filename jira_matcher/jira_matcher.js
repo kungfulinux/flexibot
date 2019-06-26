@@ -26,7 +26,7 @@ module.exports = {
       return false;
     }
 
-    pattern = new RegExp (this.jira_regex (), 'gi');
+    var pattern = new RegExp (this.jira_regex (), 'gi');
 
     return pattern.test (string);
 
@@ -44,7 +44,7 @@ module.exports = {
 
 
   get_ticket_numbers: function (string) {
-    pattern = new RegExp (this.jira_regex (), 'gi');
+    var pattern = new RegExp (this.jira_regex (), 'gi');
   
     return string.match (pattern);
 
@@ -53,7 +53,7 @@ module.exports = {
   
   is_ticket_in_message: function (string, ticket_number) {
     
-    pattern = new RegExp (this.ticket_url (ticket_number));
+    var pattern = new RegExp (this.ticket_url (ticket_number));
 
     return pattern.test (string);
   },
@@ -61,17 +61,17 @@ module.exports = {
 
   add_ticket_urls: function (string) {
 
-    tickets = this.get_ticket_numbers (string);
+    var tickets = this.get_ticket_numbers (string);
     
     if (tickets == null) {
       return false;
     }
 
-    reply = '';
+    var reply = '';
 
     
     for (var i = 0; i < tickets.length; i++) {
-      ticket_number = tickets[i].toUpperCase();
+      var ticket_number = tickets[i].toUpperCase();
       if ((! this.is_ticket_in_message (string, ticket_number))
       && (! this.is_ticket_in_message (reply, ticket_number))) {
         reply += this.ticket_string (ticket_number) + this.ticket_url (ticket_number) + "\n";
