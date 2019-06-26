@@ -15,11 +15,11 @@ module.exports = {
       the_date = new Date();
     }
 
-    the_day = the_date.getUTCDay();
+    var the_day = the_date.getUTCDay();
 
     if ((the_day == 0)     // Sunday
     ||  (the_date == 6)) { // Saturday
-      return true;  
+      return true;
     } else {
       return false;
     }
@@ -34,8 +34,10 @@ module.exports = {
 /// @param {Date} dt_date the date to examine (defaults to today)
 /// @param {Integer} start_hour the first hour of work (defaults to 9am Eastern))
 /// @param {Integer} tzoffset the timezone offset (defaults to -5 (Eastern)
-/// @returns {Boolean} True if after work; False, otherwise 
+/// @returns {Boolean} True if after work; False, otherwise
   is_before_hours: function (the_date, start_hour, tzoffset) {
+
+    var dstoffset = 0;
 
     if (typeof (the_date) === 'undefined') {
       the_date = new Date();
@@ -55,7 +57,7 @@ module.exports = {
       dstoffset = 0;
     }
 
-    the_hour = the_date.getUTCHours() + dstoffset + tzoffset;
+    var the_hour = the_date.getUTCHours() + dstoffset + tzoffset;
 
     if (the_hour < start_hour) {
       return true;
@@ -73,8 +75,10 @@ module.exports = {
 /// @param {Date} dt_date the date to examine (defaults to today)
 /// @param {Integer} end_hour the first hour after work (defaults to 5pm Eastern)
 /// @param {Integer} tzoffset the timezone offset (defaults to -5 (Eastern)
-/// @returns {Boolean} True if after work; False, otherwise 
+/// @returns {Boolean} True if after work; False, otherwise
   is_after_hours: function (the_date, end_hour, tzoffset) {
+
+    var dstoffset = 0;
 
     if (typeof (the_date) === 'undefined') {
       the_date = new Date();
@@ -94,7 +98,7 @@ module.exports = {
       dstoffset = 0;
     }
 
-    the_hour = the_date.getUTCHours() + dstoffset + tzoffset;
+    var the_hour = the_date.getUTCHours() + dstoffset + tzoffset;
 
     if (the_hour >= end_hour) {
       return true;
@@ -119,16 +123,16 @@ module.exports = {
     }
 
 // check simple dates (month/date - no leading zeroes)
-	  var n_date = dt_date.getUTCDate(),
-	  	n_month = dt_date.getUTCMonth() + 1;
+    var n_date = dt_date.getUTCDate(),
+      n_month = dt_date.getUTCMonth() + 1;
 
     // weekday from beginning of the month (month/num/day)
-	  var n_wday = dt_date.getDay(),
-		  n_wnum = Math.floor((n_date - 1) / 7) + 1;
+    var n_wday = dt_date.getDay(),
+      n_wnum = Math.floor((n_date - 1) / 7) + 1;
 
-	  var s_date2 = n_month + '/' + n_wnum + '/' + n_wday;
+    var s_date2 = n_month + '/' + n_wnum + '/' + n_wday;
 
-	  if ((s_date2 >= '3/2/0')  // DST starts 2nd Sunday of March...
+    if ((s_date2 >= '3/2/0')  // DST starts 2nd Sunday of March...
     &&  (s_date2 <  '11/1/1') // and ends 1st Sunday of November.
     ) {
       return true;
@@ -148,52 +152,52 @@ module.exports = {
   is_holiday: function (dt_date) {
 
     if (typeof (dt_date) === 'undefined') {
-      var dt_date = new Date();
+      dt_date = new Date();
     }
 
-	  // check simple dates (month/date - no leading zeroes)
-	  var n_date = dt_date.getUTCDate(),
-	  	n_month = dt_date.getUTCMonth() + 1;
+    // check simple dates (month/date - no leading zeroes)
+    var n_date = dt_date.getUTCDate(),
+      n_month = dt_date.getUTCMonth() + 1;
 
-  	var s_date1 = n_month + '/' + n_date;
+    var s_date1 = n_month + '/' + n_date;
 
-	  if (s_date1 == '1/1'   // New Year's Day
-	  	|| s_date1 == '6/14'  // Flag Day
-  		|| s_date1 == '7/4'   // Independence Day
-   		|| s_date1 == '11/11' // Veterans Day
-	  	|| s_date1 == '12/25' // Christmas Day
-	  ) return true;
+    if (s_date1 == '1/1'   // New Year's Day
+      || s_date1 == '6/14'  // Flag Day
+      || s_date1 == '7/4'   // Independence Day
+      || s_date1 == '11/11' // Veterans Day
+      || s_date1 == '12/25' // Christmas Day
+    ) return true;
 
-	  // weekday from beginning of the month (month/num/day)
-	  var n_wday = dt_date.getDay(),
-		  n_wnum = Math.floor ((n_date - 1) / 7) + 1;
+    // weekday from beginning of the month (month/num/day)
+    var n_wday = dt_date.getDay(),
+      n_wnum = Math.floor ((n_date - 1) / 7) + 1;
 
-	  var s_date2 = n_month + '/' + n_wnum + '/' + n_wday;
+    var s_date2 = n_month + '/' + n_wnum + '/' + n_wday;
 
-	  if (s_date2 == '1/3/1'  // Birthday of Martin Luther King, third Monday in January
-		  || s_date2 == '2/3/1'  // Washington's Birthday, third Monday in February
-		  || s_date2 == '9/1/1'  // Labor Day, first Monday in September
-		  || s_date2 == '10/2/1' // Columbus Day, second Monday in October
-		  || s_date2 == '11/4/4' // Thanksgiving Day, fourth Thursday in November
-	  ) return true;
+    if (s_date2 == '1/3/1'  // Birthday of Martin Luther King, third Monday in January
+      || s_date2 == '2/3/1'  // Washington's Birthday, third Monday in February
+      || s_date2 == '9/1/1'  // Labor Day, first Monday in September
+      || s_date2 == '10/2/1' // Columbus Day, second Monday in October
+      || s_date2 == '11/4/4' // Thanksgiving Day, fourth Thursday in November
+    ) return true;
 
-	  // weekday number from end of the month (month/num/day)
-	  var dt_temp = new Date (dt_date);
+    // weekday number from end of the month (month/num/day)
+    var dt_temp = new Date (dt_date);
 
-	  dt_temp.setDate (1);
-  	dt_temp.setMonth (dt_temp.getMonth () + 1);
-  	dt_temp.setDate (dt_temp.getDate () - 1);
+    dt_temp.setDate (1);
+    dt_temp.setMonth (dt_temp.getMonth () + 1);
+    dt_temp.setDate (dt_temp.getDate () - 1);
 
-	  n_wnum = Math.floor ((dt_temp.getDate () - n_date - 1) / 7) + 1;
+    n_wnum = Math.floor ((dt_temp.getDate () - n_date - 1) / 7) + 1;
 
-	  var s_date3 = n_month + '/' + n_wnum + '/' + n_wday;
+    var s_date3 = n_month + '/' + n_wnum + '/' + n_wday;
 
 
-	  if ((s_date3 == '5/1/1')  // Memorial Day, last Monday in May
-	  ) {
+    if ((s_date3 == '5/1/1')  // Memorial Day, last Monday in May
+    ) {
       return true;
     } else {
-	    return false;
+      return false;
     }
 
   },

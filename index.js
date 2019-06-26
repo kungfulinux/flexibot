@@ -220,14 +220,14 @@ controller.hears(
         bot.reply(message, JSON.stringify(result));
       });
     } else {
-      my_weather = "Please provide a zipcode of a town,state with no spaces";
+      var my_weather = "Please provide a zipcode of a town,state with no spaces";
       bot.reply(message, my_weather);
     }
   }
 );
 
 controller.hears(["standup_list"], ["ambient"], function(bot, message) {
-  list = standup_list();
+  var list = standup_list();
   console.log(list);
   bot.reply(message, list);
 });
@@ -319,7 +319,7 @@ controller.hears(["free bird", "freebird"], ["ambient"], function(
 });
 
 controller.hears(["Friday", "friday"], ["ambient"], function(bot, message) {
-  day_of_week = new Date().getDay();
+  var day_of_week = new Date().getDay();
   switch (day_of_week) {
     case 6:
     case 0:
@@ -608,8 +608,8 @@ controller.hears (
     "direct_mention", "mention", "direct_message"
   ],
   function (bot, message) {
-    right_now = new Date();
-    now_string = right_now.toString();
+    var right_now = new Date();
+    var now_string = right_now.toString();
     bot.reply (message, now_string);
   }
 );
@@ -646,11 +646,11 @@ controller.hears (
 
 
 controller.hears (
-  jira_regex, 
+  new RegExp (jira_regex), 
   [ "ambient" ],
   function (bot, message) {
   
-  response_string = jira_matcher.add_ticket_urls (message);
+  var response_string = jira_matcher.add_ticket_urls (message);
 
   // only say something if there's something that needs to be said
   if (response_string != "") {
