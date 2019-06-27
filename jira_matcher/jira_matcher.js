@@ -12,11 +12,11 @@
 
 /// @var {String} jira_regex_string
 /// @brief the string to use for the RegExp to capture Jira ticket nubmers
-var jira_regex_string = '\W*((qpp|qta|waka|cmsawsops|tools|whsd)[a-z]*-[0-9]{1,5})\W*';
+var jira_regex_string = '\\b((qpp|qta|waka|cmsawsops|tools|whsd)[a-z]*-[0-9]{1,5})\\b';
 
 /// @var {String} jira_regex
 /// @brief the regular expression used to capture Jira ticket numbers
-var jira_regex = new RegExp (jira_regex_string, 'gi');
+var jira_regex = new RegExp (jira_regex_string, 'i');
 
 /// @var {String} jira_string_prefix
 /// @brief the string to prefix ticket strings 
@@ -77,6 +77,7 @@ function has_ticket (string) {
     return false;
   }
 
+  console.log ("*** " + this.jira_regex.test (string));
   return this.jira_regex.test (string);
 
 }
@@ -125,7 +126,7 @@ function get_ticket_numbers (string) {
     return new Array ();
   }
 
-  var results = string.match (this.jira_regex);
+  var results = string.match (new RegExp (this.jira_regex, 'gi'));
 
   if (results) {
     return results;
@@ -191,7 +192,7 @@ function add_ticket_urls (string) {
   var reply = '';
 
   for (var i = 0; i < tickets.length; i++) {
-    var ticket_number = tickets[i].toUpperCase();
+    var ticket_number = tickets[i].toUpperCase().trim();
 
     // only add the ticket string if the corresponding URL is not in
     // either the incoming message or already in the reply (no duplicates)
