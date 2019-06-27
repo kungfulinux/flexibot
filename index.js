@@ -645,15 +645,17 @@ controller.hears (
 
 
 controller.hears (
-  /\b((qpp|qta|waka|cmsawsops|tools|whsd)[a-z]*-[0-9]{1,5})\b/i, 
+  new RegExp(/([A-Z]{3,8}-[0-9]{1,5})/, "gi"),
   [ "ambient", "direct_mention", "mention", "direct_message" ],
   function (bot, message) {
   
-  var response_string = "Yo dawg, I heard you like Jira tickets...\n";
+  var response_string = "";
+  
+  //response_string + = "Yo dawg, I heard you like Jira tickets...\n";
 
   response_string += jira_matcher.add_ticket_urls (message).toString();
 
-  response_string += "I hope that helps.\n";
+  //response_string += "I hope that helps.\n";
 
   bot.reply(message, response_string);
 
