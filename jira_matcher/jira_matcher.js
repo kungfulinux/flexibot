@@ -210,6 +210,7 @@ function add_ticket_urls (string) {
 
 module.exports = {
   jira_regex: jira_regex,
+  jira_regex_string: jira_regex_string,
   jira_string_prefix: jira_string_prefix,
   jira_string_suffix: jira_string_suffix,
   jira_url_prefix: jira_url_prefix,
