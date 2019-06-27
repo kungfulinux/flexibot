@@ -645,7 +645,7 @@ controller.hears (
 
 
 controller.hears (
-  new RegExp(/([A-Z]{3,8}-[0-9]{1,5})/, "gi"),
+  new RegExp('[A-Za-z]{3,8}-[0-9]{1,5}'),
   [ "ambient", "direct_mention", "mention", "direct_message" ],
   function (bot, message) {
   
