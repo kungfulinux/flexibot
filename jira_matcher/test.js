@@ -23,10 +23,10 @@ function test_has_ticket (jira_matcher, string, result) {
 function test_add_ticket_urls (jira_matcher, string, response) {
 
   console.log ("Testing: " + string);
-
+  console.log ("  Should be: >" + response + "<");
   message = jira_matcher.add_ticket_urls (string);
 
-  console.log ("  " + message);
+  console.log ("  Actually: >" + message + "<");
 
   if (message == response) {
     console.log ("    correct");
