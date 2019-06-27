@@ -645,8 +645,8 @@ controller.hears (
 
 
 controller.hears (
-  new RegExp (jira_matcher.jira_regex_string), 
-  [ "ambient", ],
+  new RegExp (jira_matcher.jira_regex_string, 'i'), 
+  [ "ambient", "direct_mention", "mention", "direct_message" ],
   function (bot, message) {
   
   var response_string = "Yo dawg, I heard you like Jira tickets...\n";
