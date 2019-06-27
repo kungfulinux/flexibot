@@ -645,7 +645,7 @@ controller.hears (
 
 
 controller.hears (
-  new /\b((qpp|qta|waka|cmsawsops|tools|whsd)[a-z]*-[0-9]{1,5})\b/i, 
+  /\b((qpp|qta|waka|cmsawsops|tools|whsd)[a-z]*-[0-9]{1,5})\b/i, 
   [ "ambient", "direct_mention", "mention", "direct_message" ],
   function (bot, message) {
   
