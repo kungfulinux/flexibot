@@ -645,16 +645,17 @@ controller.hears (
 
 
 controller.hears (
-  jira_matcher.jira_regex, 
-  [ "ambient" ],
+  new RegExp (jira_matcher.jira_regex_string), 
+  [ "ambient", ],
   function (bot, message) {
   
-  var response_string = jira_matcher.add_ticket_urls (message);
+  var response_string = "Yo dawg, I heard you like Jira tickets...\n";
 
-  // only say something if there's something that needs to be said
-  if (response_string != "") {
-    bot.reply(message, response_string);
-  }
+  response_string += jira_matcher.add_ticket_urls (message).toString();
+
+  response_string += "I hope that helps.\n";
+
+  bot.reply(message, response_string);
 
 });
 
