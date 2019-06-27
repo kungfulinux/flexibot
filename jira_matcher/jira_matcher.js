@@ -172,7 +172,7 @@ function is_ticket_in_message (string, ticket_number) {
 /// creates a response consisting of ticket strings and ticket URLs
 /// for the ticket numbers that were found in the string.
 /// @param {String} string the string to search
-/// @returns {String} the response message
+/// @returns {String} the response message or empty string if no (new) ticket numbers
 /// @par Example
 /// @code
 /// outgoing = add_ticket_urls (incoming);
@@ -186,7 +186,7 @@ function add_ticket_urls (string) {
   var tickets = this.get_ticket_numbers (string);
     
   if (tickets == null) {
-    return false;
+    return '';
   }
 
   var reply = '';
