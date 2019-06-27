@@ -1,7 +1,36 @@
-var jira_regex = new RegExp ('\W*((qpp|qta|waka|cmsawsops|tools|whsd)[a-z]*-[0-9]{1,5})\W*', 'gi');
+/// @file jira_matcher.js
+/// @author Wes Dean <wdean@fleixon.us>
+/// @brief function library to make links from Jira tickets referenes
+/// @details
+/// A string of text may include references to Jira tickets, usually
+/// of the form, "QPP-1234".  To add convenience, this library has
+/// functions to find those ticket references and create a response
+/// that includes links to those tickets in Jira.  This response, a
+/// string, can be passed back to the caller.  This work is primarily
+/// accomplished in the add_ticket_urls() function.
+
+/// @var {String} jira_regex_string
+/// @brief the string to use for the RegExp to capture Jira ticket nubmers
+jira_regex_string = '\W*((qpp|qta|waka|cmsawsops|tools|whsd)[a-z]*-[0-9]{1,5})\W*';
+
+/// @var {String} jira_regex
+/// @brief the regular expression used to capture Jira ticket numbers
+var jira_regex = new RegExp (jira_regex_string, 'gi');
+
+/// @var {String} jira_string_prefix
+/// @brief the string to prefix ticket strings 
 var jira_string_prefix = '*';
+
+/// @var {String} jira_string_suffix
+/// @brief thie string to suffix ticket strings
 var jira_string_suffix = '*: ';
+
+/// @var {String} jira_url_prefix
+/// @brief the string to prefix ticket URLs
 var jira_url_prefix = 'https://jira.cms.gov/browse/';
+
+/// @var {String} jira_url_suffix
+/// @brief the string to suffix ticket URLs
 var jira_url_suffix = '';
 
 
@@ -11,6 +40,10 @@ var jira_url_suffix = '';
 /// This function crafts a URL for a given ticket number.
 /// @param {String} ticket_number the number of the ticket
 /// @returns {String} URL corresponding to the ticket number
+/// @par Example
+/// @code
+/// console.log ("The URL to QPPFC-1234 is " + ticket_url ("qppfc-1234"));
+/// @endcode
 function ticket_url (ticket_number) {
   return this.jira_url_prefix + ticket_number.toUpperCase() + this.jira_url_suffix;
 }
@@ -24,6 +57,14 @@ function ticket_url (ticket_number) {
 /// 'QPPFC-1234') by applying the Jira RegExp to the string
 /// @param {String} string the string to examine
 /// @returns {Boolean} true if the string contains 1 or more ticket numbers
+/// @par Example
+/// @code
+/// if (has_ticket ("I'm looking at QPPAR-5678 to see what I can do.")) {
+///   console.log ("There is a ticket number in this string.");
+/// } else {
+///   console.log ("There are no ticket numbers in this string.");
+/// }
+/// @endcode
 function has_ticket (string) {
 
   if (typeof (string) === 'undefined') {
@@ -44,6 +85,10 @@ function has_ticket (string) {
 /// appear bold-face).
 /// @param {String} ticket_number the number of the ticket
 /// @returns {String} ticket string corresponding to the ticket
+/// @par Example
+/// @code
+/// console.log (ticket_string ("QPP-1234"));
+/// @endcode
 function ticket_string (ticket_number) {
   return this.jira_string_prefix + ticket_number.toUpperCase() + this.jira_string_suffix;
 }
@@ -58,7 +103,11 @@ function ticket_string (ticket_number) {
 /// result in multiple elements in the return array.  
 /// returned.
 /// @param {String} string the string to search
-/// @returns {Array} strings representing the ticket numbers found in the string 
+/// @returns {Object} strings representing the ticket numbers found in the string 
+/// @par Example
+/// @code
+/// tickets_in_message = get_ticket_numbers (message);
+/// @endcode
 function get_ticket_numbers (string) { 
   var results = string.match (this.jira_regex);
 
@@ -79,8 +128,16 @@ function get_ticket_numbers (string) {
 /// @param {String} string the string to search
 /// @param {String} ticket_number the ticket number for which to search
 /// @returns {Boolean} true if the ticket's URL is in the string
+/// @par Example
+/// @code
+/// if (is_ticket_in_message (message, "QPPFC-1234")) {
+///   console.log ("This ticket's URL is in the message.");
+/// } else {
+///   console.log ("This ticket's URL is NOT in the message.");
+/// }
+/// @endcode
 function is_ticket_in_message (string, ticket_number) {
-  return pattern = new RegExp (this.ticket_url (ticket_number)).test (string);
+  return new RegExp (this.ticket_url (ticket_number)).test (string);
 }
 
  
@@ -92,6 +149,10 @@ function is_ticket_in_message (string, ticket_number) {
 /// for the ticket numbers that were found in the string.
 /// @param {String} string the string to search
 /// @returns {String} the response message
+/// @par Example
+/// @code
+/// outgoing = add_ticket_urls (incoming);
+/// @endcode
 function add_ticket_urls (string) {
 
   var tickets = this.get_ticket_numbers (string);
