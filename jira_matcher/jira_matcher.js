@@ -9,6 +9,7 @@
 /// string, can be passed back to the caller.  This work is primarily
 /// accomplished in the add_ticket_urls() function.
 
+
 /// @var {String} jira_regex_string
 /// @brief the string to use for the RegExp to capture Jira ticket nubmers
 var jira_regex_string = '\W*((qpp|qta|waka|cmsawsops|tools|whsd)[a-z]*-[0-9]{1,5})\W*';
@@ -45,6 +46,11 @@ var jira_url_suffix = '';
 /// console.log ("The URL to QPPFC-1234 is " + ticket_url ("qppfc-1234"));
 /// @endcode
 function ticket_url (ticket_number) {
+
+  if (typeof (ticket_number) === 'undefined') {
+    return '';
+  }
+
   return this.jira_url_prefix + ticket_number.toUpperCase() + this.jira_url_suffix;
 }
 
@@ -90,6 +96,11 @@ function has_ticket (string) {
 /// console.log (ticket_string ("QPP-1234"));
 /// @endcode
 function ticket_string (ticket_number) {
+
+  if (typeof (ticket_number) === 'undefined') {
+    return '';
+  }
+
   return this.jira_string_prefix + ticket_number.toUpperCase() + this.jira_string_suffix;
 }
 
@@ -108,7 +119,12 @@ function ticket_string (ticket_number) {
 /// @code
 /// tickets_in_message = get_ticket_numbers (message);
 /// @endcode
-function get_ticket_numbers (string) { 
+function get_ticket_numbers (string) {
+
+  if (typeof (string) === 'undefined') {
+    return new Array ();
+  }
+
   var results = string.match (this.jira_regex);
 
   if (results) {
@@ -137,6 +153,13 @@ function get_ticket_numbers (string) {
 /// }
 /// @endcode
 function is_ticket_in_message (string, ticket_number) {
+
+  if ((typeof (string) === 'undefined')
+  ||  (typeof (ticket_number) === 'undefined')
+  ) {
+    return false;
+  }
+
   return new RegExp (this.ticket_url (ticket_number)).test (string);
 }
 
@@ -154,6 +177,10 @@ function is_ticket_in_message (string, ticket_number) {
 /// outgoing = add_ticket_urls (incoming);
 /// @endcode
 function add_ticket_urls (string) {
+
+  if (typeof (string) === 'undefined') {
+    return '';
+  }
 
   var tickets = this.get_ticket_numbers (string);
     
@@ -183,6 +210,7 @@ function add_ticket_urls (string) {
 
 module.exports = {
   jira_regex: jira_regex,
+  jira_regex_string: jira_regex_string,
   jira_string_prefix: jira_string_prefix,
   jira_string_suffix: jira_string_suffix,
   jira_url_prefix: jira_url_prefix,
