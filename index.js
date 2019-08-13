@@ -20,7 +20,7 @@ function shuffle(array) {
 
 function standup_list() {
   var arr = [
-    "curt", "tim", "wes", "ruth", "nic", "scott h", "charlie", "jon", "wilson", "aj", "chris", "john k", "jesse", "manoj", "clyde", "david", "andrew", "peter"
+    "dale", "curt", "tim", "wes", "ruth", "nic", "scott h", "charlie", "jon", "wilson", "aj", "chris", "john k", "jesse", "manoj", "clyde", "david", "andrew", "peter"
   ];
   arr = shuffle(arr);
   console.log(arr.join(","));
