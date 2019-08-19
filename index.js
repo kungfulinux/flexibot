@@ -27,7 +27,7 @@ function standup_list() {
   return arr.join(", ");
 }
 
-function hcqis_standup_list() {
+function hcqis_standup() {
   var arr = [
     "aj", "andrew", "scott f", "jesse", "john k", "jon", "scott h", "tom"
   ];
@@ -240,8 +240,8 @@ controller.hears(["standup_list"], ["ambient"], function(bot, message) {
   bot.reply(message, list);
 });
 
-controller.hears(["hcqis_standup_list"], ["ambient"], function(bot, message) {
-  var list = hcqis_standup_list();
+controller.hears(["hcqis_standup"], ["ambient"], function(bot, message) {
+  var list = hcqis_standup();
   console.log(list);
   bot.reply(message, list);
 });
