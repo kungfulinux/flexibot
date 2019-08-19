@@ -39,8 +39,6 @@
     "request": "^2.88.0",
     "roll": "^1.2.0",
     "striptags": "^3.1.1",
-    "twilio": "^3.24.0",
-    "watson-developer-cloud": "^3.12.0",
     "xml2json": "^0.11.2"
   }
 }
