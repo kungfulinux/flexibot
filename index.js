@@ -1,4 +1,6 @@
 var acronymicon = require("./acronymicon").default;
+var jira_matcher = require("./jira_matcher/jira_matcher.js");
+var offhours = require("./offhours/offhours.js");
 
 function shuffle(array) {
   var currentIndex = array.length,
@@ -16,18 +18,18 @@ function shuffle(array) {
   return array;
 }
 
-function hcqis_standup_list() {
+function standup_list() {
   var arr = [
-    "aj", "andrew", "scott f", "jesse", "john k", "jon", "scott h", "tom"
+    "scott f","dale", "curt", "tim", "wes", "ruth", "nic", "scott h", "charlie", "jon", "wilson", "aj", "chris", "john k", "jesse", "manoj", "clyde", "david", "andrew", "peter"
   ];
   arr = shuffle(arr);
   console.log(arr.join(","));
   return arr.join(", ");
 }
 
-function standup_list() {
+function hcqis_standup_list() {
   var arr = [
-    "tim", "wes", "ruth", "nic", "scott h", "scott f", "charlie", "jon", "wilson", "aj", "john k", "jesse", "manoj", "clyde", "david", "andrew", "peter"
+    "aj", "andrew", "scott f", "jesse", "john k", "jon", "scott h", "tom"
   ];
   arr = shuffle(arr);
   console.log(arr.join(","));
@@ -50,30 +52,6 @@ function onInstallation(bot, installer) {
 }
 
 
-/// @function is_offhours
-/// @brief returns true if off-hours; false, otherwise
-/// @param {Date} current_date the date (defaults to the current Date)
-/// @returns {Boolean} True if off-hours; False, otherwise
-function is_offhours (current_date) {
-
-  if (typeof (current_date) === 'undefined') {
-    current_date = new Date();
-  }
-
-  current_hour = current_date.getHours();
-  current_day = current_date.getDay();
-
-  if ((current_day == 0) // Sunday
-  ||  (current_day == 6) // Saturday
-  ||  (current_hour < 9) //before 9am
-  ||  (current_hour >= 17) //after 5pm
-  ) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 /// @function pagerduty_message
 /// @brief returns the PagerDuty response as a string
 /// @param {String} line_separator the character used to separate lines
@@ -86,6 +64,7 @@ function pagerduty_message(line_separator) {
 
   var response_lines = [
     "https://media.giphy.com/media/p9bj7nrUPAypq/giphy.gif",
+    "DON'T PANIC!!",
     "Managing Response to Incidents: https://confluence.cms.gov/display/QPPGUIDE/Managing+Response+to+Incidents",
     "Incident Response Teams: https://confluence.cms.gov/display/QPPGUIDE/Incident+Response+Teams",
     "PagerDuty - Escalation Policies: https://confluence.cms.gov/display/QPPGUIDE/PagerDuty+-+Escalation+Policies"
@@ -98,12 +77,14 @@ function pagerduty_message(line_separator) {
 /// @function pagerduty_offline
 /// @brief returns the PagerDuty response if called off-hours
 /// @returns {String} Flexibot's response
-function pagerduty_offhours() {
+function pagerduty_offhours(line_separator) {
 
-  var line_separator = "\n";
-
-  if (is_offhours) {
-    return pagerduty_message ();
+  if (typeof (line_separator) === 'undefined') {
+    line_separator = "\n";
+  }
+  
+  if (offhours.is_offhours (new Date())) {
+    return pagerduty_message (line_separator);
   }
 
   return false;
@@ -247,20 +228,20 @@ controller.hears(
         bot.reply(message, JSON.stringify(result));
       });
     } else {
-      my_weather = "Please provide a zipcode of a town,state with no spaces";
+      var my_weather = "Please provide a zipcode of a town,state with no spaces";
       bot.reply(message, my_weather);
     }
   }
 );
 
 controller.hears(["standup_list"], ["ambient"], function(bot, message) {
-  list = standup_list();
+  var list = standup_list();
   console.log(list);
   bot.reply(message, list);
 });
 
 controller.hears(["hcqis_standup_list"], ["ambient"], function(bot, message) {
-  list = hcqis_standup_list();
+  var list = hcqis_standup_list();
   console.log(list);
   bot.reply(message, list);
 });
@@ -280,6 +261,16 @@ controller.hears(["great scott"], ["ambient"], function(bot, message) {
 controller.hears(["captain"], ["ambient"], function(bot, message) {
   bot.reply(message, "https://gph.is/1UwGeco");
 });
+
+controller.hears(["goodnews", "good news"], ["ambient"], function(bot, message) {
+  bot.reply(message, "https://media.giphy.com/media/3zFcbgHoIXzykQc7vU/giphy.gif");
+});
+
+controller.hears(["shame"], ["ambient"], function(bot, message) {
+  bot.reply(message, "https://media.giphy.com/media/vX9WcCiWwUF7G/200w_d.gif");
+});
+
+
 
 controller.hears(["timesheets"], ["ambient"], function(bot, message) {
   bot.reply(
@@ -342,7 +333,7 @@ controller.hears(["free bird", "freebird"], ["ambient"], function(
 });
 
 controller.hears(["Friday", "friday"], ["ambient"], function(bot, message) {
-  day_of_week = new Date().getDay();
+  var day_of_week = new Date().getDay();
   switch (day_of_week) {
     case 6:
     case 0:
@@ -623,6 +614,20 @@ controller.hears(
   acronymicon
 );
 
+controller.hears (
+  [
+    "time"
+  ],
+  [
+    "direct_mention", "mention", "direct_message"
+  ],
+  function (bot, message) {
+    var right_now = new Date();
+    var now_string = right_now.toString();
+    bot.reply (message, now_string);
+  }
+);
+
 
 controller.hears (
   [
@@ -638,7 +643,6 @@ controller.hears (
 );
 
 
-
 controller.hears (
   [
   "pagerduty",
@@ -651,6 +655,26 @@ controller.hears (
     bot.reply(message, pagerduty_offhours());
   }
 );
+
+
+
+
+controller.hears (
+  new RegExp(/[A-Za-z]{3,8}-[0-9]{1,5}/),
+  [ "ambient" ],
+  function (bot, message) {
+  
+  var response_string = "";
+  
+  //response_string + = "Yo dawg, I heard you like Jira tickets...\n";
+
+  response_string += jira_matcher.add_ticket_urls (message).toString();
+
+  //response_string += "I hope that helps.\n";
+
+  bot.reply(message, response_string);
+
+});
 
 
 /**
