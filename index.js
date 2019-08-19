@@ -29,7 +29,7 @@ function standup_list() {
 
 function hcqis_standup() {
   var arr = [
-    "aj", "andrew", "scott f", "jesse", "john k", "jon", "scott h", "tom"
+    "manoj", "aj", "andrew", "scott f", "jesse", "john k", "jon", "scott h", "tom"
   ];
   arr = shuffle(arr);
   console.log(arr.join(","));
