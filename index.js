@@ -27,6 +27,15 @@ function standup_list() {
   return arr.join(", ");
 }
 
+function hcqis_standup_list() {
+  var arr = [
+    "aj", "andrew", "scott f", "jesse", "john k", "jon", "scott h", "tom"
+  ];
+  arr = shuffle(arr);
+  console.log(arr.join(","));
+  return arr.join(", ");
+}
+
 function onInstallation(bot, installer) {
   if (installer) {
     bot.startPrivateConversation({ user: installer }, function(err, convo) {
@@ -227,6 +236,12 @@ controller.hears(
 
 controller.hears(["standup_list"], ["ambient"], function(bot, message) {
   var list = standup_list();
+  console.log(list);
+  bot.reply(message, list);
+});
+
+controller.hears(["hcqis_standup_list"], ["ambient"], function(bot, message) {
+  var list = hcqis_standup_list();
   console.log(list);
   bot.reply(message, list);
 });
