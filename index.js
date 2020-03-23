@@ -233,8 +233,9 @@ controller.hears(
 );
 
 controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
-    info = global_pandemic()
-    bot.reply(message, "info");
+    global_pandemic_info_json = global_pandemic()
+    console.log(global_pandemic_info_json)
+    bot.reply(message, global_pandemic_info_json);
 });
 
 
