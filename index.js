@@ -239,6 +239,39 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
     });
   });
 
+  controller.hears(["usa pandemic"], ["ambient"], function(bot, message) {
+    const request = require('request')
+    request('https://corona.lmao.ninja/countries', function (error, response, body) {
+    //console.error('error:', error); // Print the error if one occurred
+    //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    //console.log('body:', body); // Print the HTML for the Google homepage.
+
+    const parseJsonAsync = (jsonString) => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(JSON.parse(jsonString))
+        })
+      })
+    }
+
+    parseJsonAsync(body).then(jsonData => console.log(jsonData))
+    //console.log(JSON.stringify(body))
+
+    const results = JSON.parse(body);
+    const formattedResults = `\n*COVID-19 stats for ${results.country}:*\n
+    *Cases:* ${results.cases}\n
+    *Deaths:* ${results.todayCases}\n
+    *Recovered:* ${results.recovered}\n
+    *Active:* ${results.active}\n
+    *Critical:* ${results.critical}\n
+    *Cases Per One Million:* ${results.casesPerOneMillion}\n
+    *Recovered:* ${results.deaths}\n`;
+
+    bot.reply(message, formattedResults);
+  });
+});
+
+
 controller.hears(
   ["flexibot weather"],
   ["direct_mention", "ambient", "direct_message"],
