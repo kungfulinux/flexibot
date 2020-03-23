@@ -1,6 +1,7 @@
 var acronymicon = require("./acronymicon").default;
 var jira_matcher = require("./jira_matcher/jira_matcher.js");
 var offhours = require("./offhours/offhours.js");
+const request = require('request')
 
 function shuffle(array) {
   var currentIndex = array.length,
@@ -50,6 +51,29 @@ function onInstallation(bot, installer) {
     });
   }
 }
+
+function global_pandemic() {
+  request('https://corona.lmao.ninja/all', function (error, response, body) {
+  // console.error('error:', error); // Print the error if one occurred
+  // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+  // console.log('body:', body); // Print the HTML for the Google homepage.
+  
+  const parseJsonAsync = (jsonString) => {
+  return new Promise(resolve => {
+  setTimeout(() => {
+  resolve(JSON.parse(jsonString))
+  })
+  })
+  }
+  
+  const data = body
+  parseJsonAsync(data).then(jsonData => console.log(jsonData))
+  
+  return(body)
+  
+  });
+
+
 
 
 /// @function pagerduty_message
@@ -209,6 +233,12 @@ controller.hears(
     bot.reply(message, "Hello!");
   }
 );
+
+controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
+  info = global_pandemic()
+  bot.reply(message, info);
+  });
+
 
 controller.hears(
   ["flexibot weather"],
