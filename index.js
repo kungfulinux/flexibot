@@ -233,9 +233,8 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
       const formattedResults = `\n*Global COVID-19 stats as of ${updatedAt}:*\n
       *Cases:* ${results.cases}\n
       *Deaths:* ${results.deaths}\n
-      *Recovered:* ${results.recovered}\n
+      *Recovered:* ${results.recovered}\n`;
 
-      `
       bot.reply(message, formattedResults);
     });
   });
