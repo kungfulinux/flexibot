@@ -226,7 +226,7 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
       
       parseJsonAsync(body).then(jsonData => console.log(jsonData))
       //console.log(JSON.stringify(body))
-      bot.reply(message, JSON.stringify(body));
+      bot.reply(message, JSON.stringify(body.replace(/['"]+/g, '')));
     });
   });
 
