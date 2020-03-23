@@ -1,6 +1,7 @@
 var acronymicon = require("./acronymicon").default;
 var jira_matcher = require("./jira_matcher/jira_matcher.js");
 var offhours = require("./offhours/offhours.js");
+var moment = require('moment')
 
 function shuffle(array) {
   var currentIndex = array.length,
@@ -81,7 +82,7 @@ function pagerduty_offhours(line_separator) {
   if (typeof (line_separator) === 'undefined') {
     line_separator = "\n";
   }
-  
+
   if (offhours.is_offhours (new Date())) {
     return pagerduty_message (line_separator);
   }
@@ -215,7 +216,7 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
       //console.error('error:', error); // Print the error if one occurred
       //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
       //console.log('body:', body); // Print the HTML for the Google homepage.
-      
+
       const parseJsonAsync = (jsonString) => {
         return new Promise(resolve => {
           setTimeout(() => {
@@ -223,10 +224,19 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
           })
         })
       }
-      
+
       parseJsonAsync(body).then(jsonData => console.log(jsonData))
       //console.log(JSON.stringify(body))
-      bot.reply(message, JSON.stringify(body.replace(/['"]+/g, '')));
+
+      const results = JSON.parse(body);
+      const updatedAt = moment.utc(results.updated).tz("America/New_York").format('MMMM Do YYYY, h:mm:ss a z');
+      const formattedResults = `\n*Global COVID-19 stats as of ${updatedAt}:*\n
+      *Cases:* ${results.cases}\n
+      *Deaths:* ${results.deaths}\n
+      *Recovered:* ${results.recovered}\n
+
+      `
+      bot.reply(message, formattedResults);
     });
   });
 
@@ -680,9 +690,9 @@ controller.hears (
   new RegExp(/[A-Za-z]{3,8}-[0-9]{1,5}/),
   [ "ambient" ],
   function (bot, message) {
-  
+
   var response_string = "";
-  
+
   //response_string + = "Yo dawg, I heard you like Jira tickets...\n";
 
   response_string += jira_matcher.add_ticket_urls (message).toString();
@@ -725,4 +735,4 @@ controller.middleware.send.use(function(bot, message, next) {
   console.log("SENT: ", message);
   message.logged = true;
   next();
-}); 
+});
