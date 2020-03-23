@@ -256,18 +256,16 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
 
     parseJsonAsync(body).then(jsonData => console.log(jsonData))
     //console.log(JSON.stringify(body))
-
-    const results = JSON.parse(body);
-    for (var country in results){ 
-      const formattedResults = `\n*COVID-19 stats for ${results.country}:*\n
-      *Cases:* ${results.cases}\n
-      *Deaths:* ${results.todayCases}\n
-      *Recovered:* ${results.recovered}\n
-      *Active:* ${results.active}\n
-      *Critical:* ${results.critical}\n
-      *Cases Per One Million:* ${results.casesPerOneMillion}\n`;
-      bot.reply(message, formattedResults);
-    }
+    const json = JSON.stringify(body)
+    const results = JSON.parse(json);
+    const formattedResults = `\n*COVID-19 stats for ${results.country}:*\n
+    *Cases:* ${results.cases}\n
+    *Deaths:* ${results.todayCases}\n
+    *Recovered:* ${results.recovered}\n
+    *Active:* ${results.active}\n
+    *Critical:* ${results.critical}\n
+    *Cases Per One Million:* ${results.casesPerOneMillion}\n`;
+    bot.reply(message, formattedResults);
   });
 });
 
