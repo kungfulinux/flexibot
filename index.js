@@ -258,16 +258,16 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
     //console.log(JSON.stringify(body))
 
     const results = JSON.parse(body);
-    const formattedResults = `\n*COVID-19 stats for ${results.country}:*\n
-    *Cases:* ${results.cases}\n
-    *Deaths:* ${results.todayCases}\n
-    *Recovered:* ${results.recovered}\n
-    *Active:* ${results.active}\n
-    *Critical:* ${results.critical}\n
-    *Cases Per One Million:* ${results.casesPerOneMillion}\n
-    *Recovered:* ${results.deaths}\n`;
-
-    bot.reply(message, formattedResults);
+    for (var country in results){ 
+      const formattedResults = `\n*COVID-19 stats for ${results.country}:*\n
+      *Cases:* ${results.cases}\n
+      *Deaths:* ${results.todayCases}\n
+      *Recovered:* ${results.recovered}\n
+      *Active:* ${results.active}\n
+      *Critical:* ${results.critical}\n
+      *Cases Per One Million:* ${results.casesPerOneMillion}\n`;
+      bot.reply(message, formattedResults);
+    }
   });
 });
 
