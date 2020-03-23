@@ -54,8 +54,8 @@ function onInstallation(bot, installer) {
 function global_pandemic() {
     const request = require('request')
     request('https://corona.lmao.ninja/all', function (error, response, body) {
-    console.error('error:', error); // Print the error if one occurred
-    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    //console.error('error:', error); // Print the error if one occurred
+    //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
     console.log('body:', body); // Print the HTML for the Google homepage.
     
     const parseJsonAsync = (jsonString) => {
@@ -67,6 +67,7 @@ function global_pandemic() {
     }
     
     parseJsonAsync(body).then(jsonData => console.log(jsonData))
+    print(JSON.stringify(body))
     return(JSON.stringify(body))
 
   }) 
