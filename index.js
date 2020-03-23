@@ -56,7 +56,7 @@ function global_pandemic() {
     request('https://corona.lmao.ninja/all', function (error, response, body) {
     //console.error('error:', error); // Print the error if one occurred
     //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-    console.log('body:', body); // Print the HTML for the Google homepage.
+    //console.log('body:', body); // Print the HTML for the Google homepage.
     
     const parseJsonAsync = (jsonString) => {
       return new Promise(resolve => {
@@ -67,7 +67,7 @@ function global_pandemic() {
     }
     
     parseJsonAsync(body).then(jsonData => console.log(jsonData))
-    console.log(JSON.stringify(body))
+    //console.log(JSON.stringify(body))
     return(JSON.stringify(body))
 
   }) 
@@ -237,7 +237,7 @@ controller.hears(
 controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
     global_pandemic_info_json = global_pandemic()
     console.log(global_pandemic_info_json)
-    bot.reply(message, global_pandemic_info_json);
+    bot.reply(message, global_pandemic_info_json.toString);
 });
 
 
