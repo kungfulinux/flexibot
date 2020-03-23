@@ -1,7 +1,7 @@
 var acronymicon = require("./acronymicon").default;
 var jira_matcher = require("./jira_matcher/jira_matcher.js");
 var offhours = require("./offhours/offhours.js");
-var moment = require('moment')
+var moment = require('moment-timezone')
 
 function shuffle(array) {
   var currentIndex = array.length,
