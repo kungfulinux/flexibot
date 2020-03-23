@@ -66,7 +66,7 @@ function global_pandemic() {
           })
         }
         parseJsonAsync(body).then(jsonData => console.log(jsonData))
-        return(body)
+        return(JSON.stringify(body))
     
     })
   }
