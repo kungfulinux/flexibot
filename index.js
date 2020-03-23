@@ -65,11 +65,8 @@ function global_pandemic() {
             })
           })
         }
-    
-        const data = body
-          parseJsonAsync(data).then(jsonData => console.log(jsonData))
-    
-          return(body)
+        parseJsonAsync(body).then(jsonData => console.log(jsonData))
+        return(body)
     
     })
   }
@@ -237,7 +234,7 @@ controller.hears(
 
 controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
     info = global_pandemic()
-    bot.reply(message, info);
+    bot.reply(message, "info");
 });
 
 
