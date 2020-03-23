@@ -53,25 +53,26 @@ function onInstallation(bot, installer) {
 }
 
 function global_pandemic() {
-  request('https://corona.lmao.ninja/all', function (error, response, body) {
-  // console.error('error:', error); // Print the error if one occurred
-  // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-  // console.log('body:', body); // Print the HTML for the Google homepage.
-  
-  const parseJsonAsync = (jsonString) => {
-  return new Promise(resolve => {
-  setTimeout(() => {
-  resolve(JSON.parse(jsonString))
-  })
-  })
+    request('https://corona.lmao.ninja/all', function (error, response, body) {
+    // console.error('error:', error); // Print the error if one occurred
+    // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    // console.log('body:', body); // Print the HTML for the Google homepage.
+    
+        const parseJsonAsync = (jsonString) => {
+          return new Promise(resolve => {
+            setTimeout(() => {
+              resolve(JSON.parse(jsonString))
+            })
+          })
+        }
+    
+        const data = body
+          parseJsonAsync(data).then(jsonData => console.log(jsonData))
+    
+          return(body)
+    
+    })
   }
-  
-  const data = body
-  parseJsonAsync(data).then(jsonData => console.log(jsonData))
-  
-  return(body)
-  
-  });
 
 
 
@@ -235,9 +236,9 @@ controller.hears(
 );
 
 controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
-  info = global_pandemic()
-  bot.reply(message, info);
-  });
+    info = global_pandemic()
+    bot.reply(message, info);
+});
 
 
 controller.hears(
@@ -686,9 +687,6 @@ controller.hears (
   }
 );
 
-
-
-
 controller.hears (
   new RegExp(/[A-Za-z]{3,8}-[0-9]{1,5}/),
   [ "ambient" ],
@@ -705,7 +703,6 @@ controller.hears (
   bot.reply(message, response_string);
 
 });
-
 
 /**
  * AN example of what could be:
@@ -739,4 +736,4 @@ controller.middleware.send.use(function(bot, message, next) {
   console.log("SENT: ", message);
   message.logged = true;
   next();
-});
+}); 
