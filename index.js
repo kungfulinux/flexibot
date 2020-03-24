@@ -245,7 +245,7 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
     //console.error('error:', error); // Print the error if one occurred
     //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
     //console.log('body:', body); // Print the HTML for the Google homepage.
-    
+
     const parseJsonAsync = (jsonString) => {
       return new Promise(resolve => {
         setTimeout(() => {
@@ -256,7 +256,6 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
 
     parseJsonAsync(body).then(jsonData => console.log(jsonData))
     //console.log(JSON.stringify(body))
-    const results = JSON.parse(body);
     const results = JSON.parse(body);
     let usaResults;
     Object.keys(results).some(key => {
