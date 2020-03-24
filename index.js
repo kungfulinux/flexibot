@@ -245,7 +245,7 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
     //console.error('error:', error); // Print the error if one occurred
     //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
     //console.log('body:', body); // Print the HTML for the Google homepage.
-
+    
     const parseJsonAsync = (jsonString) => {
       return new Promise(resolve => {
         setTimeout(() => {
@@ -256,18 +256,26 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
 
     parseJsonAsync(body).then(jsonData => console.log(jsonData))
     //console.log(JSON.stringify(body))
-    for (var json in body){
-      const results = JSON.parse(json);
-      const formattedResults = `\n*COVID-19 stats for ${results.country}:*\n
-      *Cases:* ${results.cases}\n
-      *Deaths:* ${results.todayCases}\n
-      *Recovered:* ${results.recovered}\n
-      *Active:* ${results.active}\n
-      *Critical:* ${results.critical}\n
-      *Cases Per One Million:* ${results.casesPerOneMillion}\n`;
+    const results = JSON.parse(body);
+    const results = JSON.parse(body);
+    let usaResults;
+    Object.keys(results).some(key => {
+      const countryData = results[key];
+      if (countryData.country === 'USA') {
+        usaResults = countryData;
+        return true;
+      }
+    })
+
+    const formattedResults = `\n*COVID-19 stats for USA:*\n
+      *Cases:* ${usaResults.cases}\n
+      *Deaths:* ${usaResults.todayCases}\n
+      *Recovered:* ${usaResults.recovered}\n
+      *Active:* ${usaResults.active}\n
+      *Critical:* ${usaResults.critical}\n
+      *Cases Per One Million:* ${usaResults.casesPerOneMillion}\n`;
       bot.reply(message, formattedResults);
-    }
-  });
+ })
 });
 
 
