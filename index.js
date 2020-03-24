@@ -3,6 +3,10 @@ var jira_matcher = require("./jira_matcher/jira_matcher.js");
 var offhours = require("./offhours/offhours.js");
 var moment = require('moment-timezone')
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function shuffle(array) {
   var currentIndex = array.length,
     temporaryValue,
@@ -231,9 +235,9 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
       const results = JSON.parse(body);
       const updatedAt = moment.utc(results.updated).tz("America/New_York").format('MMMM Do YYYY, h:mm:ss a z');
       const formattedResults = `\n*Global COVID-19 stats as of ${updatedAt}:*\n
-      *Cases:* ${results.cases}\n
-      *Deaths:* ${results.deaths}\n
-      *Recovered:* ${results.recovered}\n`;
+      *Cases:* ${numberWithCommas(results.cases)}\n
+      *Deaths:* ${numberWithCommas(results.deaths)}\n
+      *Recovered:* ${numberWithCommas(results.recovered)}\n`;
 
       bot.reply(message, formattedResults);
     });
@@ -267,12 +271,12 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
     })
 
     const formattedResults = `\n*COVID-19 stats for USA:*\n
-      *Cases:* ${usaResults.cases}\n
-      *Deaths:* ${usaResults.todayCases}\n
-      *Recovered:* ${usaResults.recovered}\n
-      *Active:* ${usaResults.active}\n
-      *Critical:* ${usaResults.critical}\n
-      *Cases Per One Million:* ${usaResults.casesPerOneMillion}\n`;
+      *Cases:* ${numberWithCommas(usaResults.cases)}\n
+      *Deaths:* ${numberWithCommas(usaResults.todayCases)}\n
+      *Recovered:* ${numberWithCommas(usaResults.recovered)}\n
+      *Active:* ${numberWithCommas(usaResults.active)}\n
+      *Critical:* ${numberWithCommas(usaResults.critical)}\n
+      *Cases Per One Million:* ${numberWithCommas(usaResults.casesPerOneMillion)}\n`;
       bot.reply(message, formattedResults);
  })
 });
