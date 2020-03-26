@@ -268,7 +268,8 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
 
     const formattedResults = `\n*COVID-19 stats for USA:*\n
       *Cases:* ${usaResults.cases}\n
-      *Deaths:* ${usaResults.todayCases}\n
+      *TodaysCases:* ${usaResults.todayCases}\n
+      *Deaths:* ${usaResults.deaths}\n
       *Recovered:* ${usaResults.recovered}\n
       *Active:* ${usaResults.active}\n
       *Critical:* ${usaResults.critical}\n
