@@ -282,6 +282,45 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
  })
 });
 
+controller.hears(["egypt pandemic"], ["ambient"], function(bot, message) {
+  const request = require('request')
+  request('https://corona.lmao.ninja/countries', function (error, response, body) {
+  //console.error('error:', error); // Print the error if one occurred
+  //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+  //console.log('body:', body); // Print the HTML for the Google homepage.
+
+  const parseJsonAsync = (jsonString) => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(JSON.parse(jsonString))
+      })
+    })
+  }
+
+  parseJsonAsync(body).then(jsonData => console.log(jsonData))
+  //console.log(JSON.stringify(body))
+  const results = JSON.parse(body);
+  let usaResults;
+  Object.keys(results).some(key => {
+    const countryData = results[key];
+    if (countryData.country === 'Egypt') {
+      usaResults = countryData;
+      return true;
+    }
+  })
+
+  const formattedResults = `\n*COVID-19 stats for Egypt:*\n
+    *Cases:* ${numberWithCommas(usaResults.cases)}\n
+    *TodaysCases:* ${numberWithCommas(usaResults.todayCases)}\n
+    *Deaths:* ${numberWithCommas(usaResults.deaths)}\n
+    *Recovered:* ${numberWithCommas(usaResults.recovered)}\n
+    *Active:* ${numberWithCommas(usaResults.active)}\n
+    *Critical:* ${numberWithCommas(usaResults.critical)}\n
+    *Cases Per One Million:* ${numberWithCommas(usaResults.casesPerOneMillion)}\n`;
+    bot.reply(message, formattedResults);
+})
+});
+
 
 controller.hears(
   ["flexibot weather"],
@@ -342,8 +381,6 @@ controller.hears(["goodnews", "good news"], ["ambient"], function(bot, message) 
 controller.hears(["shame"], ["ambient"], function(bot, message) {
   bot.reply(message, "https://media.giphy.com/media/vX9WcCiWwUF7G/200w_d.gif");
 });
-
-
 
 controller.hears(["timesheets"], ["ambient"], function(bot, message) {
   bot.reply(
