@@ -266,6 +266,7 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
       const countryData = results[key];
       if (countryData.country === 'USA') {
         usaResults = countryData;
+        console.log*usaResults)
         return true;
       }
     })
