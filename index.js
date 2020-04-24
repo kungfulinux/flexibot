@@ -216,7 +216,7 @@ controller.hears(
 
 controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
       const request = require('request')
-      request('https://corona.lmao.ninja/all', function (error, response, body) {
+      request('https://corona.lmao.ninja/v2/all', function (error, response, body) {
       //console.error('error:', error); // Print the error if one occurred
       //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
       //console.log('body:', body); // Print the HTML for the Google homepage.
@@ -245,7 +245,7 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
 
   controller.hears(["usa pandemic"], ["ambient"], function(bot, message) {
     const request = require('request')
-    request('https://corona.lmao.ninja/countries', function (error, response, body) {
+    request('https://corona.lmao.ninja/v2/countries', function (error, response, body) {
     //console.error('error:', error); // Print the error if one occurred
     //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
     //console.log('body:', body); // Print the HTML for the Google homepage.
@@ -284,7 +284,7 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
 
 controller.hears(["egypt pandemic"], ["ambient"], function(bot, message) {
   const request = require('request')
-  request('https://corona.lmao.ninja/countries', function (error, response, body) {
+  request('https://corona.lmao.ninja/v2/countries', function (error, response, body) {
   //console.error('error:', error); // Print the error if one occurred
   //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
   //console.log('body:', body); // Print the HTML for the Google homepage.
