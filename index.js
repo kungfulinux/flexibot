@@ -303,7 +303,7 @@ controller.hears(["canada pandemic"], ["ambient"], function(bot, message) {
     let canResults;
     Object.keys(results).some(key => {
       const countryData = results[key];
-      if (countryData.country === 'CAN') {
+      if (countryData.country === 'canada') {
         canResults = countryData;
         return true;
       }
