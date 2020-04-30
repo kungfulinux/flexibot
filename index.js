@@ -243,7 +243,7 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
     });
   });
 
-  controller.hears(["usa pandemic"], ["ambient"], function(bot, message) {
+controller.hears(["usa pandemic"], ["ambient"], function(bot, message) {
     const request = require('request')
     request('https://corona.lmao.ninja/v2/countries', function (error, response, body) {
     //console.error('error:', error); // Print the error if one occurred
@@ -281,6 +281,47 @@ controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
       bot.reply(message, formattedResults);
  })
 });
+
+controller.hears(["canada pandemic"], ["ambient"], function(bot, message) {
+    const request = require('request')
+    request('https://corona.lmao.ninja/v2/countries', function (error, response, body) {
+    //console.error('error:', error); // Print the error if one occurred
+    //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    //console.log('body:', body); // Print the HTML for the Google homepage.
+
+    const parseJsonAsync = (jsonString) => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(JSON.parse(jsonString))
+        })
+      })
+    }
+
+    parseJsonAsync(body).then(jsonData => console.log(jsonData))
+    //console.log(JSON.stringify(body))
+    const results = JSON.parse(body);
+    let canResults;
+    Object.keys(results).some(key => {
+      const countryData = results[key];
+      if (countryData.country === 'CAN') {
+        canResults = countryData;
+        return true;
+      }
+    })
+
+    const formattedResults = `\n*COVID-19 stats for Canada:*\n
+      *Cases:* ${numberWithCommas(canResults.cases)}\n
+      *TodaysCases:* ${numberWithCommas(canResults.todayCases)}\n
+      *Deaths:* ${numberWithCommas(canResults.deaths)}\n
+      *Recovered:* ${numberWithCommas(canResults.recovered)}\n
+      *Active:* ${numberWithCommas(canResults.active)}\n
+      *Critical:* ${numberWithCommas(canResults.critical)}\n
+      *Cases Per One Million:* ${numberWithCommas(canResults.casesPerOneMillion)}\n`;
+      bot.reply(message, formattedResults);
+ })
+});
+
+
 
 controller.hears(["egypt pandemic"], ["ambient"], function(bot, message) {
   const request = require('request')
