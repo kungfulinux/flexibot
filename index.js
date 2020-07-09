@@ -33,10 +33,27 @@ function standup_list() {
 }
 
 function hcqis_standup() {
-  var arr = [
-    "manoj", "aj", "andrew", "scott f", "jesse", "john k", "scott h", "tom"
+  var arr1 = [
+     "chris b", "chris l", "jesse", "james", "john", "sampat", "tom s"
   ];
-  arr = shuffle(arr);
+  var arr2 = [
+    "tom w", "andrew", "manoj"
+  ];
+  arr1 = shuffle(arr1); 
+  var arr = arr1.concat(arr2);
+  console.log(arr.join(","));
+  return arr.join(", ");
+}
+
+function iqies_standup() {
+  var arr1 = [
+     "chris l", "james", "john", "prabha", "tim"
+  ];
+  var arr2 = [
+    "tom w", "ryan", "bryon"
+  ];
+  arr1 = shuffle(arr1); 
+  var arr = arr1.concat(arr2);
   console.log(arr.join(","));
   return arr.join(", ");
 }
@@ -395,6 +412,12 @@ controller.hears(["standup_list"], ["ambient"], function(bot, message) {
 
 controller.hears(["hcqis_standup"], ["ambient"], function(bot, message) {
   var list = hcqis_standup();
+  console.log(list);
+  bot.reply(message, list);
+});
+
+controller.hears(["iqies_standup"], ["ambient"], function(bot, message) {
+  var list = iqies_standup();
   console.log(list);
   bot.reply(message, list);
 });
