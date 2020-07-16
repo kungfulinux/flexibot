@@ -34,7 +34,7 @@
     "jfs": "^0.3.0",
     "jsonfile": "^5.0.0",
     "jwt-decode": "^2.2.0",
-    "lodash": ">=4.17.12",
+    "lodash": ">=4.17.19",
     "moment-timezone": "^0.5.28",
     "mongoclient": "^1.0.3",
     "mongodb": "^3.4.1",
