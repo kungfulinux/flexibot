@@ -1,0 +1,20 @@
+/**
+ * Defines names of common properties for use with a [BotTelemetryClient](xref:botbuilder-core.BotTelemetryClient) object.
+ */
+export declare class TelemetryConstants {
+    static readonly channelIdProperty: string;
+    static readonly conversationIdProperty: string;
+    static readonly conversationNameProperty: string;
+    static readonly dialogIdProperty: string;
+    static readonly fromIdProperty: string;
+    static readonly fromNameProperty: string;
+    static readonly localeProperty: string;
+    static readonly recipientIdProperty: string;
+    static readonly recipientNameProperty: string;
+    static readonly replyActivityIdProperty: string;
+    static readonly textProperty: string;
+    static readonly speakProperty: string;
+    static readonly userIdProperty: string;
+    static readonly attachmentsProperty: string;
+}
+//# sourceMappingURL=telemetryConstants.d.ts.map
