@@ -23,7 +23,7 @@ function shuffle(array) {
   return array;
 }
 
-function standup_list() {
+function qppfc_standup_list() {
   var arr = [
     "scott f","dale", "curt", "tim", "wes", "ruth", "nic", "scott h", "charlie", "jon", "wilson", "aj", "chris", "john k", "jesse", "manoj", "clyde", "david", "andrew", "peter"
   ];
@@ -205,7 +205,7 @@ controller.hears("tuesday", "ambient", function(bot, message) {
 });
 
 controller.hears("Vacation", "ambient", function(bot, message) {
-  bot.reply(message, "Just make sure you come back.");
+  bot.reply(message, "Flexibot never goes on vacation...");
 });
 
 controller.hears("Flexion", "ambient", function(bot, message) {
@@ -404,8 +404,8 @@ controller.hears(
   }
 );
 
-controller.hears(["standup_list"], ["ambient"], function(bot, message) {
-  var list = standup_list();
+controller.hears(["qppfc_standup_list"], ["ambient"], function(bot, message) {
+  var list = qppfc_standup_list();
   console.log(list);
   bot.reply(message, list);
 });
@@ -687,93 +687,6 @@ controller.hears(["flexibot remind me"], ["ambient"], function(bot, message) {
   );
 });
 
-controller.hears(["wisconsin"], ["ambient"], function(bot, message) {
-  bot.createConversation(message, function(err, convo) {
-    // create a path for when a user says YES
-    convo.addMessage(
-      {
-        text: "You said yes! <@" + message.user + "> How wonderful."
-      },
-      "yes_thread"
-    );
-
-    // create a path for when a user says NO
-    convo.addMessage(
-      {
-        text: "You said no, <@" + message.user + "> that is too bad."
-      },
-      "no_thread"
-    );
-    // path when user says maybe
-    convo.addMessage(
-      {
-        text: "You said maybe, <@" + message.user + "> ... dont mess with me"
-      },
-      "maybe_thread"
-    );
-    convo.addMessage(
-      {
-        text:
-          "I dont think I trust you, <@" +
-          message.user +
-          '>.  How does one "love" cheese, anyway? That is disgusting.'
-      },
-      "love_it_thread"
-    );
-    // create a path where neither option was matched
-    // this message has an action field, which directs botkit to go back to the `default` thread after sending this message.
-    convo.addMessage(
-      {
-        text: "Sorry,  <@" + message.user + "> I did not understand.",
-        action: "default"
-      },
-      "bad_response"
-    );
-
-    // Create a yes/no question in the default thread...
-
-    convo.addQuestion(
-      "Do you like cheese?",
-      [
-        {
-          pattern: "yes",
-          callback: function(response, convo) {
-            convo.gotoThread("yes_thread");
-          }
-        },
-        {
-          pattern: "no",
-          callback: function(response, convo) {
-            convo.gotoThread("no_thread");
-          }
-        },
-        {
-          pattern: "maybe",
-          callback: function(response, convo) {
-            convo.gotoThread("maybe_thread");
-          }
-        },
-        {
-          pattern: "love it",
-          callback: function(response, convo) {
-            convo.gotoThread("love_it_thread");
-          }
-        },
-        {
-          default: true,
-          callback: function(response, convo) {
-            convo.gotoThread("bad_response");
-          }
-        }
-      ],
-      {},
-      "default"
-    );
-
-    convo.activate();
-  });
-});
-
 controller.hears(
   [
     "flexibot what is",
@@ -864,7 +777,7 @@ controller.on("direct_message,mention,direct_mention", function(bot, message) {
       }
       bot.reply(
         message,
-        "I heard you loud and clear boss. Flexibot is a product of Kungfulinux, Inc. All thoughts and emotes are not necessarily the opinions of Kungfulinux, Inc.  Like calling Sfradkin boss."
+        "Flexibot is a product of Kungfulinux, Inc. Please contact djacobs@flexion.us for changes.  He accepts Pull Requests"
       );
     }
   );
