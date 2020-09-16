@@ -454,7 +454,7 @@ controller.hears(["timesheets"], ["ambient"], function(bot, message) {
 });
 
 controller.hears(["facepalm"], ["ambient"], function(bot, message) {
-  bot.reply(message, "https://gph.is/2B5NZmD");
+  bot.reply(message, "http://gph.is/HuXm07");
 });
 
 controller.hears(["fistbump"], ["ambient"], function(bot, message) {
