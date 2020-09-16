@@ -489,7 +489,7 @@ controller.hears(["thundercats ho"], ["ambient"], function(bot, message) {
 });
 
 controller.hears(["rimshot"], ["ambient"], function(bot, message) {
-  bot.reply(message, "https://gph.is/1pWYb6M");
+  bot.reply(message, "http://gph.is/1OjjAAX");
 });
 
 controller.hears(["awesome"], ["ambient"], function(bot, message) {
