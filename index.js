@@ -404,6 +404,26 @@ controller.hears(
   }
 );
 
+// GUILDS
+controller.hears(
+  ["guilds list"],
+  ["direct_mention", "ambient", "direct_message"],
+  function (bot, message) {
+    bot.api.conversations.list({ exclude_archived: true }, function (err, response) {
+      const allChannels = response.channels;
+      const channelsList = allChannels.filter((channel) => /^g-\w+/.test(channel.name)).map((channel) => channel.name);
+      // to get the channel purpose: channel.purpose.value
+
+      const formattedResults = `\n*Guilds:*\n`;
+      channelsList.forEach((channel) => {
+        formattedResults += `#${channel}\n`;
+      });
+      bot.reply(message, formattedResults);
+    })
+  }
+);
+// END GUILDS
+
 controller.hears(["qppfc_standup_list"], ["ambient"], function(bot, message) {
   var list = qppfc_standup_list();
   console.log(list);
