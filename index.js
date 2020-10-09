@@ -414,7 +414,7 @@ controller.hears(
       const channelsList = allChannels.filter((channel) => /^g-\w+/.test(channel.name)).map((channel) => channel.name);
       // to get the channel purpose: channel.purpose.value
 
-      const formattedResults = `\n*Guilds:*\n`;
+      let formattedResults = `\n*Guilds:*\n`;
       channelsList.forEach((channel) => {
         formattedResults += `#${channel}\n`;
       });
