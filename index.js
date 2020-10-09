@@ -1,6 +1,11 @@
 var acronymicon = require("./acronymicon").default;
 var jira_matcher = require("./jira_matcher/jira_matcher.js");
 var offhours = require("./offhours/offhours.js");
+var moment = require('moment-timezone')
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 function shuffle(array) {
   var currentIndex = array.length,
@@ -18,7 +23,7 @@ function shuffle(array) {
   return array;
 }
 
-function standup_list() {
+function qppfc_standup_list() {
   var arr = [
     "scott f","dale", "curt", "tim", "wes", "ruth", "nic", "scott h", "charlie", "jon", "wilson", "aj", "chris", "john k", "jesse", "manoj", "clyde", "david", "andrew", "peter"
   ];
@@ -28,10 +33,27 @@ function standup_list() {
 }
 
 function hcqis_standup() {
-  var arr = [
-    "manoj", "aj", "andrew", "scott f", "jesse", "john k", "scott h", "tom"
+  var arr1 = [
+     "chris b", "chris l", "jesse", "james", "john", "sampat", "tom s"
   ];
-  arr = shuffle(arr);
+  var arr2 = [
+    "tom w", "andrew", "manoj"
+  ];
+  arr1 = shuffle(arr1); 
+  var arr = arr1.concat(arr2);
+  console.log(arr.join(","));
+  return arr.join(", ");
+}
+
+function iqies_standup() {
+  var arr1 = [
+     "chris l", "james", "john", "prabha", "tim"
+  ];
+  var arr2 = [
+    "tom w", "ryan", "bryon"
+  ];
+  arr1 = shuffle(arr1); 
+  var arr = arr1.concat(arr2);
   console.log(arr.join(","));
   return arr.join(", ");
 }
@@ -50,7 +72,6 @@ function onInstallation(bot, installer) {
     });
   }
 }
-
 
 /// @function pagerduty_message
 /// @brief returns the PagerDuty response as a string
@@ -82,7 +103,7 @@ function pagerduty_offhours(line_separator) {
   if (typeof (line_separator) === 'undefined') {
     line_separator = "\n";
   }
-  
+
   if (offhours.is_offhours (new Date())) {
     return pagerduty_message (line_separator);
   }
@@ -184,7 +205,7 @@ controller.hears("tuesday", "ambient", function(bot, message) {
 });
 
 controller.hears("Vacation", "ambient", function(bot, message) {
-  bot.reply(message, "Just make sure you come back.");
+  bot.reply(message, "Flexibot never goes on vacation...");
 });
 
 controller.hears("Flexion", "ambient", function(bot, message) {
@@ -210,6 +231,155 @@ controller.hears(
   }
 );
 
+controller.hears(["global pandemic"], ["ambient"], function(bot, message) {
+      const request = require('request')
+      request('https://corona.lmao.ninja/v2/all', function (error, response, body) {
+      //console.error('error:', error); // Print the error if one occurred
+      //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+      //console.log('body:', body); // Print the HTML for the Google homepage.
+
+      const parseJsonAsync = (jsonString) => {
+        return new Promise(resolve => {
+          setTimeout(() => {
+            resolve(JSON.parse(jsonString))
+          })
+        })
+      }
+
+      parseJsonAsync(body).then(jsonData => console.log(jsonData))
+      //console.log(JSON.stringify(body))
+
+      const results = JSON.parse(body);
+      const updatedAt = moment.utc(results.updated).tz("America/New_York").format('MMMM Do YYYY, h:mm:ss a z');
+      const formattedResults = `\n*Global COVID-19 stats as of ${updatedAt}:*\n
+      *Cases:* ${numberWithCommas(results.cases)}\n
+      *Deaths:* ${numberWithCommas(results.deaths)}\n
+      *Recovered:* ${numberWithCommas(results.recovered)}\n`;
+
+      bot.reply(message, formattedResults);
+    });
+  });
+
+controller.hears(["usa pandemic"], ["ambient"], function(bot, message) {
+    const request = require('request')
+    request('https://corona.lmao.ninja/v2/countries', function (error, response, body) {
+    //console.error('error:', error); // Print the error if one occurred
+    //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    //console.log('body:', body); // Print the HTML for the Google homepage.
+
+    const parseJsonAsync = (jsonString) => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(JSON.parse(jsonString))
+        })
+      })
+    }
+
+    parseJsonAsync(body).then(jsonData => console.log(jsonData))
+    //console.log(JSON.stringify(body))
+    const results = JSON.parse(body);
+    let usaResults;
+    Object.keys(results).some(key => {
+      const countryData = results[key];
+      if (countryData.country === 'USA') {
+        usaResults = countryData;
+        return true;
+      }
+    })
+
+    const formattedResults = `\n*COVID-19 stats for USA:*\n
+      *Cases:* ${numberWithCommas(usaResults.cases)}\n
+      *TodaysCases:* ${numberWithCommas(usaResults.todayCases)}\n
+      *Deaths:* ${numberWithCommas(usaResults.deaths)}\n
+      *Recovered:* ${numberWithCommas(usaResults.recovered)}\n
+      *Active:* ${numberWithCommas(usaResults.active)}\n
+      *Critical:* ${numberWithCommas(usaResults.critical)}\n
+      *Cases Per One Million:* ${numberWithCommas(usaResults.casesPerOneMillion)}\n`;
+      bot.reply(message, formattedResults);
+ })
+});
+
+controller.hears(["canada pandemic"], ["ambient"], function(bot, message) {
+    const request = require('request')
+    request('https://corona.lmao.ninja/v2/countries', function (error, response, body) {
+    //console.error('error:', error); // Print the error if one occurred
+    //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    //console.log('body:', body); // Print the HTML for the Google homepage.
+
+    const parseJsonAsync = (jsonString) => {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(JSON.parse(jsonString))
+        })
+      })
+    }
+
+    parseJsonAsync(body).then(jsonData => console.log(jsonData))
+    //console.log(JSON.stringify(body))
+    const results = JSON.parse(body);
+    let canResults;
+    Object.keys(results).some(key => {
+      const countryData = results[key];
+      if (countryData.country === 'Canada') {
+        canResults = countryData;
+        return true;
+      }
+    })
+
+    const formattedResults = `\n*COVID-19 stats for Canada:*\n
+      *Cases:* ${numberWithCommas(canResults.cases)}\n
+      *TodaysCases:* ${numberWithCommas(canResults.todayCases)}\n
+      *Deaths:* ${numberWithCommas(canResults.deaths)}\n
+      *Recovered:* ${numberWithCommas(canResults.recovered)}\n
+      *Active:* ${numberWithCommas(canResults.active)}\n
+      *Critical:* ${numberWithCommas(canResults.critical)}\n
+      *Cases Per One Million:* ${numberWithCommas(canResults.casesPerOneMillion)}\n`;
+      bot.reply(message, formattedResults);
+ })
+});
+
+
+
+controller.hears(["egypt pandemic"], ["ambient"], function(bot, message) {
+  const request = require('request')
+  request('https://corona.lmao.ninja/v2/countries', function (error, response, body) {
+  //console.error('error:', error); // Print the error if one occurred
+  //console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+  //console.log('body:', body); // Print the HTML for the Google homepage.
+
+  const parseJsonAsync = (jsonString) => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve(JSON.parse(jsonString))
+      })
+    })
+  }
+
+  parseJsonAsync(body).then(jsonData => console.log(jsonData))
+  //console.log(JSON.stringify(body))
+  const results = JSON.parse(body);
+  let usaResults;
+  Object.keys(results).some(key => {
+    const countryData = results[key];
+    if (countryData.country === 'Egypt') {
+      usaResults = countryData;
+      return true;
+    }
+  })
+
+  const formattedResults = `\n*COVID-19 stats for Egypt:*\n
+    *Cases:* ${numberWithCommas(usaResults.cases)}\n
+    *TodaysCases:* ${numberWithCommas(usaResults.todayCases)}\n
+    *Deaths:* ${numberWithCommas(usaResults.deaths)}\n
+    *Recovered:* ${numberWithCommas(usaResults.recovered)}\n
+    *Active:* ${numberWithCommas(usaResults.active)}\n
+    *Critical:* ${numberWithCommas(usaResults.critical)}\n
+    *Cases Per One Million:* ${numberWithCommas(usaResults.casesPerOneMillion)}\n`;
+    bot.reply(message, formattedResults);
+})
+});
+
+
 controller.hears(
   ["flexibot weather"],
   ["direct_mention", "ambient", "direct_message"],
@@ -234,14 +404,20 @@ controller.hears(
   }
 );
 
-controller.hears(["standup_list"], ["ambient"], function(bot, message) {
-  var list = standup_list();
+controller.hears(["qppfc_standup_list"], ["ambient"], function(bot, message) {
+  var list = qppfc_standup_list();
   console.log(list);
   bot.reply(message, list);
 });
 
 controller.hears(["hcqis_standup"], ["ambient"], function(bot, message) {
   var list = hcqis_standup();
+  console.log(list);
+  bot.reply(message, list);
+});
+
+controller.hears(["iqies_standup"], ["ambient"], function(bot, message) {
+  var list = iqies_standup();
   console.log(list);
   bot.reply(message, list);
 });
@@ -270,8 +446,6 @@ controller.hears(["shame"], ["ambient"], function(bot, message) {
   bot.reply(message, "https://media.giphy.com/media/vX9WcCiWwUF7G/200w_d.gif");
 });
 
-
-
 controller.hears(["timesheets"], ["ambient"], function(bot, message) {
   bot.reply(
     message,
@@ -280,7 +454,7 @@ controller.hears(["timesheets"], ["ambient"], function(bot, message) {
 });
 
 controller.hears(["facepalm"], ["ambient"], function(bot, message) {
-  bot.reply(message, "https://gph.is/2B5NZmD");
+  bot.reply(message, "http://gph.is/HuXm07");
 });
 
 controller.hears(["fistbump"], ["ambient"], function(bot, message) {
@@ -315,7 +489,7 @@ controller.hears(["thundercats ho"], ["ambient"], function(bot, message) {
 });
 
 controller.hears(["rimshot"], ["ambient"], function(bot, message) {
-  bot.reply(message, "https://gph.is/1pWYb6M");
+  bot.reply(message, "https://tenor.com/575K.gif");
 });
 
 controller.hears(["awesome"], ["ambient"], function(bot, message) {
@@ -513,93 +687,6 @@ controller.hears(["flexibot remind me"], ["ambient"], function(bot, message) {
   );
 });
 
-controller.hears(["wisconsin"], ["ambient"], function(bot, message) {
-  bot.createConversation(message, function(err, convo) {
-    // create a path for when a user says YES
-    convo.addMessage(
-      {
-        text: "You said yes! <@" + message.user + "> How wonderful."
-      },
-      "yes_thread"
-    );
-
-    // create a path for when a user says NO
-    convo.addMessage(
-      {
-        text: "You said no, <@" + message.user + "> that is too bad."
-      },
-      "no_thread"
-    );
-    // path when user says maybe
-    convo.addMessage(
-      {
-        text: "You said maybe, <@" + message.user + "> ... dont mess with me"
-      },
-      "maybe_thread"
-    );
-    convo.addMessage(
-      {
-        text:
-          "I dont think I trust you, <@" +
-          message.user +
-          '>.  How does one "love" cheese, anyway? That is disgusting.'
-      },
-      "love_it_thread"
-    );
-    // create a path where neither option was matched
-    // this message has an action field, which directs botkit to go back to the `default` thread after sending this message.
-    convo.addMessage(
-      {
-        text: "Sorry,  <@" + message.user + "> I did not understand.",
-        action: "default"
-      },
-      "bad_response"
-    );
-
-    // Create a yes/no question in the default thread...
-
-    convo.addQuestion(
-      "Do you like cheese?",
-      [
-        {
-          pattern: "yes",
-          callback: function(response, convo) {
-            convo.gotoThread("yes_thread");
-          }
-        },
-        {
-          pattern: "no",
-          callback: function(response, convo) {
-            convo.gotoThread("no_thread");
-          }
-        },
-        {
-          pattern: "maybe",
-          callback: function(response, convo) {
-            convo.gotoThread("maybe_thread");
-          }
-        },
-        {
-          pattern: "love it",
-          callback: function(response, convo) {
-            convo.gotoThread("love_it_thread");
-          }
-        },
-        {
-          default: true,
-          callback: function(response, convo) {
-            convo.gotoThread("bad_response");
-          }
-        }
-      ],
-      {},
-      "default"
-    );
-
-    convo.activate();
-  });
-});
-
 controller.hears(
   [
     "flexibot what is",
@@ -656,16 +743,13 @@ controller.hears (
   }
 );
 
-
-
-
 controller.hears (
   new RegExp(/[A-Za-z]{3,8}-[0-9]{1,5}/),
   [ "ambient" ],
   function (bot, message) {
-  
+
   var response_string = "";
-  
+
   //response_string + = "Yo dawg, I heard you like Jira tickets...\n";
 
   response_string += jira_matcher.add_ticket_urls (message).toString();
@@ -675,7 +759,6 @@ controller.hears (
   bot.reply(message, response_string);
 
 });
-
 
 /**
  * AN example of what could be:
@@ -694,7 +777,7 @@ controller.on("direct_message,mention,direct_mention", function(bot, message) {
       }
       bot.reply(
         message,
-        "I heard you loud and clear boss. Flexibot is a product of Kungfulinux, Inc. All thoughts and emotes are not necessarily the opinions of Kungfulinux, Inc.  Like calling Sfradkin boss."
+        "Flexibot is a product of Kungfulinux, Inc. Please contact djacobs@flexion.us for changes.  He accepts Pull Requests"
       );
     }
   );

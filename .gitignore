@@ -1,4 +1,7 @@
+cron_restart.sh
+
 # Logs
+
 logs
 *.log
 npm-debug.log*
