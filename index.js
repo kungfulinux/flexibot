@@ -411,12 +411,12 @@ controller.hears(
   function (bot, message) {
     bot.api.conversations.list({ exclude_archived: true }, function (err, response) {
       const allChannels = response.channels;
-      const channelsList = allChannels.filter((channel) => /^g-\w+/.test(channel.name)).map((channel) => channel.name);
+      const channelsList = allChannels.filter((channel) => /^g-.*$/.test(channel.name)).map((channel) => channel.id);
       // to get the channel purpose: channel.purpose.value
 
       let formattedResults = `\n*Guilds:*\n`;
       channelsList.forEach((channel) => {
-        formattedResults += `#${channel}\n`;
+        formattedResults += `<#${channel}>\n`;
       });
       bot.reply(message, formattedResults);
     })
