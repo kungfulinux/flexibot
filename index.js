@@ -409,7 +409,7 @@ controller.hears(
   ["guilds list"],
   ["direct_mention", "ambient", "direct_message"],
   function (bot, message) {
-    bot.api.conversations.list({ exclude_archived: true }, function (err, response) {
+    bot.api.conversations.list({ exclude_archived: true, limit: 999 }, function (err, response) {
       const allChannels = response.channels;
       const channelsList = allChannels.filter((channel) => /^g-.*$/.test(channel.name)).map((channel) => channel.id);
       // to get the channel purpose: channel.purpose.value
