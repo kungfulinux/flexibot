@@ -12,7 +12,7 @@
 
 /// @var {String} jira_regex_string
 /// @brief the string to use for the RegExp to capture Jira ticket nubmers
-var jira_regex_string = '\\b((qpp|qta|waka|cmsawsops|tools|whsd)[a-z]*-[0-9]{1,5})\\b';
+var jira_regex_string = '\\b((qpp|qta|waka|cmsawsops|tools|whsd|bedap)[a-z]*-[0-9]{1,5})\\b';
 
 /// @var {String} jira_regex
 /// @brief the regular expression used to capture Jira ticket numbers
