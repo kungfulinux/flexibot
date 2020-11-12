@@ -32,6 +32,7 @@ function qppfc_standup_list() {
   return arr.join(", ");
 }
 
+// iQIES FC standup rotation
 function iqies_standup() {
   var arr1 = [
      "chris", "james", "john", "josh", "tim"
@@ -45,6 +46,7 @@ function iqies_standup() {
   return arr.join(", ");
 }
 
+// iQIES FC Scrum of Scrum rotation
 function iqies_sos() {
   var arr1 = [
      "chris", "james", "john", "josh", "tim"
@@ -427,12 +429,14 @@ controller.hears(["qppfc_standup_list"], ["ambient"], function(bot, message) {
   bot.reply(message, list);
 });
 
+// iIQES FC standup rotation
 controller.hears(["iqies_standup"], ["ambient"], function(bot, message) {
   var list = iqies_standup();
   console.log(list);
   bot.reply(message, list);
 });
 
+// iQIES FC Scrum of Scrum rotation
 controller.hears(["iqies_sos"], ["ambient"], function(bot, message) {
   var item = iqies_sos();
   console.log(item);
