@@ -45,6 +45,16 @@ function iqies_standup() {
   return arr.join(", ");
 }
 
+function iqies_sos() {
+  var arr1 = [
+     "chris", "james", "john", "josh", "tim"
+  ];
+  arr1 = shuffle(arr1); 
+  var arr = arr1[0];
+  console.log(arr);
+  return arr;
+}
+
 function onInstallation(bot, installer) {
   if (installer) {
     bot.startPrivateConversation({ user: installer }, function(err, convo) {
@@ -421,6 +431,12 @@ controller.hears(["iqies_standup"], ["ambient"], function(bot, message) {
   var list = iqies_standup();
   console.log(list);
   bot.reply(message, list);
+});
+
+controller.hears(["iqies_sos"], ["ambient"], function(bot, message) {
+  var item = iqies_sos();
+  console.log(item);
+  bot.reply(message, item);
 });
 
 controller.hears(["tableflip"], ["ambient"], function(bot, message) {
