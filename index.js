@@ -47,10 +47,10 @@ function hcqis_standup() {
 
 function iqies_standup() {
   var arr1 = [
-     "chris l", "james", "john", "prabha", "tim"
+     "chris", "james", "john", "josh", "tim"
   ];
   var arr2 = [
-    "tom w", "ryan", "bryon"
+    "tom", "bryon"
   ];
   arr1 = shuffle(arr1); 
   var arr = arr1.concat(arr2);
