@@ -52,7 +52,7 @@ function iqies_sos() {
      "chris", "james", "john", "josh", "tim"
   ];
   arr1 = shuffle(arr1); 
-  var arr = arr1[0];
+  var arr = arr1.shift();
   console.log(arr);
   return arr;
 }
