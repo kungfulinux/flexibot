@@ -32,12 +32,13 @@ function qppfc_standup_list() {
   return arr.join(", ");
 }
 
-function hcqis_standup() {
+// iQIES FC standup rotation
+function iqies_standup() {
   var arr1 = [
-     "chris b", "chris l", "jesse", "james", "john", "sampat", "tom s"
+     "chris", "james", "john", "josh", "tim"
   ];
   var arr2 = [
-    "tom w", "andrew", "manoj"
+    "tom", "bryon"
   ];
   arr1 = shuffle(arr1); 
   var arr = arr1.concat(arr2);
@@ -45,17 +46,15 @@ function hcqis_standup() {
   return arr.join(", ");
 }
 
-function iqies_standup() {
+// iQIES FC Scrum of Scrum rotation
+function iqies_sos() {
   var arr1 = [
-     "chris l", "james", "john", "prabha", "tim"
-  ];
-  var arr2 = [
-    "tom w", "ryan", "bryon"
+     "chris", "james", "john", "josh", "tim"
   ];
   arr1 = shuffle(arr1); 
-  var arr = arr1.concat(arr2);
-  console.log(arr.join(","));
-  return arr.join(", ");
+  var arr = arr1.shift();
+  console.log(arr);
+  return arr;
 }
 
 function onInstallation(bot, installer) {
@@ -430,16 +429,18 @@ controller.hears(["qppfc_standup_list"], ["ambient"], function(bot, message) {
   bot.reply(message, list);
 });
 
-controller.hears(["hcqis_standup"], ["ambient"], function(bot, message) {
-  var list = hcqis_standup();
-  console.log(list);
-  bot.reply(message, list);
-});
-
+// iIQES FC standup rotation
 controller.hears(["iqies_standup"], ["ambient"], function(bot, message) {
   var list = iqies_standup();
   console.log(list);
   bot.reply(message, list);
+});
+
+// iQIES FC Scrum of Scrum rotation
+controller.hears(["iqies_sos"], ["ambient"], function(bot, message) {
+  var item = iqies_sos();
+  console.log(item);
+  bot.reply(message, item);
 });
 
 controller.hears(["tableflip"], ["ambient"], function(bot, message) {
